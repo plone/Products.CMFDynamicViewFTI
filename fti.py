@@ -53,10 +53,10 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     
     _properties = FactoryTypeInformation._properties + (
         { 'id': 'default_view', 'type': 'string', 'mode': 'w',
-          'label': 'Default view template'
+          'label': 'Default view methods'
         },
         { 'id': 'view_templates', 'type': 'lines', 'mode': 'w',
-          'label': 'Available view templates'
+          'label': 'Available view methods'
         },
     )
     
