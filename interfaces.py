@@ -20,14 +20,14 @@ class IDynamicViewTypeInformation(ITypeInformation):
     """FTI with dynamic views
     """
     
-    def getAvailableViewTemplates(context):
-        """Get a list of registered view templates
+    def getAvailableViewMethods(context):
+        """Get a list of registered view methods
         """
 
-    def getViewTemplate(context):
-        """Get view template name from context
+    def getViewMethod(context):
+        """Get view method name from context
         
-        Return -- view template from context or default view name
+        Return -- view method from context or default view name
         """
         
     def getDefaultPage(context):

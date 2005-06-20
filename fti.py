@@ -55,42 +55,45 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         { 'id': 'default_view', 'type': 'string', 'mode': 'w',
           'label': 'Default view methods'
         },
-        { 'id': 'view_templates', 'type': 'lines', 'mode': 'w',
+        { 'id': 'view_methods', 'type': 'lines', 'mode': 'w',
           'label': 'Available view methods'
         },
     )
     
     default_view = ''
-    view_templates = ()
+    view_methods = ()
     
     def manage_changeProperties(self, **kw):
-        """Overwrite change properties to verify that default_view is in the template
+        """Overwrite change properties to verify that default_view is in the method
         list
         """
         FactoryTypeInformation.manage_changeProperties(self, **kw)
         default_view = self.default_view
-        view_templates = self.view_templates
+        view_methods = self.view_methods
         if not default_view:
             # TODO: use view action 
             self.default_view = default_view = self.immediate_view
-        if not view_templates:
-            self.view_templates = view_templates = (default_view,)
-        if default_view and default_view not in view_templates:
-            raise ValueError, "%s not in %s" % (default_view, view_templates)
+        if not view_methods:
+            self.view_methods = view_methods = (default_view,)
+        if default_view and default_view not in view_methods:
+            raise ValueError, "%s not in %s" % (default_view, view_methods)
             
-    security.declareProtected(View, 'getAvailableViewTemplates')
-    def getAvailableViewTemplates(self, context):
-        """Get a list of registered view templates
+    security.declareProtected(View, 'getAvailableViewMethods')
+    def getAvailableViewMethods(self, context):
+        """Get a list of registered view methods
         """
-        return tuple(self.view_templates)
+        methods = self.view_methods
+        if isinstance(methods, basestring):
+            methods = (methods,)
+        return tuple(methods)
         
-    security.declareProtected(View, 'getViewTemplate')
-    def getViewTemplate(self, context):
-        """Get view template name from context
+    security.declareProtected(View, 'getViewMethod')
+    def getViewMethod(self, context):
+        """Get view method name from context
         
-        Return -- view template from context or default view name
+        Return -- view method from context or default view name
         """
-        available = self.getAvailableViewTemplates(context)
+        available = self.getAvailableViewMethods(context)
         default = self.default_view
         has_layout = getattr(aq_base(context), 'layout', None) is not None
         
@@ -107,6 +110,12 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
                 return default
         else:
             return default
+            
+    security.declareProtected(View, 'getDefaultViewMethod')
+    def getDefaultViewMethod(self, context):
+        """
+        """
+        return str(self.default_view)
     
     security.declareProtected(View, 'getDefaultPage')
     def getDefaultPage(self, context):
@@ -142,7 +151,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         default_page = self.getDefaultPage(context)
         if default_page is not None:
             return default_page
-        return self.getViewTemplate(context)
+        return self.getViewMethod(context)
 
     security.declarePublic('queryMethodID')
     def queryMethodID(self, alias, default=None, context=None):
@@ -160,7 +169,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if context is None or default == '':
             # the edit zpts like typesAliases don't apply a context and set the 
             # default to ''. We do not want to resolve (dynamic view) for these
-            # templates.
+            # methods.
             return method_id
         
         if method_id.lower() == "(dynamic view)":
