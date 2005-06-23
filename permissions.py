@@ -17,19 +17,7 @@
 """
 """
 
-from Products.CMFCore.permissions import ManagePortal
-from Products.CMFCore.utils import registerIcon
+from Products.CMFCore.permissions import setDefaultRoles
 
-from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
-from Products.CMFDynamicViewFTI.fti import manage_addFactoryDynamivViewTIForm
-
-def initialize(context):
-    # BBB remove registerIcon after we have switched to CMF 1.6
-    registerIcon(DynamicViewTypeInformation, 
-                 'images/typeinfo.gif', globals())
-    context.registerClass(
-        DynamicViewTypeInformation,
-        permission=ManagePortal,
-        constructors=( manage_addFactoryDynamivViewTIForm, ),
-        icon='images/typeinfo.gif',
-        visibility=None)
+ModifyViewTemplate = "Modify view template"
+setDefaultRoles(ModifyViewTemplate, ('Manager', 'Owner'))
