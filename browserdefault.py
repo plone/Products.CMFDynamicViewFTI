@@ -53,7 +53,7 @@ class BrowserDefaultMixin(Base):
     """
 
     __implements__ = (ISelectableBrowserDefault, )
-        
+
     _at_fti_meta_type = fti_meta_type
     aliases = {
         '(Default)' : '(dynamic view)',
@@ -63,7 +63,7 @@ class BrowserDefaultMixin(Base):
         'gethtml' : '',
         'mkdir' : '',
         }
-    
+
     default_view = "base_view"
     suppl_views = ()
 
@@ -168,7 +168,7 @@ class BrowserDefaultMixin(Base):
                                (layout, type(layout)))
         if layout == self.getLayout():
             return
-        
+
         if self.hasProperty('layout'):
             self.manage_changeProperties(layout = layout)
         else:
@@ -179,11 +179,11 @@ class BrowserDefaultMixin(Base):
                     raise RuntimeError, ("layout attribute exists on %s and is" 
                                          "no string: %s" % (self, type(old)))
                 delattr(self, 'layout')
-                
+
             self.manage_addProperty('layout', layout, 'string')
-        
+
         self.setDefaultPage(None)
-    
+
     security.declareProtected(View, 'getDefaultLayout')
     def getDefaultLayout(self):
         """Get the default layout method.
