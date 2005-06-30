@@ -27,20 +27,13 @@ __docformat__ = 'plaintext'
 from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo
 from Globals import InitializeClass
-from Acquisition import aq_parent, aq_base
+from Acquisition import aq_parent, aq_base, aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import View
 
 from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
-
-try:
-    import Products.CMFPlone
-except:
-    HAS_PLONE2 = False
-else:
-    HAS_PLONE2 = True
 
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
@@ -59,7 +52,7 @@ class BrowserDefaultMixin(Base):
         '(Default)' : '(dynamic view)',
         'view' : '(dynamic view)',
         'index.html' : '(dynamic view)',
-        'edit' : 'atct_edit',
+        'edit' : 'base_edit',
         'gethtml' : '',
         'mkdir' : '',
         }
@@ -79,27 +72,18 @@ class BrowserDefaultMixin(Base):
         if fti is None:
             return self.default_view
         else:
-            return fti.getLayout(self)
+            return fti.defaultView(self)
 
-    # Note that Plone's browserDefault is very scary. This method should delegate
-    # to PloneTool.browserDefault() if at all possible. browserDefault() is
-    # aware of IBrowserDefault and will do the right thing wrt. layouts and
-    # default pages.
-
-    def __browser_default__(self, request):
+    security.declareProtected(View, '__call__')
+    def __call__(self):
         """
-        Resolve what should be displayed when viewing this object without an
-        explicit template specified. If a default page is set, resolve and
-        return that. If not, resolve and return the page template found by
-        getLayout().
+        Resolve and return the selected view template applied to the object.
+        This should not consider the default page.
         """
-        # Delegate to PloneTool's version if we have it else, use
-        # defaultView(), which will handle the folder/non-folder
-        # distinction for us
-        if HAS_PLONE2:
-            return getToolByName(self, 'plone_utils').browserDefault(self)
-        else:
-            return self, [self.defaultView(request),]
+        template = self.unrestrictedTraverse(self.getLayout())
+        context = aq_inner(self)
+        template = template.__of__(context)
+        return template(context, context.REQUEST)
 
     security.declareProtected(View, 'getDefaultPage')
     def getDefaultPage(self):
@@ -166,7 +150,9 @@ class BrowserDefaultMixin(Base):
         if not layout or not isinstance(layout, str):
             raise ValueError, ("layout must be a non empty string, got %s(%s)" %
                                (layout, type(layout)))
-        if layout == self.getLayout():
+
+        defaultPage = self.getDefaultPage()
+        if defaultPage is None and layout == self.getLayout():
             return
 
         if self.hasProperty('layout'):
@@ -176,7 +162,7 @@ class BrowserDefaultMixin(Base):
                 # Archetypes remains? clean up
                 old = self.layout
                 if old and not isinstance(old, basestring):
-                    raise RuntimeError, ("layout attribute exists on %s and is" 
+                    raise RuntimeError, ("layout attribute exists on %s and is"
                                          "no string: %s" % (self, type(old)))
                 delattr(self, 'layout')
 

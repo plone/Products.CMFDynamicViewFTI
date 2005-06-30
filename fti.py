@@ -46,11 +46,17 @@ except ImportError:
         else:
             return callable(ob)
 
+try:
+    import Products.CMFPlone
+except:
+    HAS_PLONE2 = False
+else:
+    HAS_PLONE2 = True
 
 class DynamicViewTypeInformation(FactoryTypeInformation):
     """FTI with dynamic views
     
-    A value of (dynamic view) as alias is replaced by the output of getLayout()
+    A value of (dynamic view) as alias is replaced by the output of defaultView()
     """
 
     __implements__ = (IDynamicViewTypeInformation,)
@@ -96,17 +102,14 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
     security.declareProtected(View, 'getViewMethod')
     def getViewMethod(self, context, enforce_available = True):
-        """Get view method name from context
-        
-        XXX do we wanna enforce layout in available?
+        """Get view method (aka layout) name from context
         
         Return -- view method from context or default view name
         """
         default = self.default_view
-        has_layout = getattr(aq_base(context), 'layout', None) is not None
+        layout = getattr(aq_base(context), 'layout', None)
 
-        if has_layout:
-            layout = getattr(context, 'layout')
+        if layout is not None:
             if safe_callable(layout):
                 layout = layout()
             if not isinstance(layout, basestring):
@@ -170,46 +173,52 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
         return default_page
 
-    security.declareProtected(View, 'getLayout')
-    def getLayout(self, context):
-        """Get the layout for an object
-        
-        At first it tries to get the default page from the context. A default page
-        must be listed on the folder or else it is ignored.
-        
-        At last it get the view method.
-        
-        Return -- a string containing the name of the layout
+    security.declareProtected(View, 'defaultView')
+    def defaultView(self, context):
+        """Get the current view to use for an object. If a default page is  set,
+        use that, else use the currently selected view method/layout.
         """
-        default_page = self.getDefaultPage(context, check_exists = True)
 
-        if default_page is not None:
-            return default_page
-        return self.getViewMethod(context)
+        # Delegate to PloneTool's version if we have it else, use own rules
+        if HAS_PLONE2:
+            obj, path = getToolByName(self, 'plone_utils').browserDefault(context)
+            return path[-1]
+        else:
+            default_page = self.getDefaultPage(context, check_exists = True)
+            if default_page is not None:
+                return default_page
+            return self.getViewMethod(context)
 
     security.declarePublic('queryMethodID')
     def queryMethodID(self, alias, default=None, context=None):
         """ Query method ID by alias.
         
-        Use (dynamic view) as alias method name to enable dynamic views 
+        Use "(dynamic view)" as the alias target to look up as per defaultView()
+        Use "(selected layout)" as the alias target to look up as per 
+            getViewMethod()
         """
-        method_id = FactoryTypeInformation.queryMethodID(self, alias,
+        methodTarget = FactoryTypeInformation.queryMethodID(self, alias,
                                                          default=default,
                                                          context=context)
-        if not isinstance(method_id, basestring):
+        if not isinstance(methodTarget, basestring):
             # nothing to do, method_id is probably None
-            return method_id
+            return methodTarget
 
         if context is None or default == '':
             # the edit zpts like typesAliases don't apply a context and set the 
             # default to ''. We do not want to resolve (dynamic view) for these
             # methods.
-            return method_id
+            return methodTarget
 
-        if method_id.lower() == "(dynamic view)":
-            method_id = self.getLayout(context)
+        # Our two special targets:
 
-        return method_id
+        if methodTarget.lower() == "(dynamic view)":
+            methodTarget = self.defaultView(context)
+
+        if methodTarget.lower() == "(selected layout)":
+            methodTarget = self.getViewMethod(context)
+
+        return methodTarget
 
 InitializeClass(DynamicViewTypeInformation)
 

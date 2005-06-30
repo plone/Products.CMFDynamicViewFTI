@@ -27,7 +27,7 @@ class IDynamicViewTypeInformation(ITypeInformation):
     
     A value of (dynamic view) as alias is replaced by the output of getLayout()
     """
-    
+
     def getAvailableViewMethods(context):
         """Get a list of registered view methods
         """
@@ -37,11 +37,11 @@ class IDynamicViewTypeInformation(ITypeInformation):
         
         Return -- view method from context or default view name
         """
-    
+
     def getDefaultViewMethod(context):
         """Get the default view method from the FTI
         """
-        
+
     def getDefaultPage(context, check_exists=False):
         """Get the default page from a folderish object
         
@@ -52,8 +52,8 @@ class IDynamicViewTypeInformation(ITypeInformation):
         
         Return -- None for no default page or a string
         """
-    
-    def getLayout(context):
+
+    def defaultView(context):
         """Get the layout for an object
         
         At first it tries to get the default page from the context. A default page
@@ -70,32 +70,18 @@ class IBrowserDefault(Interface):
     either as a page template, or as the id of a contained object (inside a 
     folderish item only). 
     """
-        
+
     def defaultView(request=None):
         """
         Get the actual view to use. If a default page is set, its id will
         be returned. Else, the current layout's page template id is returned.
         """
-    
-    # Note that Plone's browserDefault is very scary. This method should delegate
-    # to PloneTool.browserDefault() if at all possible. browserDefault() is
-    # aware of IBrowserDefault and will do the right thing wrt. layouts and
-    # default pages. 
-    
-    def __browser_default__(request):
+
+    def __call__():
         """
-        Resolve what should be displayed when viewing this object without an
-        explicit template specified. Returns a tuple (obj, [path, path]), where
-        obj is the object to publish (usually self), and the list of paths is
-        the list of page templates/object ids to try to use as the view for 
-        this object.
+        Resolve and return the selected view template applied to the object.
+        This should not consider the default page.
         """
-        
-    # see __call__ in PortalObject
-    #def __call__():
-    #    """Resolve the selected layout template, i.e. self.getLayout()() wrapped
-    #    in the current acquisition context.
-    #    """
 
     def getDefaultPage():
         """
@@ -108,18 +94,18 @@ class IBrowserDefault(Interface):
         Get the selected layout template. Note that a selected default page
         will override the layout template.
         """
-        
+
     def getDefaultLayout():
         """
         Get the default layout template.
         """
-    
+
 class ISelectableBrowserDefault(IBrowserDefault):
     """
     Interface for content supporting operations to explicitly set the default
     layoute template or default page object.
     """
-    
+
     def canSetDefaultPage():
         """
         Return True if the user has permission to select a default page on this
@@ -142,13 +128,13 @@ class ISelectableBrowserDefault(IBrowserDefault):
         returned by getAvailableLayouts(). If a default page has been set
         with setDefaultPage(), it is turned off by calling setDefaultPage(None).
         """
-        
+
     def canSetLayout():
         """
         Return True if the current authenticated user is permitted to select
         a layout.
         """
-        
+
     def getAvailableLayouts():
         """
         Get the layouts registered for this object.
