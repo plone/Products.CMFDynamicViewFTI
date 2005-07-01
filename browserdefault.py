@@ -130,14 +130,23 @@ class BrowserDefaultMixin(Base):
         template returned by getLayout(). Pass None for objectId to turn off
         the default page and return to using the selected layout template.
         """
+        new_page = old_page = None
+        if objectId is not None:
+            new_page = getattr(self, objectId, None)
         if self.hasProperty('default_page'):
             if objectId is None:
+                old_page = getattr(self, self.getProperty('default_page'), None)
                 self.manage_delProperties(['default_page'])
             else:
                 self.manage_changeProperties(default_page = objectId)
         else:
             if objectId is not None:
                 self.manage_addProperty('default_page', objectId, 'string')
+        if new_page != old_page:
+            if new_page is not None:
+                new_page.reindexObject(['is_default_page'])
+            if old_page is not None:
+                old_page.reindexObject(['is_default_page'])
 
     security.declareProtected(ModifyViewTemplate, 'setLayout')
     def setLayout(self, layout):
