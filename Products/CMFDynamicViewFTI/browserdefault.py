@@ -217,21 +217,4 @@ class BrowserDefaultMixin(Base):
                 result.append((mid, title))
         return result
 
-    # from TemplateMixin
-    security.declareProtected(View, 'getTemplateFor')
-    def getTemplateFor(self, pt, default='base_view'):
-        """Let the SkinManager handle this.
-
-        But always try to show something.
-        """
-        pt = getattr(self, pt, None)
-        if pt is None:
-            # default is the value of obj.default_view or base_view
-            default_pt = getattr(self, 'default_view', None)
-            if default_pt is None:
-                default_pt = default
-            return getattr(self, default_pt)
-        else:
-            return pt
-
 InitializeClass(BrowserDefaultMixin)
