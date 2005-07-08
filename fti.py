@@ -52,6 +52,23 @@ except:
     HAS_PLONE2 = False
 else:
     HAS_PLONE2 = True
+    
+def om_has_key(context, key):
+    """Object Manager has_key method with optimization for btree folders
+    
+    Zope's OFS.ObjectManager has no method for checking if an object with an id 
+    exists inside a folder. 
+    """
+    klass = getattr(aq_base(context), '__class__', None) 
+    if hasattr(klass, 'has_key'):
+        # BTreeFolder2 optimization
+        if context.has_key(key):
+            return True
+    else:
+        # standard ObjectManager api
+        if key in context.objectIds():
+            return True
+    return False
 
 class DynamicViewTypeInformation(FactoryTypeInformation):
     """FTI with dynamic views
@@ -161,15 +178,8 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             raise TypeError, ("default_page must be a string, got %s(%s):" % 
                               (default_page, type(default_page)))
 
-        if check_exists:
-            try:
-                # BTreeFolder2 optimization
-                if not aq_base(context).has_key(default_page):
-                    return None
-            except AttributeError:
-                # standard ObjectManager api
-                if default_page not in context.objectIds():
-                    return None
+        if check_exists and not om_has_key(context, default_page):
+            return None
 
         return default_page
 
