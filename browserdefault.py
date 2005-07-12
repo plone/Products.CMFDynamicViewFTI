@@ -134,7 +134,14 @@ class BrowserDefaultMixin(Base):
         if objectId is not None:
             new_page = getattr(self, objectId, None)
         if self.hasProperty('default_page'):
-            old_page = getattr(self, self.getProperty('default_page'), None)
+            pages = self.getProperty('default_page','')
+            if isinstance(pages, (list, tuple)):
+                for page in pages:
+                    old_page = getattr(self, page, None)
+                    if page is not None: break
+            elif isinstance(pages, str):
+                old_page = getattr(self, pages, None)
+
             if objectId is None:
                 self.manage_delProperties(['default_page'])
             else:
