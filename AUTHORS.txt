@@ -1,0 +1,24 @@
+Authors
+=======
+
+Martin Aspeli
+-------------
+
+ * initial design of the browser default class and interface
+ 
+ * Plone 2.1 integration
+ 
+Christian Heimes
+----------------
+
+ * FTI class
+ 
+ * Archetypes and ATContentTypes intetgration
+ 
+ * product
+ 
+ * Zope3 bridge
+ 
+ * unit tests
+ 
+ * FTI migration
