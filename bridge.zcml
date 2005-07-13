@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/five"
+    >
+ 
+  <bridge
+      zope2=".interfaces.IDynamicViewTypeInformation"
+      package=".z3.interfaces"
+      name="IDynamicViewTypeInformation"
+      /> 
+
+  <bridge
+      zope2=".interfaces.IBrowserDefault"
+      package=".z3.interfaces"
+      name="IBrowserDefault"
+      /> 
+
+  <bridge
+      zope2=".interfaces.ISelectableBrowserDefault"
+      package=".z3.interfaces"
+      name="ISelectableBrowserDefault"
+      /> 
+
+</configure>
