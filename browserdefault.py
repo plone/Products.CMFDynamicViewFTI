@@ -50,7 +50,7 @@ class BrowserDefaultMixin(Base):
     _at_fti_meta_type = fti_meta_type
     aliases = {
         '(Default)' : '(dynamic view)',
-        'view' : '(dynamic view)',
+        'view' : '(selected layout)',
         'index.html' : '(dynamic view)',
         'edit' : 'base_edit',
         'gethtml' : '',
