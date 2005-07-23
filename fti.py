@@ -69,6 +69,8 @@ def om_has_key(context, key):
         if key in context.objectIds():
             return True
     return False
+    
+fti_meta_type = 'Factory-based Type Information with dynamic views'
 
 class DynamicViewTypeInformation(FactoryTypeInformation):
     """FTI with dynamic views
@@ -78,7 +80,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
     __implements__ = (IDynamicViewTypeInformation,)
 
-    meta_type = 'Factory-based Type Information with dynamic views'
+    meta_type = fti_meta_type
     security = ClassSecurityInfo()
 
     _properties = FactoryTypeInformation._properties + (

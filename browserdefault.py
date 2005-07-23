@@ -27,7 +27,9 @@ __docformat__ = 'plaintext'
 from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo
 from Globals import InitializeClass
-from Acquisition import aq_parent, aq_base, aq_inner
+from Acquisition import aq_parent
+from Acquisition import aq_base
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import View
 
@@ -40,21 +42,27 @@ fti_meta_type = DynamicViewTypeInformation.meta_type
 _marker = object()
 
 class BrowserDefaultMixin(Base):
-    """ Allow the user to select a layout template (in the same way as
-        TemplateMixin in Archetypes does), and/or to set a contained
-        object's id as a default_page (acting in the same way as index_html)
+    """Mixin class for content types using the dynamic view FTI
+    
+    Allow the user to select a layout template (in the same way as
+    TemplateMixin in Archetypes does), and/or to set a contained
+    object's id as a default_page (acting in the same way as index_html)
+    
+    Note: folderish content types should overwrite HEAD like ATContentTypes
     """
 
     __implements__ = (ISelectableBrowserDefault, )
 
     _at_fti_meta_type = fti_meta_type
     aliases = {
-        '(Default)' : '(dynamic view)',
-        'view' : '(selected layout)',
+        '(Default)'  : '(dynamic view)',
+        'view'       : '(selected layout)',
         'index.html' : '(dynamic view)',
-        'edit' : 'base_edit',
-        'gethtml' : '',
-        'mkdir' : '',
+        'edit'       : 'base_edit',
+        'properties' : 'base_metadata',
+        'sharing'    : 'folder_localrole_form',
+        'gethtml'    : '',
+        'mkdir'      : '',
         }
 
     default_view = "base_view"
