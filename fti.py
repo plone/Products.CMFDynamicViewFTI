@@ -166,7 +166,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if not getattr(aq_base(context), 'isPrincipiaFolderish', False):
             return None # non folderish objects don't have a default page per se
 
-        default_page = getattr(context, 'default_page', None)
+        default_page = getattr(aq_base(context), 'default_page', None)
         if default_page is None:
             return None
 
