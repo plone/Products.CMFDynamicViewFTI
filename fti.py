@@ -46,20 +46,13 @@ except ImportError:
         else:
             return callable(ob)
 
-try:
-    import Products.CMFPlone
-except:
-    HAS_PLONE2 = False
-else:
-    HAS_PLONE2 = True
-    
 def om_has_key(context, key):
     """Object Manager has_key method with optimization for btree folders
-    
-    Zope's OFS.ObjectManager has no method for checking if an object with an id 
-    exists inside a folder. 
+
+    Zope's OFS.ObjectManager has no method for checking if an object with an id
+    exists inside a folder.
     """
-    klass = getattr(aq_base(context), '__class__', None) 
+    klass = getattr(aq_base(context), '__class__', None)
     if hasattr(klass, 'has_key'):
         # BTreeFolder2 optimization
         if context.has_key(key):
@@ -69,12 +62,12 @@ def om_has_key(context, key):
         if key in context.objectIds():
             return True
     return False
-    
+
 fti_meta_type = 'Factory-based Type Information with dynamic views'
 
 class DynamicViewTypeInformation(FactoryTypeInformation):
     """FTI with dynamic views
-    
+
     A value of (dynamic view) as alias is replaced by the output of defaultView()
     """
 
@@ -103,7 +96,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         default_view = self.default_view
         view_methods = self.view_methods
         if not default_view:
-            # TODO: use view action 
+            # TODO: use view action
             self.default_view = default_view = self.immediate_view
         if not view_methods:
             self.view_methods = view_methods = (default_view,)
@@ -122,7 +115,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     security.declareProtected(View, 'getViewMethod')
     def getViewMethod(self, context, enforce_available = True):
         """Get view method (aka layout) name from context
-        
+
         Return -- view method from context or default view name
         """
         default = self.default_view
@@ -154,15 +147,14 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     security.declareProtected(View, 'getDefaultPage')
     def getDefaultPage(self, context, check_exists=False):
         """Get the default page from a folderish object
-        
+
         Non folderish objects don't have a default view.
-        
+
         If check_exists is enabled the method makes sure the object with the default
         page id exists.
-        
+
         Return -- None for no default page or a string
         """
-
         if not getattr(aq_base(context), 'isPrincipiaFolderish', False):
             return None # non folderish objects don't have a default page per se
 
@@ -177,7 +169,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if isinstance(default_page, (tuple, list)):
             default_page = default_page[0]
         if not isinstance(default_page, str):
-            raise TypeError, ("default_page must be a string, got %s(%s):" % 
+            raise TypeError, ("default_page must be a string, got %s(%s):" %
                               (default_page, type(default_page)))
 
         if check_exists and not om_has_key(context, default_page):
@@ -192,8 +184,9 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         """
 
         # Delegate to PloneTool's version if we have it else, use own rules
-        if HAS_PLONE2:
-            obj, path = getToolByName(self, 'plone_utils').browserDefault(context)
+        plone_utils = getToolByName(self, 'plone_utils', None)
+        if plone_utils is not None:
+            obj, path = plone_utils.browserDefault(context)
             return path[-1]
         else:
             default_page = self.getDefaultPage(context, check_exists = True)
@@ -204,9 +197,9 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     security.declarePublic('queryMethodID')
     def queryMethodID(self, alias, default=None, context=None):
         """ Query method ID by alias.
-        
+
         Use "(dynamic view)" as the alias target to look up as per defaultView()
-        Use "(selected layout)" as the alias target to look up as per 
+        Use "(selected layout)" as the alias target to look up as per
             getViewMethod()
         """
         methodTarget = FactoryTypeInformation.queryMethodID(self, alias,
@@ -217,7 +210,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             return methodTarget
 
         if context is None or default == '':
-            # the edit zpts like typesAliases don't apply a context and set the 
+            # the edit zpts like typesAliases don't apply a context and set the
             # default to ''. We do not want to resolve (dynamic view) for these
             # methods.
             return methodTarget

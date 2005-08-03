@@ -24,7 +24,7 @@ from Products.CMFCore.interfaces.portal_types import ContentTypeInformation as \
 
 class IDynamicViewTypeInformation(ITypeInformation):
     """Interface for FTI with dynamic views
-    
+
     A value of (dynamic view) as alias is replaced by the output of getLayout()
     """
 
@@ -34,7 +34,7 @@ class IDynamicViewTypeInformation(ITypeInformation):
 
     def getViewMethod(context, enforce_available = True):
         """Get view method name from context
-        
+
         Return -- view method from context or default view name
         """
 
@@ -44,31 +44,31 @@ class IDynamicViewTypeInformation(ITypeInformation):
 
     def getDefaultPage(context, check_exists=False):
         """Get the default page from a folderish object
-        
+
         Non folderish objects don't have a default view.
-        
+
         If check_exists is enabled the method makes sure the object with the default
         page id exists.
-        
+
         Return -- None for no default page or a string
         """
 
     def defaultView(context):
         """Get the layout for an object
-        
+
         At first it tries to get the default page from the context. A default page
         must be listed on the folder or else it is ignored.
-        
+
         At last it get the view method.
-        
+
         Return -- a string containing the name of the layout
         """
 
 class IBrowserDefault(Interface):
     """
-    Interface for content supporting different views on a per-instance basis, 
-    either as a page template, or as the id of a contained object (inside a 
-    folderish item only). 
+    Interface for content supporting different views on a per-instance basis,
+    either as a page template, or as the id of a contained object (inside a
+    folderish item only).
     """
 
     def defaultView(request=None):
@@ -138,7 +138,7 @@ class ISelectableBrowserDefault(IBrowserDefault):
     def getAvailableLayouts():
         """
         Get the layouts registered for this object.
-        
+
         This should return a list of tuples: (id, title), where id is the id
         of the page template providing the layout and title is the title of
         that page template as it will be displayed to the user.

@@ -5,11 +5,11 @@
   <implements
       class=".browserdefault.BrowserDefaultMixin"
       interface=".z3.interfaces.ISelectableBrowserDefault"
-      /> 
+      />
 
   <implements
       class=".fti.DynamicViewTypeInformation"
       interface=".z3.interfaces.IDynamicViewTypeInformation"
-      />       
+      />
 
 </configure>

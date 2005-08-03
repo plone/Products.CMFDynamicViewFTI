@@ -26,7 +26,7 @@ fti_meta_type = DynamicViewTypeInformation.meta_type
 
 def migrateFTI(portal, id, ti_name, fti_meta_type):
     """Migrates a single FTI to DynamicViewFTI
-    
+
     portal - context (portal root)
     id - id of the type information
     ti_name - name of the type information
@@ -41,7 +41,7 @@ def migrateFTI(portal, id, ti_name, fti_meta_type):
         actions.append(action._getCopy(action))
     actions = tuple(actions)
     properties = dict(ti.propertyItems())
-    
+
     # delete the old fti and create a new one
     ttool._delObject(id)
 
@@ -58,13 +58,13 @@ def migrateFTI(portal, id, ti_name, fti_meta_type):
 
 def migrateFTIs(portal, product=None, fti_meta_type=fti_meta_type):
     """Migrates all FTIs in portal types
-    
+
     migrateFTIs checks all FTIs if they have to be migrated. The product argument
     can be used to restrict migration to a single product
     """
     ttool = getToolByName(portal, 'portal_types')
     migrated = []
-    
+
     # create a list of type informations that might need migration
     # (product, meta_type) -> type info name
     ftis = {}
@@ -76,24 +76,24 @@ def migrateFTIs(portal, product=None, fti_meta_type=fti_meta_type):
         if ti.get('fti_meta_type') != fti_meta_type:
             continue
         ftis[(ti_product, ti_mt)] = name
-    
+
     # check all FTIs in portal_types
     for obj in ttool.objectValues():
         if obj.meta_type == fti_meta_type:
             continue # already migrated
-        
+
         ti_product = getattr(aq_base(obj), 'product', None)
         ti_mt = getattr(aq_base(obj), 'content_meta_type', None)
         if not ti_product or not ti_mt:
             continue # strange/broken ti object or no FTI
-           
+
         ti_name = ftis.get((ti_product, ti_mt), None)
         if ti_name is None:
-            continue # not in list of FTIs to be migrated 
-        
+            continue # not in list of FTIs to be migrated
+
         # match - migrated FTI
         id = obj.getId()
         migrateFTI(portal, id, ti_name, fti_meta_type)
         migrated.append(id)
-    
+
     return migrated

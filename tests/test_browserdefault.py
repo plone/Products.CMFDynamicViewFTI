@@ -43,18 +43,18 @@ fti_meta_type = DynamicViewTypeInformation.meta_type
 tests = []
 
 class TestBrowserDefault(PloneTestCase.PloneTestCase):
-    
+
     def afterSetUp(self):
         PloneTestCase.PloneTestCase.afterSetUp(self)
-        
+
     def test_doesImplementISelectableBrowserDefault(self):
         iface = ISelectableBrowserDefault
         self.failUnless(iface.isImplementedByInstancesOf(BrowserDefaultMixin))
         self.failUnless(verifyClass(iface, BrowserDefaultMixin))
-        
+
     def test_extendsInterface(self):
         self.failUnless(ISelectableBrowserDefault.extends(IBrowserDefault))
-        
+
 tests.append(TestBrowserDefault)
 
 if __name__ == '__main__':

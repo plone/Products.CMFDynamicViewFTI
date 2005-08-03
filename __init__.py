@@ -25,7 +25,7 @@ from Products.CMFDynamicViewFTI.fti import manage_addFactoryDynamivViewTIForm
 
 def initialize(context):
     # BBB remove registerIcon after we have switched to CMF 1.6
-    registerIcon(DynamicViewTypeInformation, 
+    registerIcon(DynamicViewTypeInformation,
                  'images/typeinfo.gif', globals())
     context.registerClass(
         DynamicViewTypeInformation,

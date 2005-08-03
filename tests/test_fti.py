@@ -43,10 +43,10 @@ typeinfo_name = "ATContentTypes: ATDocument (ATDocument)"
 tests = []
 
 class TestFTI(PloneTestCase.PloneTestCase):
-    
+
     def afterSetUp(self):
         PloneTestCase.PloneTestCase.afterSetUp(self)
-        
+
         id = "fti_test"
         self.ttool = ttool = getToolByName(self.portal, 'portal_types')
         assert id not in ttool.objectIds()
@@ -64,7 +64,7 @@ class TestFTI(PloneTestCase.PloneTestCase):
         iface = IDynamicViewTypeInformation
         self.failUnless(iface.isImplementedBy(self.fti))
         self.failUnless(verifyObject(iface, self.fti))
-        
+
     def test_meta_type(self):
         self.failUnlessEqual(self.fti.meta_type,
                              'Factory-based Type Information with dynamic views')

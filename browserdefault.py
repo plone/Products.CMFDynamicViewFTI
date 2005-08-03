@@ -43,11 +43,11 @@ _marker = object()
 
 class BrowserDefaultMixin(Base):
     """Mixin class for content types using the dynamic view FTI
-    
+
     Allow the user to select a layout template (in the same way as
     TemplateMixin in Archetypes does), and/or to set a contained
     object's id as a default_page (acting in the same way as index_html)
-    
+
     Note: folderish content types should overwrite HEAD like ATContentTypes
     """
 
@@ -96,19 +96,23 @@ class BrowserDefaultMixin(Base):
     security.declareProtected(View, 'getDefaultPage')
     def getDefaultPage(self):
         """Return the id of the default page, or None if none is set.
-       
+
         The default page must be contained within this (folderish) item.
         """
         fti = self.getTypeInfo()
         if fti is None:
             return None
         else:
-            return fti.getDefaultPage(self)
+            plone_utils = getToolByName(self, 'plone_utils', None)
+            if plone_utils is not None:
+                return plone_utils.getDefaultPage(self)
+            else:
+                return fti.getDefaultPage(self, check_exists=True)
 
     security.declareProtected(View, 'getLayout')
     def getLayout(self, **kw):
-        """Get the selected view method. 
-        
+        """Get the selected view method.
+
         Note that a selected default page will override the view method.
         """
         fti = self.getTypeInfo()
@@ -131,7 +135,7 @@ class BrowserDefaultMixin(Base):
     security.declareProtected(ModifyViewTemplate, 'setDefaultPage')
     def setDefaultPage(self, objectId):
         """Set the default page to display in this (folderish) object.
-        
+
         The objectId must be a value found in self.objectIds() (i.e. a contained
         object). This object will be displayed as the default_page/index_html object
         of this (folderish) object. This will override the current layout
@@ -166,7 +170,7 @@ class BrowserDefaultMixin(Base):
     security.declareProtected(ModifyViewTemplate, 'setLayout')
     def setLayout(self, layout):
         """Set the layout as the current view.
-        
+
         'layout' should be one of the list returned by getAvailableLayouts(), but it
         is not enforced. If a default page has been set with setDefaultPage(), it is
         turned off by calling setDefaultPage(None).
