@@ -113,7 +113,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         return tuple(methods)
 
     security.declareProtected(View, 'getViewMethod')
-    def getViewMethod(self, context, enforce_available = True):
+    def getViewMethod(self, context, enforce_available = False):
         """Get view method (aka layout) name from context
 
         Return -- view method from context or default view name
