@@ -2,7 +2,11 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
-CMFDynamicViewFTI 1.0.2 - Unreleased
+CMFDynamicViewFTI 1.0.3 - Unreleased
+
+    -
+
+CMFDynamicViewFTI 1.0.2 - Released December 18, 2005
 
     - Change getViewMethod's 'enforce_available' argument to default to False
       instead of True. If someone goes to the trouble of either using python
