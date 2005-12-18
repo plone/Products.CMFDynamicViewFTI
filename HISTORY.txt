@@ -1,0 +1,22 @@
+Changelog for CMFDynamicViewFTI
+
+   (name of developer listed in brackets)
+
+CMFDynamicViewFTI 1.0.2 - Unreleased
+
+    - Change getViewMethod's 'enforce_available' argument to default to False
+      instead of True. If someone goes to the trouble of either using python
+      or adding a property to indicate a specific template as the default
+      layout, we should let them.
+      [rafrombrc]
+
+CMFDynamicViewFTI 1.0.1 - Released August 9, 2005
+
+    - Improved Plone 2.1 integration: getDefaultPage. Replace try/except with a
+      better checking for Plone. Bonus: whitespaces cleanup.
+      [deo]
+
+    - Stop acquisation for default_page.
+      [panjunyong]
+
+CMFDynamicViewFTI 1.0.0 - Released July 29, 2005
