@@ -179,7 +179,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
     security.declareProtected(View, 'defaultView')
     def defaultView(self, context):
-        """Get the current view to use for an object. If a default page is  set,
+        """Get the current view to use for an object. If a default page is set,
         use that, else use the currently selected view method/layout.
         """
 
@@ -202,6 +202,13 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         Use "(selected layout)" as the alias target to look up as per
             getViewMethod()
         """
+        
+        # XXX: If we want method aliases to be able to point to a view, this
+        # may (or may not) need to be supported in CMF. We need to test this.
+        # It probably depends on what __pre_traverse_hook__() in CMF does when 
+        # it pushes @@view_name into the stack, and what ZPublisher does with
+        # that.
+        
         methodTarget = FactoryTypeInformation.queryMethodID(self, alias,
                                                          default=default,
                                                          context=context)

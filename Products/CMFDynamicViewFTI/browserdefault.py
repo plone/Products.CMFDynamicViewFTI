@@ -88,6 +88,8 @@ class BrowserDefaultMixin(Base):
         Resolve and return the selected view template applied to the object.
         This should not consider the default page.
         """
+        # XXX: This should use view when getLayout() returns a view name
+        # (starting with @@)
         template = self.unrestrictedTraverse(self.getLayout())
         context = aq_inner(self)
         template = template.__of__(context)
@@ -225,6 +227,8 @@ class BrowserDefaultMixin(Base):
             return ()
         result = []
         method_ids = fti.getAvailableViewMethods(self)
+        # XXX: This shoulduse view lookups if the method name starts with @@ 
+        # and get titles of views, or fall back on traversal like below
         for mid in method_ids:
             method = getattr(self, mid, None)
             if method is not None:
