@@ -24,7 +24,6 @@ from Acquisition import aq_base
 
 from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.TypesTool import TypesTool
-from Products.CMFCore.TypesTool import typeClasses
 from Products.CMFCore.permissions import View
 from Products.CMFCore.permissions import ManagePortal
 from Products.CMFCore.utils import _dtmldir
@@ -239,16 +238,21 @@ def manage_addFactoryDynamivViewTIForm(self, REQUEST):
 
 # BBB: the following lines are required to register the new FTI in CMF 1.5 and may
 # be removed after switching to CMF 1.6
-setattr(TypesTool, 'manage_addFactoryDynamivViewTIForm',
-                    manage_addFactoryDynamivViewTIForm)
+try:
+    from Products.CMFCore.TypesTool import typeClasses
+except ImportError:
+    pass
+else:
+    setattr(TypesTool, 'manage_addFactoryDynamivViewTIForm',
+                        manage_addFactoryDynamivViewTIForm)
 
-setattr(TypesTool, 'manage_addFactoryDynamivViewTIForm__roles__',
-                    ('Manager', ))
+    setattr(TypesTool, 'manage_addFactoryDynamivViewTIForm__roles__',
+                        ('Manager', ))
 
-typeClasses.append(
-    {'class' : DynamicViewTypeInformation,
-     'name' : DynamicViewTypeInformation.meta_type,
-     'action' : 'manage_addFactoryDynamivViewTIForm',
-     'permission' : ManagePortal,
-     },
-    )
+    typeClasses.append(
+        {'class' : DynamicViewTypeInformation,
+         'name' : DynamicViewTypeInformation.meta_type,
+         'action' : 'manage_addFactoryDynamivViewTIForm',
+         'permission' : ManagePortal,
+         },
+        )

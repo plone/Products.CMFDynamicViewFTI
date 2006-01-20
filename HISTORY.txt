@@ -4,7 +4,9 @@ Changelog for CMFDynamicViewFTI
 
 CMFDynamicViewFTI 1.0.3 - Unreleased
 
-    -
+    - Added conditional import for typeClasses to make the code CMF1.6
+      compatible while staying CMF1.5 backwards compatible.
+      [hannosch]
 
 CMFDynamicViewFTI 1.0.2 - Released December 18, 2005
 
