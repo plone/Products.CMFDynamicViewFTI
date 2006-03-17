@@ -4,7 +4,12 @@ Changelog for CMFDynamicViewFTI
 
 CMFDynamicViewFTI 1.0.4 - Unreleased
 
-    - 
+    - Made 'safe_callable' truly safe by using 'safe_hasattr'.
+    - Made tests use CMFTestCase. There is no Plone dependency whatsoever.
+    - Fixed a bug in getViewMethod. A present, but empty 'layout' attribute
+      now also returns the default view instead of ''. Returning the empty
+      string sends PortalContent.__call__() into a loop.
+      [stefan]
 
 CMFDynamicViewFTI 1.0.3 - Released February 25, 2006
 
