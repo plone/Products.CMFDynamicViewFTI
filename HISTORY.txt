@@ -2,7 +2,7 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
-CMFDynamicViewFTI 1.0.4 - Unreleased
+CMFDynamicViewFTI 1.0.4 - Released March 19, 2006
 
     - Made 'safe_callable' truly safe by using 'safe_hasattr'.
     - Made tests use CMFTestCase. There is no Plone dependency whatsoever.
