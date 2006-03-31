@@ -27,6 +27,8 @@ if __name__ == '__main__':
 from Products.CMFTestCase import CMFTestCase
 
 CMFTestCase.installProduct('CMFDynamicViewFTI')
+if CMFTestCase.hasProduct('Five'):
+    CMFTestCase.installProduct('Five')
 CMFTestCase.setupCMFSite()
 
 from Testing.ZopeTestCase import transaction
@@ -275,21 +277,11 @@ class TestEmptyLayoutBug(CMFTestCase.FunctionalTestCase):
         self.basic = '%s:%s' % (CMFTestCase.default_user, CMFTestCase.default_password)
 
     def test_FolderEmptyLayoutBug(self):
-        # Well, this actually doesn't break, just 404s
         response = self.publish(self.dynfolder_path+'/view', basic=self.basic)
-        # before fix
-        #self.assertEqual(response.getStatus(), 404)
-        # after fix
         self.assertEqual(response.getStatus(), 200)
 
     def test_DocumentEmptyLayoutBug(self):
-        # This triggers PortalContent.__call__() which goes into
-        # an endless loop when queryMethodID() returns ''.
         response = self.publish(self.dyndocument_path+'/view', basic=self.basic)
-        # before fix
-        #self.assertEqual(response.getStatus(), 500)
-        #self.failUnless('maximum recursion depth exceeded' in response.getBody())
-        # after fix
         self.assertEqual(response.getStatus(), 200)
 
 

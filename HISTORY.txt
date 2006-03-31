@@ -4,7 +4,8 @@ Changelog for CMFDynamicViewFTI
 
 CMFDynamicViewFTI 1.0.5 - Unreleased
 
-    -
+    - Fix tests to pass if Five/Zope3 is installed.
+      [hannosch]
 
 CMFDynamicViewFTI 1.0.4 - Released March 19, 2006
 
