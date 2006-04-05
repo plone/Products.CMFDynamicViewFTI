@@ -2,9 +2,25 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
-CMFDynamicViewFTI 1.0.3 - Unreleased
+CMFDynamicViewFTI 1.0.5 - Unreleased
 
-    -
+    - Fix tests to pass if Five/Zope3 is installed.
+      [hannosch]
+
+CMFDynamicViewFTI 1.0.4 - Released March 19, 2006
+
+    - Made 'safe_callable' truly safe by using 'safe_hasattr'.
+    - Made tests use CMFTestCase. There is no Plone dependency whatsoever.
+    - Fixed a bug in getViewMethod. A present, but empty 'layout' attribute
+      now also returns the default view instead of ''. Returning the empty
+      string sends PortalContent.__call__() into a loop.
+      [stefan]
+
+CMFDynamicViewFTI 1.0.3 - Released February 25, 2006
+
+    - Added conditional import for typeClasses to make the code CMF1.6
+      compatible while staying CMF1.5 backwards compatible.
+      [hannosch]
 
 CMFDynamicViewFTI 1.0.2 - Released December 18, 2005
 

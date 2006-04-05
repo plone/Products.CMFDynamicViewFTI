@@ -21,10 +21,10 @@ from AccessControl import ClassSecurityInfo
 from Globals import InitializeClass
 from Globals import DTMLFile
 from Acquisition import aq_base
+from types import ClassType
 
 from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.TypesTool import TypesTool
-from Products.CMFCore.TypesTool import typeClasses
 from Products.CMFCore.permissions import View
 from Products.CMFCore.permissions import ManagePortal
 from Products.CMFCore.utils import _dtmldir
@@ -33,18 +33,28 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 
-try:
-    from DocumentTemplate.cDocumentTemplate import safe_callable
-except ImportError:
-    def safe_callable(ob):
-        # Works with ExtensionClasses and Acquisition.
-        if hasattr(ob, '__class__'):
-            if hasattr(ob, '__call__'):
-                return 1
-            else:
-                return isinstance(ob, types.ClassType)
+
+def safe_hasattr(obj, name, _marker=object()):
+    """Make sure we don't mask exceptions like hasattr().
+
+    We don't want exceptions other than AttributeError to be masked,
+    since that too often masks other programming errors.
+    Three-argument getattr() doesn't mask those, so we use that to
+    implement our own hasattr() replacement.
+    """
+    return getattr(obj, name, _marker) is not _marker
+
+
+def safe_callable(obj):
+    """Make sure our callable checks are ConflictError safe."""
+    if safe_hasattr(obj, '__class__'):
+        if safe_hasattr(obj, '__call__'):
+            return True
         else:
-            return callable(ob)
+            return isinstance(obj, ClassType)
+    else:
+        return callable(obj)
+
 
 def om_has_key(context, key):
     """Object Manager has_key method with optimization for btree folders
@@ -62,6 +72,7 @@ def om_has_key(context, key):
         if key in context.objectIds():
             return True
     return False
+
 
 fti_meta_type = 'Factory-based Type Information with dynamic views'
 
@@ -103,6 +114,12 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if default_view and default_view not in view_methods:
             raise ValueError, "%s not in %s" % (default_view, view_methods)
 
+    security.declareProtected(View, 'getDefaultViewMethod')
+    def getDefaultViewMethod(self, context):
+        """Get the default view method from the FTI
+        """
+        return str(self.default_view)
+
     security.declareProtected(View, 'getAvailableViewMethods')
     def getAvailableViewMethods(self, context):
         """Get a list of registered view methods
@@ -113,36 +130,27 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         return tuple(methods)
 
     security.declareProtected(View, 'getViewMethod')
-    def getViewMethod(self, context, enforce_available = False):
+    def getViewMethod(self, context, enforce_available=False):
         """Get view method (aka layout) name from context
 
         Return -- view method from context or default view name
         """
-        default = self.default_view
+        default = self.getDefaultViewMethod(context)
         layout = getattr(aq_base(context), 'layout', None)
 
-        if layout is not None:
-            if safe_callable(layout):
-                layout = layout()
-            if not isinstance(layout, basestring):
-                raise TypeError, "layout of %s must be a string, got %s" % (
-                                  repr(context), type(layout))
-            if enforce_available:
-                available = self.getAvailableViewMethods(context)
-                if layout in available:
-                    return layout
-                else:
-                    return default
-            else:
-                return layout
-        else:
+        if safe_callable(layout):
+            layout = layout()
+        if not layout:
             return default
-
-    security.declareProtected(View, 'getDefaultViewMethod')
-    def getDefaultViewMethod(self, context):
-        """Get the default view method from the FTI
-        """
-        return str(self.default_view)
+        if not isinstance(layout, basestring):
+            raise TypeError, "layout of %s must be a string, got %s" % (
+                              repr(context), type(layout))
+        if enforce_available:
+            available = self.getAvailableViewMethods(context)
+            if layout in available:
+                return layout
+            return default
+        return layout
 
     security.declareProtected(View, 'getDefaultPage')
     def getDefaultPage(self, context, check_exists=False):
@@ -159,8 +167,6 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             return None # non folderish objects don't have a default page per se
 
         default_page = getattr(aq_base(context), 'default_page', None)
-        if default_page is None:
-            return None
 
         if safe_callable(default_page):
             default_page = default_page()
@@ -234,6 +240,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
 InitializeClass(DynamicViewTypeInformation)
 
+
 def manage_addFactoryDynamivViewTIForm(self, REQUEST):
     """ Get the add form for factory-based type infos.
     """
@@ -246,16 +253,21 @@ def manage_addFactoryDynamivViewTIForm(self, REQUEST):
 
 # BBB: the following lines are required to register the new FTI in CMF 1.5 and may
 # be removed after switching to CMF 1.6
-setattr(TypesTool, 'manage_addFactoryDynamivViewTIForm',
-                    manage_addFactoryDynamivViewTIForm)
+try:
+    from Products.CMFCore.TypesTool import typeClasses
+except ImportError:
+    pass
+else:
+    setattr(TypesTool, 'manage_addFactoryDynamivViewTIForm',
+                        manage_addFactoryDynamivViewTIForm)
 
-setattr(TypesTool, 'manage_addFactoryDynamivViewTIForm__roles__',
-                    ('Manager', ))
+    setattr(TypesTool, 'manage_addFactoryDynamivViewTIForm__roles__',
+                        ('Manager', ))
 
-typeClasses.append(
-    {'class' : DynamicViewTypeInformation,
-     'name' : DynamicViewTypeInformation.meta_type,
-     'action' : 'manage_addFactoryDynamivViewTIForm',
-     'permission' : ManagePortal,
-     },
-    )
+    typeClasses.append(
+        {'class' : DynamicViewTypeInformation,
+         'name' : DynamicViewTypeInformation.meta_type,
+         'action' : 'manage_addFactoryDynamivViewTIForm',
+         'permission' : ManagePortal,
+         },
+        )

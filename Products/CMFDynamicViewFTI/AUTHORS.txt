@@ -27,3 +27,9 @@ Dorneles Treméa
 ---------------
 
  * Additional Plone 2.1 integration
+ 
+Hanno Schlichting
+-----------------
+
+ * CMF 1.6 conformance and release management
+

@@ -37,9 +37,9 @@ from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 
+_marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
-_marker = object()
 
 class BrowserDefaultMixin(Base):
     """Mixin class for content types using the dynamic view FTI
@@ -177,7 +177,7 @@ class BrowserDefaultMixin(Base):
         is not enforced. If a default page has been set with setDefaultPage(), it is
         turned off by calling setDefaultPage(None).
         """
-        if not layout or not isinstance(layout, str):
+        if not (layout and isinstance(layout, basestring)):
             raise ValueError, ("layout must be a non empty string, got %s(%s)" %
                                (layout, type(layout)))
 
