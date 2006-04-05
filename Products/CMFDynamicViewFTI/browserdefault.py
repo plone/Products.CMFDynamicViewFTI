@@ -21,8 +21,11 @@ templates and/or default pages (in the style of default_page/index_html).
 The implementation extends TemplateMixin from Archetypes, and implements
 the ISelectableBrowserDefault interface from CMFPlone.
 """
-__author__  = 'Martin Aspeli, Christian Heimes'
+__author__  = 'Martin Aspeli, Christian Heimes, Sasha Vincic'
 __docformat__ = 'plaintext'
+
+import zope.component
+from zope.app.publisher.interfaces.browser import IBrowserView
 
 from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo
@@ -227,17 +230,22 @@ class BrowserDefaultMixin(Base):
             return ()
         result = []
         method_ids = fti.getAvailableViewMethods(self)
-        # XXX: This shoulduse view lookups if the method name starts with @@ 
-        # and get titles of views, or fall back on traversal like below
         for mid in method_ids:
-            method = getattr(self, mid, None)
-            if method is not None:
-                # a method might be a template, script or method
-                try:
-                    title = method.aq_inner.aq_explicit.title_or_id()
-                except AttributeError:
-                    title = mid
-                result.append((mid, title))
+            view = zope.component.queryMultiAdapter((self, self.REQUEST),
+                                                    zope.interface.Interface,
+                                                    name=mid)
+
+            if view is not None:
+                result.append((mid, mid))
+            else:
+                method = getattr(self, mid, None)
+                if method is not None:
+                    # a method might be a template, script or method
+                    try:
+                        title = method.aq_inner.aq_explicit.title_or_id()
+                    except AttributeError:
+                        title = mid
+                    result.append((mid, title))
         return result
 
 InitializeClass(BrowserDefaultMixin)
