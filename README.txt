@@ -1,9 +1,8 @@
-Dynamic view FTI for CMF 1.5
-============================
+Dynamic view FTI for CMF
+========================
 
-CMFDynamicViewFTI is a product for dynamic views in CMF 1.5. The product
-contains an additional base class for types and a new factory type information
-(FTI).
+CMFDynamicViewFTI is a product for dynamic views in CMF. The product contains
+an additional base class for types and a new factory type information (FTI).
 
 The FTI contains two new properties for the default view method and
 supplementary view methods. The queryMethodID functionality used for
