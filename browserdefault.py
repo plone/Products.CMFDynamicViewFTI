@@ -24,6 +24,8 @@ the ISelectableBrowserDefault interface from CMFPlone.
 __author__  = 'Martin Aspeli, Christian Heimes'
 __docformat__ = 'plaintext'
 
+from zope.interface import implements
+
 from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo
 from Globals import InitializeClass
@@ -35,11 +37,12 @@ from Products.CMFCore.permissions import View
 
 from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
-from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
+
+from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
+from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault as ZopeTwoISelectableBrowserDefault
 
 _marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
-
 
 class BrowserDefaultMixin(Base):
     """Mixin class for content types using the dynamic view FTI
@@ -50,8 +53,8 @@ class BrowserDefaultMixin(Base):
 
     Note: folderish content types should overwrite HEAD like ATContentTypes
     """
-
-    __implements__ = (ISelectableBrowserDefault, )
+    implements(ISelectableBrowserDefault)
+    __implements__ = (ZopeTwoISelectableBrowserDefault, )
 
     _at_fti_meta_type = fti_meta_type
     aliases = {

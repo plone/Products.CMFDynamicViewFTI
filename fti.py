@@ -17,6 +17,8 @@
 """
 """
 
+from zope.interface import implements
+
 from AccessControl import ClassSecurityInfo
 from Globals import InitializeClass
 from Globals import DTMLFile
@@ -31,7 +33,8 @@ from Products.CMFCore.utils import _dtmldir
 from Products.CMFCore.utils import _wwwdir
 from Products.CMFCore.utils import getToolByName
 
-from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
+from Products.CMFDynamicViewFTI.interface import IDynamicViewTypeInformation
+from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation as ZopeTwoIDynamicViewTypeInformation
 
 
 def safe_hasattr(obj, name, _marker=object()):
@@ -73,7 +76,6 @@ def om_has_key(context, key):
             return True
     return False
 
-
 fti_meta_type = 'Factory-based Type Information with dynamic views'
 
 class DynamicViewTypeInformation(FactoryTypeInformation):
@@ -82,7 +84,8 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     A value of (dynamic view) as alias is replaced by the output of defaultView()
     """
 
-    __implements__ = (IDynamicViewTypeInformation,)
+    implements(IDynamicViewTypeInformation)
+    __implements__ = (ZopeTwoIDynamicViewTypeInformation,)
 
     meta_type = fti_meta_type
     security = ClassSecurityInfo()
