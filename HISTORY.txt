@@ -4,6 +4,12 @@ Changelog for CMFDynamicViewFTI
 
 CMFDynamicViewFTI 2.0.0 - Unreleased
 
+    - Merged z3-views-integration branch.
+      [svincic]
+
+    - Making use of Zope 3 interfaces with proper reverse bridges.
+      [optilude]
+
     - Fix tests to pass if Five/Zope3 is installed.
       [hannosch]
 
