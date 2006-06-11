@@ -25,10 +25,7 @@ if __name__ == '__main__':
     execfile(os.path.join(sys.path[0], 'framework.py'))
 
 from Products.CMFTestCase import CMFTestCase
-
 CMFTestCase.installProduct('CMFDynamicViewFTI')
-if CMFTestCase.hasProduct('Five'):
-    CMFTestCase.installProduct('Five')
 CMFTestCase.setupCMFSite()
 
 from Testing.ZopeTestCase import transaction
@@ -43,7 +40,6 @@ from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Interface.Verify import verifyObject
 
 fti_meta_type = DynamicViewTypeInformation.meta_type
-
 from data import factory_type_information
 
 

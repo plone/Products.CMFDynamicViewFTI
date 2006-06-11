@@ -2,6 +2,9 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+    - Slightly adjusted the tests to new CTC version.
+      [hannosch]
+
 CMFDynamicViewFTI 2.0.0 - Released May 15, 2006
 
     - Merged z3-views-integration branch.
