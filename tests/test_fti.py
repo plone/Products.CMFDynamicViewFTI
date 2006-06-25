@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
 from Products.CMFTestCase import CMFTestCase
 CMFTestCase.installProduct('CMFDynamicViewFTI')
-CMFTestCase.setupCMFSite()
+CMFTestCase.setupCMFSite(extension_profiles=['CMFDynamicViewFTI:CMFDVFTI_sampletypes'])
 
 from Testing.ZopeTestCase import transaction
 
@@ -40,19 +40,12 @@ from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Interface.Verify import verifyObject
 
 fti_meta_type = DynamicViewTypeInformation.meta_type
-from data import factory_type_information
-
 
 class TestFTI(CMFTestCase.CMFTestCase):
 
     def afterSetUp(self):
-        # "Register" the DynFolder FTI definition
-        self.app._getProducts().CMFCore.factory_type_information = factory_type_information
-        # Create DynFolder FTI object in types tool
-        self.types = types = getToolByName(self.portal, 'portal_types')
-        types.manage_addTypeInformation(fti_meta_type, id='DynFolder',
-                                        typeinfo_name='CMFCore: DynFolder (DynFolder)')
-        self.fti = types['DynFolder']
+        self.types = getToolByName(self.portal, 'portal_types')
+        self.fti = self.types['DynFolder']
 
     def _makeOne(self):
         # Create and return a DynFolder
@@ -197,17 +190,6 @@ class TestEmptyLayoutBug(CMFTestCase.FunctionalTestCase):
     # Finally, here is why we did all this...
 
     def afterSetUp(self):
-        # "Register" the DynFolder FTI definitions
-        self.app._getProducts().CMFCore.factory_type_information = factory_type_information
-        self.app._getProducts().CMFDefault.factory_type_information = factory_type_information
-
-        # Create FTI objects in types tool
-        self.types = types = getToolByName(self.portal, 'portal_types')
-        types.manage_addTypeInformation(fti_meta_type, id='DynFolder',
-                                        typeinfo_name='CMFCore: DynFolder (DynFolder)')
-        types.manage_addTypeInformation(fti_meta_type, id='DynDocument',
-                                        typeinfo_name='CMFDefault: DynDocument (DynDocument)')
-
         # Make a DynFolder
         self.folder.invokeFactory('DynFolder', id='dynfolder')
         self.dynfolder = self.folder.dynfolder
