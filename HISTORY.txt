@@ -2,11 +2,6 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
-    - Converted dummy test sample types to be extension profile based. This
-      profile is only registered for ICMFTestSiteRoot which is dynamically
-      provided by CMFTestCase during test runs only.
-      [hannosch]
-
     - Slightly adjusted the tests to new CTC version.
       [hannosch]
 

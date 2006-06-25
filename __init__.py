@@ -23,14 +23,6 @@ from Products.CMFCore.utils import registerIcon
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.fti import manage_addFactoryDynamivViewTIForm
 
-try:
-    from Products.CMFTestCase.interfaces import ICMFTestSiteRoot
-    from Products.GenericSetup import EXTENSION, profile_registry
-    HAS_GENERICSETUP = True
-except ImportError:
-    HAS_GENERICSETUP = False
-
-
 def initialize(context):
     # BBB remove registerIcon after we have switched to CMF 1.6
     registerIcon(DynamicViewTypeInformation,
@@ -41,12 +33,3 @@ def initialize(context):
         constructors=( manage_addFactoryDynamivViewTIForm, ),
         icon='images/typeinfo.gif',
         visibility=None)
-
-    if HAS_GENERICSETUP:
-        profile_registry.registerProfile('CMFDVFTI_sampletypes',
-                'CMFDynamicViewFTI Sample Content Types',
-                'Extension profile including CMFDVFTI sample content types',
-                'profiles/sample_types',
-                'CMFDynamicViewFTI',
-                EXTENSION,
-                for_=ICMFTestSiteRoot)

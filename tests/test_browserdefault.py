@@ -35,7 +35,7 @@ import zope.publisher.browser
 from Products.CMFTestCase import CMFTestCase
 
 CMFTestCase.installProduct('CMFDynamicViewFTI')
-CMFTestCase.setupCMFSite(extension_profiles=['CMFDynamicViewFTI:CMFDVFTI_sampletypes'])
+CMFTestCase.setupCMFSite()
 
 from Products.CMFCore.utils import getToolByName
 
@@ -48,22 +48,25 @@ from Interface.Verify import verifyObject
 from Interface.Verify import verifyClass
 
 fti_meta_type = DynamicViewTypeInformation.meta_type
+from data import factory_type_information
 
 class DummyFolder(BrowserDefaultMixin):
-
+    
     def getTypeInfo(self):
         return self.fti
-
+    
 class IDummy(zope.interface.Interface):
     """ marker interface for a zope 3 view """
 
+    
 class BrowserView(zope.app.publisher.browser.BrowserView):
-
+    
     def __init__(self, context, request):
         self.context = context
         self.request = request   
 
 class TestBrowserDefault(CMFTestCase.CMFTestCase):
+          
 
     def test_doesImplementISelectableBrowserDefault(self):
         iface = ISelectableBrowserDefault
@@ -73,14 +76,20 @@ class TestBrowserDefault(CMFTestCase.CMFTestCase):
     def test_extendsInterface(self):
         self.failUnless(ISelectableBrowserDefault.extends(IBrowserDefault))
 
+    
 class TestAvailableLayouts(CMFTestCase.CMFTestCase):
-
+    
+        
     def afterSetUp(self):
-        self.types = getToolByName(self.portal, 'portal_types')
+        self.app._getProducts().CMFCore.factory_type_information = factory_type_information
+        # Create DynFolder FTI object in types tool
+        self.types = types = getToolByName(self.portal, 'portal_types')
+        types.manage_addTypeInformation(fti_meta_type, id='DynFolder',
+                                        typeinfo_name='CMFCore: DynFolder (DynFolder)')
 
         self.dfolder = DummyFolder()
-        self.dfolder.fti = self.types['DynFolder']
-
+        self.dfolder.fti = types['DynFolder']
+            
         zope.component.testing.setUp(self)
         setup.setUpTraversal()
         zope.component.provideAdapter(
