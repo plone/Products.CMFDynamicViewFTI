@@ -24,6 +24,8 @@ import os, sys
 if __name__ == '__main__':
     execfile(os.path.join(sys.path[0], 'framework.py'))
 
+from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
+
 import zope.component 
 import zope.component.testing
 from zope.app.testing import setup
@@ -31,11 +33,6 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.app.publisher.interfaces.browser import IBrowserView        
 import zope.app.publisher.browser
 import zope.publisher.browser
-
-from Products.CMFTestCase import CMFTestCase
-
-CMFTestCase.installProduct('CMFDynamicViewFTI')
-CMFTestCase.setupCMFSite()
 
 from Products.CMFCore.utils import getToolByName
 
@@ -47,26 +44,21 @@ from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Interface.Verify import verifyObject
 from Interface.Verify import verifyClass
 
-fti_meta_type = DynamicViewTypeInformation.meta_type
-from data import factory_type_information
-
 class DummyFolder(BrowserDefaultMixin):
-    
+
     def getTypeInfo(self):
         return self.fti
-    
+
 class IDummy(zope.interface.Interface):
     """ marker interface for a zope 3 view """
 
-    
 class BrowserView(zope.app.publisher.browser.BrowserView):
-    
+
     def __init__(self, context, request):
         self.context = context
         self.request = request   
 
-class TestBrowserDefault(CMFTestCase.CMFTestCase):
-          
+class TestBrowserDefault(CMFDVFTITestCase.CMFDVFTITestCase):
 
     def test_doesImplementISelectableBrowserDefault(self):
         iface = ISelectableBrowserDefault
@@ -76,20 +68,14 @@ class TestBrowserDefault(CMFTestCase.CMFTestCase):
     def test_extendsInterface(self):
         self.failUnless(ISelectableBrowserDefault.extends(IBrowserDefault))
 
-    
-class TestAvailableLayouts(CMFTestCase.CMFTestCase):
-    
-        
+class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
+
     def afterSetUp(self):
-        self.app._getProducts().CMFCore.factory_type_information = factory_type_information
-        # Create DynFolder FTI object in types tool
-        self.types = types = getToolByName(self.portal, 'portal_types')
-        types.manage_addTypeInformation(fti_meta_type, id='DynFolder',
-                                        typeinfo_name='CMFCore: DynFolder (DynFolder)')
+        self.types = getToolByName(self.portal, 'portal_types')
 
         self.dfolder = DummyFolder()
-        self.dfolder.fti = types['DynFolder']
-            
+        self.dfolder.fti = self.types['DynFolder']
+
         zope.component.testing.setUp(self)
         setup.setUpTraversal()
         zope.component.provideAdapter(

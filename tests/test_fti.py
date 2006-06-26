@@ -24,11 +24,7 @@ import os, sys
 if __name__ == '__main__':
     execfile(os.path.join(sys.path[0], 'framework.py'))
 
-from Products.CMFTestCase import CMFTestCase
-CMFTestCase.installProduct('CMFDynamicViewFTI')
-CMFTestCase.setupCMFSite()
-
-from Testing.ZopeTestCase import transaction
+from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces.portal_types import ContentTypeInformation as \
@@ -40,19 +36,12 @@ from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Interface.Verify import verifyObject
 
 fti_meta_type = DynamicViewTypeInformation.meta_type
-from data import factory_type_information
 
-
-class TestFTI(CMFTestCase.CMFTestCase):
+class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
 
     def afterSetUp(self):
-        # "Register" the DynFolder FTI definition
-        self.app._getProducts().CMFCore.factory_type_information = factory_type_information
-        # Create DynFolder FTI object in types tool
-        self.types = types = getToolByName(self.portal, 'portal_types')
-        types.manage_addTypeInformation(fti_meta_type, id='DynFolder',
-                                        typeinfo_name='CMFCore: DynFolder (DynFolder)')
-        self.fti = types['DynFolder']
+        self.types = getToolByName(self.portal, 'portal_types')
+        self.fti = self.types['DynFolder']
 
     def _makeOne(self):
         # Create and return a DynFolder
@@ -193,36 +182,24 @@ class TestFTI(CMFTestCase.CMFTestCase):
         self.assertEqual(info.getDefaultPage(dynfolder), None)
 
 
-class TestEmptyLayoutBug(CMFTestCase.FunctionalTestCase):
+class TestEmptyLayoutBug(CMFDVFTITestCase.FunctionalTestCase):
     # Finally, here is why we did all this...
 
     def afterSetUp(self):
-        # "Register" the DynFolder FTI definitions
-        self.app._getProducts().CMFCore.factory_type_information = factory_type_information
-        self.app._getProducts().CMFDefault.factory_type_information = factory_type_information
-
-        # Create FTI objects in types tool
-        self.types = types = getToolByName(self.portal, 'portal_types')
-        types.manage_addTypeInformation(fti_meta_type, id='DynFolder',
-                                        typeinfo_name='CMFCore: DynFolder (DynFolder)')
-        types.manage_addTypeInformation(fti_meta_type, id='DynDocument',
-                                        typeinfo_name='CMFDefault: DynDocument (DynDocument)')
-
         # Make a DynFolder
         self.folder.invokeFactory('DynFolder', id='dynfolder')
         self.dynfolder = self.folder.dynfolder
         self.dynfolder.layout = '' # Empty layout triggers bug
-        transaction.commit() # Make sure publish sees this change
         self.dynfolder_path = self.dynfolder.absolute_url(1)
 
         # Make a DynDocument
         self.folder.invokeFactory('DynDocument', id='dyndocument')
         self.dyndocument = self.folder.dyndocument
         self.dyndocument.layout = '' # Empty layout triggers bug
-        transaction.commit() # Make sure publish sees this change
         self.dyndocument_path = self.dyndocument.absolute_url(1)
 
-        self.basic = '%s:%s' % (CMFTestCase.default_user, CMFTestCase.default_password)
+        self.basic = '%s:%s' % (CMFDVFTITestCase.default_user,
+                                CMFDVFTITestCase.default_password)
 
     def test_FolderEmptyLayoutBug(self):
         response = self.publish(self.dynfolder_path+'/view', basic=self.basic)
