@@ -2,6 +2,12 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+    - Implemented fallback to default view:
+      If a selected view (i.e. template) does not exist, return the
+      default view instead of - ultimately - NotFound. You can enable this
+      option by setting the FTI's new 'default_view_fallback' property to True.
+      [stefan]
+
     - Converted dummy test sample types to be extension profile based. This
       profile is only registered during test runs.
       [hannosch]

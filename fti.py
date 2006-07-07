@@ -97,10 +97,14 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         { 'id': 'view_methods', 'type': 'lines', 'mode': 'w',
           'label': 'Available view methods'
         },
+        { 'id': 'default_view_fallback', 'type': 'boolean', 'mode': 'w',
+          'label': 'Fall back to default view?'
+        },
     )
 
     default_view = ''
     view_methods = ()
+    default_view_fallback = False
 
     def manage_changeProperties(self, **kw):
         """Overwrite change properties to verify that default_view is in the method
@@ -133,7 +137,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         return tuple(methods)
 
     security.declareProtected(View, 'getViewMethod')
-    def getViewMethod(self, context, enforce_available=False):
+    def getViewMethod(self, context, enforce_available=False, check_exists=False):
         """Get view method (aka layout) name from context
 
         Return -- view method from context or default view name
@@ -150,9 +154,12 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
                               repr(context), type(layout))
         if enforce_available:
             available = self.getAvailableViewMethods(context)
-            if layout in available:
-                return layout
-            return default
+            if layout not in available:
+                return default
+        if check_exists:
+            method = getattr(context, layout, None)
+            if method is None:
+                return default
         return layout
 
     security.declareProtected(View, 'getDefaultPage')
@@ -198,10 +205,11 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             obj, path = plone_utils.browserDefault(context)
             return path[-1]
         else:
-            default_page = self.getDefaultPage(context, check_exists = True)
+            default_page = self.getDefaultPage(context, check_exists=True)
             if default_page is not None:
                 return default_page
-            return self.getViewMethod(context)
+            fallback = self.default_view_fallback
+            return self.getViewMethod(context, check_exists=fallback)
 
     security.declarePublic('queryMethodID')
     def queryMethodID(self, alias, default=None, context=None):
@@ -230,7 +238,8 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             methodTarget = self.defaultView(context)
 
         if methodTarget.lower() == "(selected layout)":
-            methodTarget = self.getViewMethod(context)
+            fallback = self.default_view_fallback
+            methodTarget = self.getViewMethod(context, check_exists=fallback)
 
         return methodTarget
 

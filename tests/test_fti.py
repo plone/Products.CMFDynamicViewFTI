@@ -118,13 +118,26 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
         dynfolder = self._makeOne()
         dynfolder.layout = 'custom_view'
         info = self.types.getTypeInfo(dynfolder)
-        self.assertEqual(info.getViewMethod(dynfolder, True), 'custom_view')
+        self.assertEqual(info.getViewMethod(dynfolder, enforce_available=True), 'custom_view')
 
     def test_UnavailableLayoutReturnsDefaultView(self):
         dynfolder = self._makeOne()
-        dynfolder.layout = 'unavailable_view'
+        dynfolder.layout = 'bad_view'
         info = self.types.getTypeInfo(dynfolder)
-        self.assertEqual(info.getViewMethod(dynfolder, True), 'index_html')
+        self.assertEqual(info.getViewMethod(dynfolder, enforce_available=True), 'index_html')
+
+    def test_CheckLayoutExists(self):
+        dynfolder = self._makeOne()
+        dynfolder.manage_addDTMLMethod('custom_view', file='')
+        dynfolder.layout = 'custom_view'
+        info = self.types.getTypeInfo(dynfolder)
+        self.assertEqual(info.getViewMethod(dynfolder, check_exists=True), 'custom_view')
+
+    def test_MissingLayoutReturnsDefaultView(self):
+        dynfolder = self._makeOne()
+        dynfolder.layout = 'bad_view'
+        info = self.types.getTypeInfo(dynfolder)
+        self.assertEqual(info.getViewMethod(dynfolder, check_exists=True), 'index_html')
 
     def test_DynFolderDefaultPage(self):
         dynfolder = self._makeOne()
@@ -161,18 +174,18 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
         info = self.types.getTypeInfo(dynfolder)
         self.assertRaises(TypeError, info.getDefaultPage, dynfolder)
 
-    def test_EnforceDefaultPageAvailable(self):
+    def test_CheckDefaultPageExists(self):
         dynfolder = self._makeOne()
         dynfolder.manage_addDTMLMethod('custom_page', file='')
         dynfolder.default_page = 'custom_page'
         info = self.types.getTypeInfo(dynfolder)
-        self.assertEqual(info.getDefaultPage(dynfolder, True), 'custom_page')
+        self.assertEqual(info.getDefaultPage(dynfolder, check_exists=True), 'custom_page')
 
-    def test_UnavailableDefaultPageReturnsNone(self):
+    def test_MissingDefaultPageReturnsNone(self):
         dynfolder = self._makeOne()
-        dynfolder.default_page = 'custom_page'
+        dynfolder.default_page = 'bad_page'
         info = self.types.getTypeInfo(dynfolder)
-        self.assertEqual(info.getDefaultPage(dynfolder, True), None)
+        self.assertEqual(info.getDefaultPage(dynfolder, check_exists=True), None)
 
     def test_NonFolderishObjectReturnsNone(self):
         dynfolder = self._makeOne()
