@@ -2,6 +2,8 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+CMFDynamicViewFTI 2.1.0 - Released September 8, 2006
+
     - Implemented fallback to default view:
       If a selected view (i.e. template) does not exist, return the
       default view instead of - ultimately - NotFound. You can enable this
