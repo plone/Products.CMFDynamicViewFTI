@@ -63,7 +63,7 @@ class BrowserDefaultMixin(Base):
         'view'       : '(selected layout)',
         'edit'       : 'base_edit',
         'properties' : 'base_metadata',
-        'sharing'    : 'folder_localrole_form',
+        'sharing'    : '@@sharing',
         'gethtml'    : '',
         'mkdir'      : '',
         }
