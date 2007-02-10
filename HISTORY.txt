@@ -2,7 +2,7 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
-CMFDynamicViewFTI 2.1.1 - Unreleased
+CMFDynamicViewFTI 2.1.1 - Released February 10, 2007
 
     - Removed the view alias of index.html, as this would block uploading of
       files called index.html into folders. You can enable this in your own
