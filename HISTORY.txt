@@ -2,6 +2,11 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+    - Removed tests/runalltests.py and tests/framework.py.
+      To run tests use Zope's testrunner:
+      ./bin/zopectl test --nowarn -s Products.CMFDynamicViewFTI
+      [stefan]
+
 CMFDynamicViewFTI 2.1.1 - Released February 10, 2007
 
     - Removed the view alias of index.html, as this would block uploading of
