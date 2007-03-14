@@ -72,8 +72,10 @@ class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
         self.dfolder = DummyFolder()
         self.dfolder.fti = self.types['DynFolder']
 
-        zope.component.testing.setUp(self)
-        setup.setUpTraversal()
+        if not CMFDVFTITestCase.USELAYER:
+            zope.component.testing.setUp(self)
+            setup.setUpTraversal()
+
         zope.component.provideAdapter(
         BrowserView,
         (IDummy, IBrowserRequest), IBrowserView,
