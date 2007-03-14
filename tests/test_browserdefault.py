@@ -23,8 +23,6 @@ __docformat__ = 'restructuredtext'
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
 import zope.component 
-import zope.component.testing
-from zope.app.testing import setup
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.app.publisher.interfaces.browser import IBrowserView        
 import zope.app.publisher.browser
@@ -71,10 +69,6 @@ class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
 
         self.dfolder = DummyFolder()
         self.dfolder.fti = self.types['DynFolder']
-
-        if not CMFDVFTITestCase.USELAYER:
-            zope.component.testing.setUp(self)
-            setup.setUpTraversal()
 
         zope.component.provideAdapter(
         BrowserView,
