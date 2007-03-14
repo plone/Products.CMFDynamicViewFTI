@@ -20,10 +20,6 @@
 __author__ = 'Christian Heimes <tiran@cheimes.de>'
 __docformat__ = 'restructuredtext'
 
-import os, sys
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
 import zope.component 
@@ -103,6 +99,3 @@ def test_suite():
     suite.addTest(makeSuite(TestBrowserDefault))
     suite.addTest(makeSuite(TestAvailableLayouts))    
     return suite
-
-if __name__ == '__main__':
-    framework()
