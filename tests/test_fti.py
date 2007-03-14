@@ -207,16 +207,23 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.FunctionalTestCase):
         self.dyndocument.layout = '' # Empty layout triggers bug
         self.dyndocument_path = self.dyndocument.absolute_url(1)
 
+        # Make view templates
+        factory = self.folder.manage_addProduct['OFSP']
+        factory.manage_addDTMLMethod('index_html', file='DynFolder default view')
+        factory.manage_addDTMLMethod('document_view', file='DynDocument default view')
+
         self.basic = '%s:%s' % (CMFDVFTITestCase.default_user,
                                 CMFDVFTITestCase.default_password)
 
     def test_FolderEmptyLayoutBug(self):
         response = self.publish(self.dynfolder_path+'/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)
+        self.assertEqual(response.getBody(), 'DynFolder default view')
 
     def test_DocumentEmptyLayoutBug(self):
         response = self.publish(self.dyndocument_path+'/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)
+        self.assertEqual(response.getBody(), 'DynDocument default view')
 
 
 def test_suite():
