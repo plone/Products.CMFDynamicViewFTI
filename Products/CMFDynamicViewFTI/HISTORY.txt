@@ -2,6 +2,11 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+CMFDynamicViewFTI 2.1.2 - Released April 22, 2007
+
+    - Removed bogus test setup. All the stuff is done by the layer anyway.
+      [stefan]
+
     - Removed tests/runalltests.py and tests/framework.py.
       To run tests use Zope's testrunner:
       ./bin/zopectl test --nowarn -s Products.CMFDynamicViewFTI
