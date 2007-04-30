@@ -2,7 +2,7 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
-CMFDynamicViewFTI 3.0 - Unreleased
+CMFDynamicViewFTI 3.0b1 - Released May 1, 2007
 
     - Updated some import locations. We require a minimum of Zope 2.10 now.
       [hannosch]
