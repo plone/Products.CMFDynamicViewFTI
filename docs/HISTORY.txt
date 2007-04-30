@@ -4,6 +4,9 @@ Changelog for CMFDynamicViewFTI
 
 CMFDynamicViewFTI 3.0 - Unreleased
 
+    - Updated some import locations. We require a minimum of Zope 2.10 now.
+      [hannosch]
+
     - Rename menus - turns out dotted names don't really work with the ZCML
       magic that's creating interfaces on the fly (it's akin to having a
       variable name with a dot in it)
