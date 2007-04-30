@@ -23,9 +23,6 @@ __docformat__ = 'restructuredtext'
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
 import zope.component 
-from zope.publisher.interfaces.browser import IBrowserRequest
-from zope.app.publisher.interfaces.browser import IBrowserView        
-import zope.app.publisher.browser
 import zope.publisher.browser
 
 from Products.CMFCore.utils import getToolByName
@@ -33,9 +30,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFDynamicViewFTI.interfaces import IBrowserDefault
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 
-from Interface.Verify import verifyObject
 from Interface.Verify import verifyClass
 
 class DummyFolder(BrowserDefaultMixin):
@@ -46,7 +41,7 @@ class DummyFolder(BrowserDefaultMixin):
 class IDummy(zope.interface.Interface):
     """ marker interface for a zope 3 view """
 
-class BrowserView(zope.app.publisher.browser.BrowserView):
+class BrowserView(zope.publisher.browser.BrowserView):
 
     def __init__(self, context, request):
         self.context = context

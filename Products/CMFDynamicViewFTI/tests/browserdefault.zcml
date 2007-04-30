@@ -5,7 +5,7 @@
 
 <browser:view
     for=".test_browserdefault.IDummy"
-    provides=".test_browserdefault.IBrowserView"
+    provides="zope.publisher.interfaces.browser.IBrowserView"
     permission="zope2.Public"
     name="zope3_view"
     title="Zope3 Test View"
