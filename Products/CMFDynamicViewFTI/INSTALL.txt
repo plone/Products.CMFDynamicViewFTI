@@ -1,0 +1,17 @@
+Install
+=======
+
+Drop the CMFDynamicViewFTI in your Products/ directory and restart Zope.
+There is no additional install procedure like quick installer required.
+
+Requirements
+============
+
+ * CMF 2.1.0+
+
+Requirements for Archetypes based content
+=========================================
+
+ * Plone 3.0
+
+ * Archetypes 1.5.0+
