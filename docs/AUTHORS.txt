@@ -13,7 +13,7 @@ Christian Heimes
 
  * FTI class
 
- * Archetypes and ATContentTypes intetgration
+ * Archetypes and ATContentTypes integration
 
  * Product
 
@@ -32,4 +32,3 @@ Hanno Schlichting
 -----------------
 
  * CMF 1.6 conformance and release management
-
