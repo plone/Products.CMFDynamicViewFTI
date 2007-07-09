@@ -1,26 +1,6 @@
-##############################################################################
-#
-# CMFDynamicViewFTI
-# Copyright (c) 2005 Plone Foundation. All Rights Reserved.
-#
-# This software is subject to the provisions of the Zope Public License,
-# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
-# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
-# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
-# FOR A PARTICULAR PURPOSE.
-#
-# Authors:  Martin Aspeli
-#           Christian Heimes
-#
-##############################################################################
-"""Migration functions
-"""
 from Acquisition import aq_base
 
-from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.utils import getToolByName
-from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 fti_meta_type = DynamicViewTypeInformation.meta_type
 

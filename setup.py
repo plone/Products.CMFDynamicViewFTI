@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '3.0b2'
+version = '3.0rc1'
 
 setup(name='Products.CMFDynamicViewFTI',
       version=version,

@@ -1,3 +1,8 @@
+Copyright
+=========
+
+Copyright (c) 2005-2007 Plone Foundation. All Rights Reserved.
+
 Authors
 =======
 
@@ -15,8 +20,6 @@ Christian Heimes
 
  * Archetypes and ATContentTypes integration
 
- * Product
-
  * Zope3 bridge
 
  * Unit tests
@@ -31,4 +34,6 @@ Dorneles Treméa
 Hanno Schlichting
 -----------------
 
- * CMF 1.6 conformance and release management
+ * Maintainer and release management
+
+ * CMF 1.6 conformance

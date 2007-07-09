@@ -1,22 +1,3 @@
-##############################################################################
-#
-# CMFDynamicViewFTI
-# Copyright (c) 2005 Plone Foundation. All Rights Reserved.
-#
-# This software is subject to the provisions of the Zope Public License,
-# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
-# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
-# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
-# FOR A PARTICULAR PURPOSE.
-#
-# Authors:  Martin Aspeli
-#           Christian Heimes
-#
-##############################################################################
-"""
-"""
-
 from zope.interface import implements
 
 from AccessControl import ClassSecurityInfo
@@ -30,7 +11,6 @@ from Products.CMFCore.TypesTool import TypesTool
 from Products.CMFCore.permissions import View
 from Products.CMFCore.permissions import ManagePortal
 from Products.CMFCore.utils import _dtmldir
-from Products.CMFCore.utils import _wwwdir
 from Products.CMFCore.utils import getToolByName
 
 from Products.CMFDynamicViewFTI.interface import IDynamicViewTypeInformation

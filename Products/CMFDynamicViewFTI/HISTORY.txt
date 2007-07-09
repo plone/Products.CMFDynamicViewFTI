@@ -2,6 +2,14 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+CMFDynamicViewFTI 3.0rc1 - Released July 9, 2007
+
+    - Removed some BBB code.
+      [hannosch]
+
+    - Removed five:registerPackage.
+      [hannosch]
+
 CMFDynamicViewFTI 3.0b1 - Released May 1, 2007
 
     - Updated some import locations. We require a minimum of Zope 2.10 now.
