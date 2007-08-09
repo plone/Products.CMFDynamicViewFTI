@@ -2,6 +2,11 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+CMFDynamicViewFTI 3.0 - Released August 9, 2007
+
+    - No changes.
+      [hannosch]
+
 CMFDynamicViewFTI 3.0rc1 - Released July 9, 2007
 
     - Removed some BBB code.
