@@ -2,6 +2,13 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+CMFDynamicViewFTI 3.0.1 - Unreleased
+
+    - Removed migrate module, which didn't work in CMF 2.1 anymore. Use
+      GenericSetup profiles for handling portal types instead. This closes
+      http://dev.plone.org/plone/ticket/6899.
+      [hannosch]
+
 CMFDynamicViewFTI 3.0 - Released August 9, 2007
 
     - No changes.
