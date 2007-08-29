@@ -1,12 +1,11 @@
-from Products.CMFCore.permissions import ManagePortal
+# -*- coding: utf-8 -*-
 
+# $Id$
+
+from Products.CMFCore import utils as cmf_utils
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
-from Products.CMFDynamicViewFTI.fti import manage_addFactoryDynamivViewTIForm
 
 def initialize(context):
-    context.registerClass(
-        DynamicViewTypeInformation,
-        permission=ManagePortal,
-        constructors=( manage_addFactoryDynamivViewTIForm, ),
-        icon='images/typeinfo.gif',
-        visibility=None)
+    # (DynamicViewTypeInformation factory is created from ZCML)
+    cmf_utils.registerIcon(DynamicViewTypeInformation, 'images/typeinfo.gif', globals())
+    return

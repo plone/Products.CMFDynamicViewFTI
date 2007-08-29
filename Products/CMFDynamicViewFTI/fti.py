@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# $Id$
+
 from zope.interface import implements
 
 from AccessControl import ClassSecurityInfo
@@ -226,14 +229,14 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 InitializeClass(DynamicViewTypeInformation)
 
 
-def manage_addFactoryDynamivViewTIForm(self, REQUEST):
-    """ Get the add form for factory-based type infos.
-    """
-    addTIForm = DTMLFile('addTypeInfo', _dtmldir).__of__(self)
-    ttool = getToolByName(self, 'portal_types')
-    return addTIForm( self, REQUEST,
-                      add_meta_type=DynamicViewTypeInformation.meta_type,
-                      types=ttool.listDefaultTypeInformation() )
+#def manage_addFactoryDynamivViewTIForm(self, REQUEST):
+#    """ Get the add form for factory-based type infos.
+#    """
+#    addTIForm = DTMLFile('addTypeInfo', _dtmldir).__of__(self)
+#    ttool = getToolByName(self, 'portal_types')
+#    return addTIForm( self, REQUEST,
+#                      add_meta_type=DynamicViewTypeInformation.meta_type,
+#                      types=ttool.listDefaultTypeInformation() )
 
 
 # BBB: the following lines are required to register the new FTI in CMF 1.5 and may
