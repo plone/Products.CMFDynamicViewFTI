@@ -10,7 +10,7 @@
   <browser:page
      for="zope.app.container.interfaces.IAdding"
      name="addDVFactoryTypeInformation.html"
-     template="../GenericSetup/browser/addWithPresettings.pt"
+     template="browser/addWithPresettings.pt"
      class=".browser.typeinfo.DVFactoryTypeInformationAddView"
      permission="cmf.ManagePortal"
      />

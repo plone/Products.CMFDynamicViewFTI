@@ -4,6 +4,10 @@ Changelog for CMFDynamicViewFTI
 
 CMFDynamicViewFTI 3.0.1 - Unreleased
 
+    - Copied addWithPresettings.pt from GenericSetup 1.3 branch r79408. This
+      fixes a startup error in buildouts caused by the move to an egg.
+      [fschulze]
+
     - Adding a Dynamic View FTI through ZMI is back. This closes
       https://dev.plone.org/plone/ticket/6976
       [glenfant]
