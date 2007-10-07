@@ -2,7 +2,7 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
-CMFDynamicViewFTI 3.0.1 - Unreleased
+CMFDynamicViewFTI 3.0.1 - Released October 7, 2007
 
     - Copied addWithPresettings.pt from GenericSetup 1.3 branch r79408. This
       fixes a startup error in buildouts caused by the move to an egg.
