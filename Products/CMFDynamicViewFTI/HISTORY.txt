@@ -2,6 +2,11 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
+CMFDynamicViewFTI 3.0.2 - Unreleased
+
+    - Made tests compatible with CMF 2.2.
+      [hannosch]
+
 CMFDynamicViewFTI 3.0.1 - Released October 7, 2007
 
     - Copied addWithPresettings.pt from GenericSetup 1.3 branch r79408. This

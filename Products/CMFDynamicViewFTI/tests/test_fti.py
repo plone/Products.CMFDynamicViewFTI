@@ -1,15 +1,21 @@
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
+from zope.interface import Interface
+
+from Interface.Verify import verifyObject
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.interfaces.portal_types import ContentTypeInformation as \
-    ITypeInformation
+
+try:
+    from Products.CMFCore.interfaces import ITypeInformation
+except ImportError:
+    from Products.CMFCore.interfaces.portal_types import ContentTypeInformation as \
+        ITypeInformation
 
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 
-from Interface.Verify import verifyObject
-
 fti_meta_type = DynamicViewTypeInformation.meta_type
+
 
 class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
 
@@ -24,8 +30,11 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
 
     def test_doesImplementITypeInformation(self):
         iface = ITypeInformation
-        self.failUnless(iface.isImplementedBy(self.fti))
-        self.failUnless(verifyObject(iface, self.fti))
+        if issubclass(iface, Interface):
+            self.failUnless(iface.providedBy(self.fti))
+        else:
+            self.failUnless(iface.isImplementedBy(self.fti))
+            self.failUnless(verifyObject(iface, self.fti))
 
     def test_doesImplementIDynamicViewTypeInformation(self):
         iface = IDynamicViewTypeInformation
