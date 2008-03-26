@@ -2,7 +2,7 @@ Changelog for CMFDynamicViewFTI
 
    (name of developer listed in brackets)
 
-CMFDynamicViewFTI 3.0.2 - Unreleased
+CMFDynamicViewFTI 3.0.2 - Released March 26, 2008
 
     - Made tests compatible with CMF 2.2.
       [hannosch]
