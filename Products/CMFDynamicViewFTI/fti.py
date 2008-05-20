@@ -17,7 +17,6 @@ from Products.CMFCore.utils import _dtmldir
 from Products.CMFCore.utils import getToolByName
 
 from Products.CMFDynamicViewFTI.interface import IDynamicViewTypeInformation
-from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation as ZopeTwoIDynamicViewTypeInformation
 
 
 def safe_hasattr(obj, name, _marker=object()):
@@ -68,7 +67,6 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     """
 
     implements(IDynamicViewTypeInformation)
-    __implements__ = (ZopeTwoIDynamicViewTypeInformation,)
 
     meta_type = fti_meta_type
     security = ClassSecurityInfo()

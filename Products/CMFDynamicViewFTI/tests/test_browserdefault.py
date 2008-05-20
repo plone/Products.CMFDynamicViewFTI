@@ -9,7 +9,7 @@ from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFDynamicViewFTI.interfaces import IBrowserDefault
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-from Interface.Verify import verifyClass
+from zope.interface.verify import verifyClass
 
 class DummyFolder(BrowserDefaultMixin):
 
@@ -29,7 +29,7 @@ class TestBrowserDefault(CMFDVFTITestCase.CMFDVFTITestCase):
 
     def test_doesImplementISelectableBrowserDefault(self):
         iface = ISelectableBrowserDefault
-        self.failUnless(iface.isImplementedByInstancesOf(BrowserDefaultMixin))
+        self.failUnless(iface.implementedBy(BrowserDefaultMixin))
         self.failUnless(verifyClass(iface, BrowserDefaultMixin))
 
     def test_extendsInterface(self):

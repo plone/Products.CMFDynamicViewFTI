@@ -3,3 +3,4 @@
 #     - IDynamicViewTypeInformation
 #     - IBrowserDefault
 #     - ISelectableBrowserDefault
+from interface import *

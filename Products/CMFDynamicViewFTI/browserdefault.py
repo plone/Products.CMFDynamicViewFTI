@@ -23,7 +23,6 @@ from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 
 from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
-from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault as ZopeTwoISelectableBrowserDefault
 
 _marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
@@ -38,7 +37,6 @@ class BrowserDefaultMixin(Base):
     Note: folderish content types should overwrite HEAD like ATContentTypes
     """
     implements(ISelectableBrowserDefault)
-    __implements__ = (ZopeTwoISelectableBrowserDefault, )
 
     _at_fti_meta_type = fti_meta_type
     aliases = {

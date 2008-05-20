@@ -2,7 +2,7 @@ from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
 from zope.interface import Interface
 
-from Interface.Verify import verifyObject
+from zope.interface.verify import verifyObject
 from Products.CMFCore.utils import getToolByName
 
 try:
@@ -30,15 +30,12 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
 
     def test_doesImplementITypeInformation(self):
         iface = ITypeInformation
-        if issubclass(iface, Interface):
-            self.failUnless(iface.providedBy(self.fti))
-        else:
-            self.failUnless(iface.isImplementedBy(self.fti))
-            self.failUnless(verifyObject(iface, self.fti))
+        self.failUnless(iface.providedBy(self.fti))
+        self.failUnless(verifyObject(iface, self.fti))
 
     def test_doesImplementIDynamicViewTypeInformation(self):
         iface = IDynamicViewTypeInformation
-        self.failUnless(iface.isImplementedBy(self.fti))
+        self.failUnless(iface.providedBy(self.fti))
         self.failUnless(verifyObject(iface, self.fti))
 
     def test_meta_type(self):
