@@ -4,6 +4,10 @@ Changelog for CMFDynamicViewFTI
 
 trunk - unreleased
 
+    - Declare package dependencies and fixed deprecation warnings for use
+      of Globals.
+      [hannosch]
+
     - Purged old Zope 2 Interface interfaces for Zope 2.12 compatibility.
       [elro]
 

@@ -13,7 +13,7 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 
 from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo
-from Globals import InitializeClass
+from App.class_init import InitializeClass
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName

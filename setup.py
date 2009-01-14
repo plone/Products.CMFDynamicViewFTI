@@ -23,7 +23,22 @@ setup(name='Products.CMFDynamicViewFTI',
       include_package_data=True,
       zip_safe=False,
       download_url='http://plone.org/products/cmfdynamicviewfti/releases',
+      extras_require=dict(
+        test=[
+            'plone.app.contentmenu',
+            'zope.publisher',
+            'Products.CMFTestCase',
+        ]
+      ),
       install_requires=[
         'setuptools',
+        'zope.component',
+        'zope.interface',
+        'zope.app.publisher',
+        'Products.CMFCore',
+        'Products.GenericSetup',
+        # 'Acquisition',
+        # 'ExtensionClass',
+        # 'Zope2',
       ],
 )

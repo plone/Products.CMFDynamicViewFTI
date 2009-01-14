@@ -4,8 +4,8 @@
 from zope.interface import implements
 
 from AccessControl import ClassSecurityInfo
-from Globals import InitializeClass
-from Globals import DTMLFile
+from App.class_init import InitializeClass
+from App.special_dtml import DTMLFile
 from Acquisition import aq_base
 from types import ClassType
 
