@@ -4,6 +4,9 @@ Changelog
 4.0 - unreleased
 ----------------
 
+- Standardized the interface location to an interfaces module.
+  [hannosch]
+
 - Updated package metadata.
   [hannosch]
 

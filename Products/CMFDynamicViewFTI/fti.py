@@ -16,7 +16,7 @@ from Products.CMFCore.permissions import ManagePortal
 from Products.CMFCore.utils import _dtmldir
 from Products.CMFCore.utils import getToolByName
 
-from Products.CMFDynamicViewFTI.interface import IDynamicViewTypeInformation
+from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 
 
 def safe_hasattr(obj, name, _marker=object()):

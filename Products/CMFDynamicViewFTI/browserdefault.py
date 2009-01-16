@@ -22,7 +22,7 @@ from Products.CMFCore.permissions import View
 from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 
-from Products.CMFDynamicViewFTI.interface import ISelectableBrowserDefault
+from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 
 _marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
