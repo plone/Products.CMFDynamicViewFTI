@@ -1,5 +1,5 @@
-Dynamic view FTI for CMF
-========================
+Overview
+========
 
 CMFDynamicViewFTI is a product for dynamic views in CMF. The product contains
 an additional base class for types and a new factory type information (FTI).
