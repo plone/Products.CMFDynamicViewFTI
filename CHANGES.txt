@@ -4,6 +4,9 @@ Changelog
 4.0 - unreleased
 ----------------
 
+- Don't use `manage_page_` macros anymore.
+  [hannosch]
+
 - Standardized the interface location to an interfaces module.
   [hannosch]
 
