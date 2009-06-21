@@ -20,6 +20,13 @@ Changelog
 - Purged old Zope 2 Interface interfaces for Zope 2.12 compatibility.
   [elro]
 
+3.0.3 - unreleased
+------------------
+
+- Adjusted deprecation warnings to point to Plone 4.0 instead of Plone 3.5
+  since we changed the version numbering again.
+  [hannosch]
+
 3.0.2 - 2008-03-26
 ------------------
 
