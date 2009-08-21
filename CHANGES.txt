@@ -4,6 +4,9 @@ Changelog
 4.0 - unreleased
 ----------------
 
+- Fixed dependency on zope.app.container for the IAdding interface.
+  [hannosch]
+
 - Don't use `manage_page_` macros anymore.
   [hannosch]
 
