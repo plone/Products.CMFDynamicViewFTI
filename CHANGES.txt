@@ -1,8 +1,8 @@
 Changelog
 =========
 
-4.0 - unreleased
-----------------
+4.0a1 - 2009-11-13
+------------------
 
 - Fixed dependency on zope.app.container for the IAdding interface.
   [hannosch]
