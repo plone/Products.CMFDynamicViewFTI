@@ -1,15 +1,9 @@
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
-from zope.interface import Interface
-
 from zope.interface.verify import verifyObject
-from Products.CMFCore.utils import getToolByName
 
-try:
-    from Products.CMFCore.interfaces import ITypeInformation
-except ImportError:
-    from Products.CMFCore.interfaces.portal_types import ContentTypeInformation as \
-        ITypeInformation
+from Products.CMFCore.interfaces import ITypeInformation
+from Products.CMFCore.utils import getToolByName
 
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation

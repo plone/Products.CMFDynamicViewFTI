@@ -4,6 +4,8 @@ Changelog
 4.0b1 - Unreleased
 ------------------
 
+- Removed BBB code for CMF prior to 1.6 and fixed import errors in tests.
+  [hannosch]
 
 4.0a1 - 2009-11-13
 ------------------

@@ -1,7 +1,8 @@
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
-import zope.component 
-import zope.publisher.browser
+from zope.interface import directlyProvides
+from zope.interface import Interface
+from zope.publisher.browser import TestRequest
 
 from Products.CMFCore.utils import getToolByName
 
@@ -16,14 +17,8 @@ class DummyFolder(BrowserDefaultMixin):
     def getTypeInfo(self):
         return self.fti
 
-class IDummy(zope.interface.Interface):
+class IDummy(Interface):
     """ marker interface for a zope 3 view """
-
-class BrowserView(zope.publisher.browser.BrowserView):
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request   
 
 class TestBrowserDefault(CMFDVFTITestCase.CMFDVFTITestCase):
 
@@ -53,13 +48,13 @@ class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
     def test_Zope3View(self):
         dfolder = self.dfolder
         dfolder.layout = 'zope3_view'
-        dfolder.REQUEST = zope.publisher.browser.TestRequest()
+        dfolder.REQUEST = TestRequest()
         view_methods = dfolder.getAvailableLayouts()
         view_ids = [ view_id for view_id, foo in view_methods ]
         self.failIf(dfolder.layout in view_ids)
         
         # Mark the object with interface connected to the zope 3 view
-        zope.interface.directlyProvides(dfolder, IDummy)
+        directlyProvides(dfolder, IDummy)
         view_methods = dfolder.getAvailableLayouts()
         view_ids = [ view_id for view_id, foo in view_methods ]
         self.failIf(dfolder.layout not in view_ids)
@@ -67,10 +62,10 @@ class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
     def test_Zope3ViewTitle(self):
         dfolder = self.dfolder
         dfolder.layout = 'zope3_view'
-        dfolder.REQUEST = zope.publisher.browser.TestRequest()
-        zope.interface.directlyProvides(dfolder, IDummy)
+        dfolder.REQUEST = TestRequest()
+        directlyProvides(dfolder, IDummy)
         view_methods = dfolder.getAvailableLayouts()
-        
+
         for id, title in view_methods:
             if id == dfolder.layout:
                 self.assertEqual(title, 'Zope3 Test View')
