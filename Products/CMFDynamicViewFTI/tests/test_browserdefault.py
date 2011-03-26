@@ -38,7 +38,10 @@ class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
         self.dfolder = DummyFolder()
         self.dfolder.fti = self.types['DynFolder']
 
-        from Products.Five import zcml
+        try:
+            from Zope2.App import zcml
+        except ImportError:
+            from Products.Five import zcml
         import plone.app.contentmenu
         import Products.CMFDynamicViewFTI.tests
         zcml.load_config('configure.zcml', plone.app.contentmenu)

@@ -4,6 +4,9 @@ Changelog
 4.0.1 - unreleased
 ------------------
 
+- Avoid deprecation warning in Zope 2.13.
+  [davisagli]
+
 - Fixed test setup to work with ZCA-based GenericSetup profile registry.
   [davisagli]
 
