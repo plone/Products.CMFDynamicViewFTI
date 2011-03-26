@@ -4,6 +4,8 @@ Changelog
 4.0.1 - unreleased
 ------------------
 
+- Fixed test setup to work with ZCA-based GenericSetup profile registry.
+  [davisagli]
 
 4.0 - 2010-07-18
 ----------------
