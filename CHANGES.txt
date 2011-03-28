@@ -4,6 +4,10 @@ Changelog
 4.0.1 - unreleased
 ------------------
 
+- Provide BrowserDefaultMixin.__browser_default__ so subclasses do not need to
+  provide their own.
+  [elro]
+
 - Fix BrowserDefaultMixin.__call__ (never normally used in vanilla Plone) to
   work with views. [elro]
 
