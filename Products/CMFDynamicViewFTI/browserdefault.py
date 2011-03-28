@@ -73,9 +73,7 @@ class BrowserDefaultMixin(Base):
         This should not consider the default page.
         """
         template = self.unrestrictedTraverse(self.getLayout())
-        context = aq_inner(self)
-        template = template.__of__(context)
-        return template(context, context.REQUEST)
+        return template()
 
     security.declareProtected(View, 'getDefaultPage')
     def getDefaultPage(self):

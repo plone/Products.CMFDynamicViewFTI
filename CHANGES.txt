@@ -4,6 +4,9 @@ Changelog
 4.0.1 - unreleased
 ------------------
 
+- Fix BrowserDefaultMixin.__call__ (never normally used in vanilla Plone) to
+  work with views. [elro]
+
 - Avoid deprecation warning in Zope 2.13.
   [davisagli]
 
