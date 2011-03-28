@@ -4,6 +4,9 @@ Changelog
 4.0.2 - unreleased
 ------------------
 
+- Revert the BrowserDefaultMixin.__browser_default__ change, it is
+  unnecessary. Instead set the ``(Default)`` view alias to ``(dynamic view)``.
+  [elro]
 
 4.0.1 - 2011-03-28
 ------------------

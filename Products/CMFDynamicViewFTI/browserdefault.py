@@ -66,12 +66,6 @@ class BrowserDefaultMixin(Base):
         else:
             return fti.defaultView(self)
 
-    def __browser_default__(self, request):
-        """
-        Use the defaultView during publishing.
-        """
-        return self, [self.defaultView(request)]
-
     security.declareProtected(View, '__call__')
     def __call__(self):
         """
