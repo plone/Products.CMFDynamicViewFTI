@@ -8,8 +8,7 @@ the ISelectableBrowserDefault interface from CMFPlone.
 
 from zope.interface import implements
 import zope.component
-
-from zope.app.publisher.interfaces.browser import IBrowserMenu
+from zope.browsermenu.interfaces import IBrowserMenu
 
 from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo

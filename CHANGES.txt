@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.0.3 - unreleased
+------------------
+
+- Import from zope.browsermenu.
+  [hannosch]
+
 4.0.2 - 2011-03-28
 ------------------
 

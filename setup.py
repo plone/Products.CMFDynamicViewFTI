@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-version = '4.0.2'
+version = '4.0.3'
 
 setup(name='Products.CMFDynamicViewFTI',
       version=version,
       description="CMFDynamicViewFTI is a product for dynamic views in CMF.",
-      long_description=open("README.txt").read() +  "\n" +
+      long_description=open("README.txt").read() + "\n" +
                        open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Plone",
@@ -30,9 +30,9 @@ setup(name='Products.CMFDynamicViewFTI',
       ),
       install_requires=[
         'setuptools',
+        'zope.browsermenu',
         'zope.component',
         'zope.interface',
-        'zope.app.publisher',
         'Products.CMFCore',
         'Products.GenericSetup',
         'Acquisition',
