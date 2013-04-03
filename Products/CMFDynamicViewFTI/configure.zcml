@@ -19,4 +19,9 @@
      global="False"
      />
 
+  <permission
+    id="cmf.ModifyViewTemplate"
+    title="Modify view template"
+    />
+
 </configure>

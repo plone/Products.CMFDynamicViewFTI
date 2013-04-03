@@ -4,8 +4,8 @@ Changelog
 4.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add cmf.ModifyViewTemplate zcml permission for "Modify view template"
+  [toutpt]
 
 4.0.3 (2012-08-29)
 ------------------
