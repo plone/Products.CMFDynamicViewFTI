@@ -4,7 +4,7 @@ Changelog
 4.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add i18n translation domain to the zcml to remove UserWarning.
 
 
 4.0.4 (2013-04-06)
