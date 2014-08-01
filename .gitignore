@@ -3,3 +3,8 @@
 *.pyo
 build
 dist
+lib
+include
+bin
+develop-eggs
+parts
