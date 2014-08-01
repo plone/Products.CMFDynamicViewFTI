@@ -206,32 +206,35 @@ class TestModifyDefaultPage(CMFDVFTITestCase.FunctionalTestCase):
         dynfolder = self.dynfolder = self.folder.dynfolder
         dynfolder = self.dynfolder
         dynfolder.invokeFactory('DynDocument', id='default_document')
-        dynfolder.default_page = 'default_document'
+        dynfolder.setDefaultPage('default_document')
 
     def test_rename_default_page(self):
+        dynfolder = self.dynfolder
+        self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
         import transaction
         transaction.commit()
-        dynfolder = self.dynfolder
         dynfolder.manage_renameObject('default_document', 'renamed_default')
         self.assertFalse('default_document' in dynfolder.objectIds())
         self.assertTrue('renamed_default' in dynfolder.objectIds())
-        self.assertEqual(dynfolder.default_page, 'renamed_default')
+        self.assertEqual(dynfolder.getDefaultPage(), 'renamed_default')
 
     def test_delete_default_page(self):
         dynfolder = self.dynfolder
+        self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
         dynfolder.manage_delObjects(['default_document'])
         self.assertFalse('default_document' in dynfolder.objectIds())
-        self.assertEqual(dynfolder.default_page, '')
+        self.assertEqual(dynfolder.getDefaultPage(), None)
 
     def test_cut_default_page(self):
+        dynfolder = self.dynfolder
+        self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
         import transaction
         transaction.commit()
-        dynfolder = self.dynfolder
         clipboard = dynfolder.manage_cutObjects(['default_document'])
         self.folder.manage_pasteObjects(clipboard)
         self.assertFalse('default_document' in dynfolder.objectIds())
         self.assertTrue('default_document' in self.folder.objectIds())
-        self.assertEqual(dynfolder.default_page, '')
+        self.assertEqual(dynfolder.getDefaultPage(), None)
 
 
 def test_suite():

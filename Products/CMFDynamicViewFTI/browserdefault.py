@@ -229,3 +229,19 @@ class BrowserDefaultMixin(Base):
         return result
 
 InitializeClass(BrowserDefaultMixin)
+
+
+def check_default_page(obj, event):
+    container = obj
+    default_page_id = container.getDefaultPage()
+    if default_page_id and not (default_page_id in container.objectIds()):
+        ISelectableBrowserDefault(container).setDefaultPage(None)
+
+def rename_default_page(obj, event):
+    newParent = event.newParent
+    if newParent != event.oldParent:
+        return
+    elif ISelectableBrowserDefault.providedBy(newParent):
+        default_page_id = newParent.getProperty('default_page', '')
+        if default_page_id == event.oldName:
+            ISelectableBrowserDefault(newParent).setDefaultPage(event.newName)
