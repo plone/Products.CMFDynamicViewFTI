@@ -35,8 +35,6 @@ CDV_FUNCTIONAL_TESTING = testing.FunctionalTesting(
     bases=(CDV_FIXTURE, ), name='CMFDynamicViewFTI Testing:Functional')
 
 
-
-
 class CMFDVFTITestCase(bbb.PloneTestCase):
     """This is a stub now, but in case you want to try
        something fancy on Your Branch (tm), put it here.
