@@ -9,8 +9,10 @@ setup(name='Products.CMFDynamicViewFTI',
                        open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 5.0",
         "Framework :: Zope2",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
       ],
       keywords='Zope CMF Plone dynamic view',
       author='Plone Foundation',
@@ -25,7 +27,7 @@ setup(name='Products.CMFDynamicViewFTI',
         test=[
             'plone.app.contentmenu',
             'zope.publisher',
-            'Products.CMFTestCase',
+            'plone.app.testing',
         ]
       ),
       install_requires=[
