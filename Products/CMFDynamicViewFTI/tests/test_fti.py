@@ -179,24 +179,24 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
         # Make a DynFolder
         self.folder.invokeFactory('DynFolder', id='dynfolder')
         self.dynfolder = self.folder.dynfolder
-        self.dynfolder.layout = '' # Empty layout triggers bug
+        self.dynfolder.layout = ''  # Empty layout triggers bug
         self.dynfolder_path = self.dynfolder.absolute_url(1)
 
         # Make a DynDocument
         self.folder.invokeFactory('DynDocument', id='dyndocument')
         self.dyndocument = self.folder.dyndocument
-        self.dyndocument.layout = '' # Empty layout triggers bug
+        self.dyndocument.layout = ''  # Empty layout triggers bug
         self.dyndocument_path = self.dyndocument.absolute_url(1)
 
         self.basic = '%s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD)
 
     def test_FolderEmptyLayoutBug(self):
-        response = self.publish(self.dynfolder_path+'/view', basic=self.basic)
+        response = self.publish(self.dynfolder_path + '/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)
 
     def test_DocumentEmptyLayoutBug(self):
         # add a text field to dyndocument which is not present
         # but needed for the standard view
         self.dyndocument.Schema().addField(StringField('text'))
-        response = self.publish(self.dyndocument_path+'/view', basic=self.basic)
+        response = self.publish(self.dyndocument_path + '/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)

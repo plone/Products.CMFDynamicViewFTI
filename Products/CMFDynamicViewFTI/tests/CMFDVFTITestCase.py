@@ -21,7 +21,7 @@ class PloneTestCaseFixture(bbb.PloneTestCaseFixture):
             EXTENSION,
             for_=ISiteRoot)
         import Products.CMFDynamicViewFTI.tests
-        self.loadZCML(name='browserdefault.zcml', 
+        self.loadZCML(name='browserdefault.zcml',
                       package=Products.CMFDynamicViewFTI.tests)
 
     def setUpPloneSite(self, portal):
