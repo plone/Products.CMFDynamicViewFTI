@@ -14,7 +14,6 @@ from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo
 from App.class_init import InitializeClass
 from Acquisition import aq_base
-from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import View
 
@@ -157,7 +156,7 @@ class BrowserDefaultMixin(Base):
         turned off by calling setDefaultPage(None).
         """
         if not (layout and isinstance(layout, basestring)):
-            raise ValueError, ("layout must be a non empty string, got %s(%s)" %
+            raise ValueError("layout must be a non empty string, got %s(%s)" %
                                (layout, type(layout)))
 
         defaultPage = self.getDefaultPage()
@@ -171,7 +170,7 @@ class BrowserDefaultMixin(Base):
                 # Archetypes remains? clean up
                 old = self.layout
                 if old and not isinstance(old, basestring):
-                    raise RuntimeError, ("layout attribute exists on %s and is"
+                    raise RuntimeError("layout attribute exists on %s and is"
                                          "no string: %s" % (self, type(old)))
                 delattr(self, 'layout')
 
