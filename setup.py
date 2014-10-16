@@ -5,7 +5,7 @@ version = '4.0.6.dev0'
 setup(name='Products.CMFDynamicViewFTI',
       version=version,
       description="CMFDynamicViewFTI is a product for dynamic views in CMF.",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Plone",
@@ -28,6 +28,7 @@ setup(name='Products.CMFDynamicViewFTI',
             'plone.app.contentmenu',
             'zope.publisher',
             'plone.app.testing',
+            'Products.Archetypes',
         ]
       ),
       install_requires=[
