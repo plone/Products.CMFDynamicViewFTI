@@ -56,6 +56,7 @@ def om_has_key(context, key):
 
 fti_meta_type = 'Factory-based Type Information with dynamic views'
 
+
 class DynamicViewTypeInformation(FactoryTypeInformation):
     """FTI with dynamic views
 
@@ -68,13 +69,13 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     security = ClassSecurityInfo()
 
     _properties = FactoryTypeInformation._properties + (
-        { 'id': 'default_view', 'type': 'string', 'mode': 'w',
+        {'id': 'default_view', 'type': 'string', 'mode': 'w',
           'label': 'Default view method'
         },
-        { 'id': 'view_methods', 'type': 'lines', 'mode': 'w',
+        {'id': 'view_methods', 'type': 'lines', 'mode': 'w',
           'label': 'Available view methods'
         },
-        { 'id': 'default_view_fallback', 'type': 'boolean', 'mode': 'w',
+        {'id': 'default_view_fallback', 'type': 'boolean', 'mode': 'w',
           'label': 'Fall back to default view?'
         },
     )
@@ -94,26 +95,29 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             # TODO: use view action
             self.default_view = default_view = self.immediate_view
         if not view_methods:
-            self.view_methods = view_methods = (default_view,)
+            self.view_methods = view_methods = (default_view, )
         if default_view and default_view not in view_methods:
             raise ValueError, "%s not in %s" % (default_view, view_methods)
 
     security.declareProtected(View, 'getDefaultViewMethod')
+
     def getDefaultViewMethod(self, context):
         """Get the default view method from the FTI
         """
         return str(self.default_view)
 
     security.declareProtected(View, 'getAvailableViewMethods')
+
     def getAvailableViewMethods(self, context):
         """Get a list of registered view methods
         """
         methods = self.view_methods
         if isinstance(methods, basestring):
-            methods = (methods,)
+            methods = (methods, )
         return tuple(methods)
 
     security.declareProtected(View, 'getViewMethod')
+
     def getViewMethod(self, context, enforce_available=False, check_exists=False):
         """Get view method (aka layout) name from context
 
@@ -140,6 +144,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         return layout
 
     security.declareProtected(View, 'getDefaultPage')
+
     def getDefaultPage(self, context, check_exists=False):
         """Get the default page from a folderish object
 
@@ -151,7 +156,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         Return -- None for no default page or a string
         """
         if not getattr(aq_base(context), 'isPrincipiaFolderish', False):
-            return None # non folderish objects don't have a default page per se
+            return None  # non folderish objects don't have a default page per se
 
         default_page = getattr(aq_base(context), 'default_page', None)
 
@@ -171,6 +176,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         return default_page
 
     security.declareProtected(View, 'defaultView')
+
     def defaultView(self, context):
         """Get the current view to use for an object. If a default page is  set,
         use that, else use the currently selected view method/layout.
@@ -189,6 +195,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             return self.getViewMethod(context, check_exists=fallback)
 
     security.declarePublic('queryMethodID')
+
     def queryMethodID(self, alias, default=None, context=None):
         """ Query method ID by alias.
 
