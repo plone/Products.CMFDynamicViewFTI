@@ -8,6 +8,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 
+from plone.app.testing import TEST_USER_NAME, TEST_USER_PASSWORD
+
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
 
@@ -169,7 +171,7 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
         self.assertEqual(info.getDefaultPage(dynfolder), None)
 
 
-class TestEmptyLayoutBug(CMFDVFTITestCase.FunctionalTestCase):
+class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
     # Finally, here is why we did all this...
 
     def afterSetUp(self):
@@ -185,8 +187,7 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.FunctionalTestCase):
         self.dyndocument.layout = '' # Empty layout triggers bug
         self.dyndocument_path = self.dyndocument.absolute_url(1)
 
-        self.basic = '%s:%s' % (CMFDVFTITestCase.default_user,
-                                CMFDVFTITestCase.default_password)
+        self.basic = '%s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD)
 
     def test_FolderEmptyLayoutBug(self):
         response = self.publish(self.dynfolder_path+'/view', basic=self.basic)
@@ -195,11 +196,3 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.FunctionalTestCase):
     def test_DocumentEmptyLayoutBug(self):
         response = self.publish(self.dyndocument_path+'/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestFTI))
-    suite.addTest(makeSuite(TestEmptyLayoutBug))
-    return suite

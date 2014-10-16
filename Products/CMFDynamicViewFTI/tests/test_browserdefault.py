@@ -38,16 +38,6 @@ class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
         self.dfolder = DummyFolder()
         self.dfolder.fti = self.types['DynFolder']
 
-        try:
-            from Zope2.App import zcml
-        except ImportError:
-            from Products.Five import zcml
-        import plone.app.contentmenu
-        import Products.CMFDynamicViewFTI.tests
-        zcml.load_config('configure.zcml', plone.app.contentmenu)
-        zcml.load_config('browserdefault.zcml', 
-                         Products.CMFDynamicViewFTI.tests)
-        
     def test_Zope3View(self):
         dfolder = self.dfolder
         dfolder.layout = 'zope3_view'
@@ -72,10 +62,3 @@ class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
         for id, title in view_methods:
             if id == dfolder.layout:
                 self.assertEqual(title, 'Zope3 Test View')
-        
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestBrowserDefault))
-    suite.addTest(makeSuite(TestAvailableLayouts))    
-    return suite
