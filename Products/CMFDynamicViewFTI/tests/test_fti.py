@@ -8,6 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 
+from Products.Archetypes.atapi import StringField
 from plone.app.testing import TEST_USER_NAME, TEST_USER_PASSWORD
 
 fti_meta_type = DynamicViewTypeInformation.meta_type
@@ -194,5 +195,8 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
         self.assertEqual(response.getStatus(), 200)
 
     def test_DocumentEmptyLayoutBug(self):
+        # add a text field to dyndocument which is not present
+        # but needed for the standard view
+        self.dyndocument.Schema().addField(StringField('text'))
         response = self.publish(self.dyndocument_path+'/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)
