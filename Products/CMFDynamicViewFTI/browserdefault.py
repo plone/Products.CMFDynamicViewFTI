@@ -14,6 +14,7 @@ from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo
 from App.class_init import InitializeClass
 from Acquisition import aq_base
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import View
 
@@ -24,7 +25,6 @@ from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 
 _marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
-
 
 class BrowserDefaultMixin(Base):
     """Mixin class for content types using the dynamic view FTI
@@ -39,13 +39,13 @@ class BrowserDefaultMixin(Base):
 
     _at_fti_meta_type = fti_meta_type
     aliases = {
-        '(Default)': '(dynamic view)',
-        'view': '(selected layout)',
-        'edit': 'base_edit',
-        'properties': 'base_metadata',
-        'sharing': 'folder_localrole_form',
-        'gethtml': '',
-        'mkdir': '',
+        '(Default)'  : '(dynamic view)',
+        'view'       : '(selected layout)',
+        'edit'       : 'base_edit',
+        'properties' : 'base_metadata',
+        'sharing'    : 'folder_localrole_form',
+        'gethtml'    : '',
+        'mkdir'      : '',
         }
 
     default_view = "base_view"
@@ -54,7 +54,6 @@ class BrowserDefaultMixin(Base):
     security = ClassSecurityInfo()
 
     security.declareProtected(View, 'defaultView')
-
     def defaultView(self, request=None):
         """
         Get the actual view to use. If a default page is set, its id will
@@ -67,7 +66,6 @@ class BrowserDefaultMixin(Base):
             return fti.defaultView(self)
 
     security.declareProtected(View, '__call__')
-
     def __call__(self):
         """
         Resolve and return the selected view template applied to the object.
@@ -77,7 +75,6 @@ class BrowserDefaultMixin(Base):
         return template()
 
     security.declareProtected(View, 'getDefaultPage')
-
     def getDefaultPage(self):
         """Return the id of the default page, or None if none is set.
 
@@ -94,7 +91,6 @@ class BrowserDefaultMixin(Base):
                 return fti.getDefaultPage(self, check_exists=True)
 
     security.declareProtected(View, 'getLayout')
-
     def getLayout(self, **kw):
         """Get the selected view method.
 
@@ -107,7 +103,6 @@ class BrowserDefaultMixin(Base):
             return fti.getViewMethod(self)
 
     security.declarePublic('canSetDefaultPage')
-
     def canSetDefaultPage(self):
         """Check if the user has permission to select a default page on this
         (folderish) item, and the item is folderish.
@@ -119,7 +114,6 @@ class BrowserDefaultMixin(Base):
         return member.has_permission(ModifyViewTemplate, self)
 
     security.declareProtected(ModifyViewTemplate, 'setDefaultPage')
-
     def setDefaultPage(self, objectId):
         """Set the default page to display in this (folderish) object.
 
@@ -133,19 +127,18 @@ class BrowserDefaultMixin(Base):
         if objectId is not None:
             new_page = getattr(self, objectId, None)
         if self.hasProperty('default_page'):
-            pages = self.getProperty('default_page', '')
+            pages = self.getProperty('default_page','')
             if isinstance(pages, (list, tuple)):
                 for page in pages:
                     old_page = getattr(self, page, None)
-                    if page is not None:
-                        break
+                    if page is not None: break
             elif isinstance(pages, str):
                 old_page = getattr(self, pages, None)
 
             if objectId is None:
                 self.manage_delProperties(['default_page'])
             else:
-                self.manage_changeProperties(default_page=objectId)
+                self.manage_changeProperties(default_page = objectId)
         else:
             if objectId is not None:
                 self.manage_addProperty('default_page', objectId, 'string')
@@ -156,7 +149,6 @@ class BrowserDefaultMixin(Base):
                 old_page.reindexObject(['is_default_page'])
 
     security.declareProtected(ModifyViewTemplate, 'setLayout')
-
     def setLayout(self, layout):
         """Set the layout as the current view.
 
@@ -165,7 +157,7 @@ class BrowserDefaultMixin(Base):
         turned off by calling setDefaultPage(None).
         """
         if not (layout and isinstance(layout, basestring)):
-            raise ValueError("layout must be a non empty string, got %s(%s)" %
+            raise ValueError, ("layout must be a non empty string, got %s(%s)" %
                                (layout, type(layout)))
 
         defaultPage = self.getDefaultPage()
@@ -173,13 +165,13 @@ class BrowserDefaultMixin(Base):
             return
 
         if self.hasProperty('layout'):
-            self.manage_changeProperties(layout=layout)
+            self.manage_changeProperties(layout = layout)
         else:
             if getattr(aq_base(self), 'layout', _marker) is not _marker:
                 # Archetypes remains? clean up
                 old = self.layout
                 if old and not isinstance(old, basestring):
-                    raise RuntimeError("layout attribute exists on %s and is"
+                    raise RuntimeError, ("layout attribute exists on %s and is"
                                          "no string: %s" % (self, type(old)))
                 delattr(self, 'layout')
 
@@ -188,18 +180,16 @@ class BrowserDefaultMixin(Base):
         self.setDefaultPage(None)
 
     security.declareProtected(View, 'getDefaultLayout')
-
     def getDefaultLayout(self):
         """Get the default layout method.
         """
         fti = self.getTypeInfo()
         if fti is None:
-            return "base_view"  # XXX
+            return "base_view" # XXX
         else:
             return fti.getDefaultViewMethod(self)
 
     security.declarePublic('canSetLayout')
-
     def canSetLayout(self):
         """Check if the current authenticated user is permitted to select a layout.
         """
@@ -208,7 +198,6 @@ class BrowserDefaultMixin(Base):
         return member.has_permission(ModifyViewTemplate, self)
 
     security.declareProtected(View, 'getAvailableLayouts')
-
     def getAvailableLayouts(self):
         """Get the layouts registered for this object from its FTI.
         """

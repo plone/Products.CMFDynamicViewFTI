@@ -2,7 +2,6 @@ from zope.interface import Interface
 
 from Products.CMFCore.interfaces import ITypeInformation
 
-
 class IDynamicViewTypeInformation(ITypeInformation):
     """Interface for FTI with dynamic views
 
@@ -13,7 +12,7 @@ class IDynamicViewTypeInformation(ITypeInformation):
         """Get a list of registered view methods
         """
 
-    def getViewMethod(context, enforce_available=True):
+    def getViewMethod(context, enforce_available = True):
         """Get view method name from context
 
         Return -- view method from context or default view name
@@ -44,7 +43,6 @@ class IDynamicViewTypeInformation(ITypeInformation):
 
         Return -- a string containing the name of the layout
         """
-
 
 class IBrowserDefault(Interface):
     """Content supporting different views on a per-instance basis.
