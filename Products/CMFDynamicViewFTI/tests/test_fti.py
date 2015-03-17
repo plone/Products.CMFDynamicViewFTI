@@ -204,18 +204,18 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
         self.assertEqual(response.getStatus(), 200)
 
 
-class TestModifyDefaultPage(CMFDVFTITestCase.FunctionalTestCase):
+class TestModifyDefaultPage(CMFDVFTITestCase.CMFDVFTITestCase):
 
-    def afterSetUp(self):
-        # Make a DynFolder
+    def _makeOne(self):
+        # Create and return a DynFolder
         self.folder.invokeFactory('DynFolder', id='dynfolder')
-        dynfolder = self.dynfolder = self.folder.dynfolder
-        dynfolder = self.dynfolder
+        dynfolder = self.folder.dynfolder
         dynfolder.invokeFactory('DynDocument', id='default_document')
         dynfolder.setDefaultPage('default_document')
+        return dynfolder
 
     def test_rename_default_page(self):
-        dynfolder = self.dynfolder
+        dynfolder = self._makeOne()
         self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
         transaction.commit()
         dynfolder.manage_renameObject('default_document', 'renamed_default')
@@ -224,14 +224,14 @@ class TestModifyDefaultPage(CMFDVFTITestCase.FunctionalTestCase):
         self.assertEqual(dynfolder.getDefaultPage(), 'renamed_default')
 
     def test_delete_default_page(self):
-        dynfolder = self.dynfolder
+        dynfolder = self._makeOne()
         self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
         dynfolder.manage_delObjects(['default_document'])
         self.assertFalse('default_document' in dynfolder.objectIds())
         self.assertEqual(dynfolder.getDefaultPage(), None)
 
     def test_cut_default_page(self):
-        dynfolder = self.dynfolder
+        dynfolder = self._makeOne()
         self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
         transaction.commit()
         clipboard = dynfolder.manage_cutObjects(['default_document'])

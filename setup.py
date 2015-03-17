@@ -27,7 +27,7 @@ setup(name='Products.CMFDynamicViewFTI',
         test=[
             'plone.app.contentmenu',
             'zope.publisher',
-            'plone.app.testing',
+            'plone.app.testing >= 4.2.5',
             'Products.Archetypes',
         ]
       ),
