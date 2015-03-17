@@ -1,3 +1,5 @@
+import transaction
+
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
 from zope.interface.verify import verifyObject
@@ -203,7 +205,6 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
 
 
 class TestModifyDefaultPage(CMFDVFTITestCase.FunctionalTestCase):
-    # Finally, here is why we did all this...
 
     def afterSetUp(self):
         # Make a DynFolder
@@ -216,7 +217,6 @@ class TestModifyDefaultPage(CMFDVFTITestCase.FunctionalTestCase):
     def test_rename_default_page(self):
         dynfolder = self.dynfolder
         self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
-        import transaction
         transaction.commit()
         dynfolder.manage_renameObject('default_document', 'renamed_default')
         self.assertFalse('default_document' in dynfolder.objectIds())
@@ -233,7 +233,6 @@ class TestModifyDefaultPage(CMFDVFTITestCase.FunctionalTestCase):
     def test_cut_default_page(self):
         dynfolder = self.dynfolder
         self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
-        import transaction
         transaction.commit()
         clipboard = dynfolder.manage_cutObjects(['default_document'])
         self.folder.manage_pasteObjects(clipboard)
