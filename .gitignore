@@ -8,3 +8,4 @@ include
 bin
 develop-eggs
 parts
+.installed.cfg
