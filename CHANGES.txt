@@ -4,8 +4,15 @@ Changelog
 4.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- When a default object is used as layout for a container,
+  if the default object is deleted or moved with cut and paste,
+  reset the default_page property of the container.
+  [gotcha]
 
+- When a default object is used as layout for a container,
+  if the default object is renamed (iow id is changed),
+  fix the default_page property of the container.
+  [gotcha]
 
 4.0.6 (2015-03-13)
 ------------------
