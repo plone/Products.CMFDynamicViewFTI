@@ -4,3 +4,5 @@ recursive-include docs *
 recursive-include Products *
 
 global-exclude *pyc
+
+exclude .installed.cfg
