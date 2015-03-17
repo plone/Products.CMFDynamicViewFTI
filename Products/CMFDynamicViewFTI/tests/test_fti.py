@@ -8,6 +8,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 
+from Products.Archetypes.atapi import StringField
+from plone.app.testing import TEST_USER_NAME, TEST_USER_PASSWORD
+
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
 
@@ -169,31 +172,33 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
         self.assertEqual(info.getDefaultPage(dynfolder), None)
 
 
-class TestEmptyLayoutBug(CMFDVFTITestCase.FunctionalTestCase):
+class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
     # Finally, here is why we did all this...
 
     def afterSetUp(self):
         # Make a DynFolder
         self.folder.invokeFactory('DynFolder', id='dynfolder')
         self.dynfolder = self.folder.dynfolder
-        self.dynfolder.layout = '' # Empty layout triggers bug
+        self.dynfolder.layout = ''  # Empty layout triggers bug
         self.dynfolder_path = self.dynfolder.absolute_url(1)
 
         # Make a DynDocument
         self.folder.invokeFactory('DynDocument', id='dyndocument')
         self.dyndocument = self.folder.dyndocument
-        self.dyndocument.layout = '' # Empty layout triggers bug
+        self.dyndocument.layout = ''  # Empty layout triggers bug
         self.dyndocument_path = self.dyndocument.absolute_url(1)
 
-        self.basic = '%s:%s' % (CMFDVFTITestCase.default_user,
-                                CMFDVFTITestCase.default_password)
+        self.basic = '%s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD)
 
     def test_FolderEmptyLayoutBug(self):
-        response = self.publish(self.dynfolder_path+'/view', basic=self.basic)
+        response = self.publish(self.dynfolder_path + '/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)
 
     def test_DocumentEmptyLayoutBug(self):
-        response = self.publish(self.dyndocument_path+'/view', basic=self.basic)
+        # add a text field to dyndocument which is not present
+        # but needed for the standard view
+        self.dyndocument.Schema().addField(StringField('text'))
+        response = self.publish(self.dyndocument_path + '/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)
 
 
@@ -235,12 +240,3 @@ class TestModifyDefaultPage(CMFDVFTITestCase.FunctionalTestCase):
         self.assertFalse('default_document' in dynfolder.objectIds())
         self.assertTrue('default_document' in self.folder.objectIds())
         self.assertEqual(dynfolder.getDefaultPage(), None)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestFTI))
-    suite.addTest(makeSuite(TestEmptyLayoutBug))
-    suite.addTest(makeSuite(TestModifyDefaultPage))
-    return suite

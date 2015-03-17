@@ -9,6 +9,7 @@ from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Products.CMFDynamicViewFTI import content_for_tests
 
 
+
 def initialize(context):
     # (DynamicViewTypeInformation factory is created from ZCML)
     cmf_utils.registerIcon(
