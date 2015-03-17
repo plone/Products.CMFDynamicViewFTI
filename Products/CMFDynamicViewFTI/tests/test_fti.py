@@ -1,3 +1,5 @@
+import transaction
+
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 
 from zope.interface.verify import verifyObject
@@ -200,3 +202,40 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
         self.dyndocument.Schema().addField(StringField('text'))
         response = self.publish(self.dyndocument_path + '/view', basic=self.basic)
         self.assertEqual(response.getStatus(), 200)
+
+
+class TestModifyDefaultPage(CMFDVFTITestCase.CMFDVFTITestCase):
+
+    def _makeOne(self):
+        # Create and return a DynFolder
+        self.folder.invokeFactory('DynFolder', id='dynfolder')
+        dynfolder = self.folder.dynfolder
+        dynfolder.invokeFactory('DynDocument', id='default_document')
+        dynfolder.setDefaultPage('default_document')
+        return dynfolder
+
+    def test_rename_default_page(self):
+        dynfolder = self._makeOne()
+        self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
+        transaction.commit()
+        dynfolder.manage_renameObject('default_document', 'renamed_default')
+        self.assertFalse('default_document' in dynfolder.objectIds())
+        self.assertTrue('renamed_default' in dynfolder.objectIds())
+        self.assertEqual(dynfolder.getDefaultPage(), 'renamed_default')
+
+    def test_delete_default_page(self):
+        dynfolder = self._makeOne()
+        self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
+        dynfolder.manage_delObjects(['default_document'])
+        self.assertFalse('default_document' in dynfolder.objectIds())
+        self.assertEqual(dynfolder.getDefaultPage(), None)
+
+    def test_cut_default_page(self):
+        dynfolder = self._makeOne()
+        self.assertEqual(dynfolder.getDefaultPage(), 'default_document')
+        transaction.commit()
+        clipboard = dynfolder.manage_cutObjects(['default_document'])
+        self.folder.manage_pasteObjects(clipboard)
+        self.assertFalse('default_document' in dynfolder.objectIds())
+        self.assertTrue('default_document' in self.folder.objectIds())
+        self.assertEqual(dynfolder.getDefaultPage(), None)

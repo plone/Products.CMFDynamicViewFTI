@@ -5,8 +5,8 @@
  <property name="title">DynFolder</property>
  <property name="content_icon">folder_icon.gif</property>
  <property name="content_meta_type">DynFolder</property>
- <property name="product">CMFCore</property>
- <property name="factory">manage_addPortalFolder</property>
+ <property name="product">CMFDynamicViewFTI</property>
+ <property name="factory">addDynFolder</property>
  <property name="immediate_view">folder_edit_form</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">False</property>

@@ -4,6 +4,8 @@
    xmlns:five="http://namespaces.zope.org/five"
    i18n_domain="cmf_default">
 
+  <include package="Products.CMFCore" />
+
   <browser:page
      for="zope.browser.interfaces.IAdding"
      name="addDVFactoryTypeInformation.html"
@@ -24,5 +26,15 @@
     id="cmf.ModifyViewTemplate"
     title="Modify view template"
     />
+
+  <subscriber 
+    for=".interfaces.ISelectableBrowserDefault
+         zope.container.interfaces.IContainerModifiedEvent"
+    handler=".browserdefault.check_default_page" />
+
+  <subscriber 
+    for="*
+         zope.lifecycleevent.interfaces.IObjectMovedEvent"
+    handler=".browserdefault.rename_default_page" />
 
 </configure>

@@ -7,8 +7,8 @@
     name="description">A page in the site. Can contain rich text.</property>
  <property name="content_icon">document_icon.gif</property>
  <property name="content_meta_type">DynDocument</property>
- <property name="product">CMFDefault</property>
- <property name="factory">addDocument</property>
+ <property name="product">CMFDynamicViewFTI</property>
+ <property name="factory">addDynDocument</property>
  <property name="immediate_view">metadata_edit_form</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
