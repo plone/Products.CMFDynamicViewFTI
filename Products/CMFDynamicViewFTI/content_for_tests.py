@@ -13,7 +13,10 @@ class DynFolder(PortalFolder, BrowserDefaultMixin):
 
 
 class DynDocument(PortalContent, BrowserDefaultMixin):
-    pass
+
+    def __init__(self, id, title):
+        self.id = id
+        self.title = title
 
 
 def addDynFolder(self, id, title='', REQUEST=None):
