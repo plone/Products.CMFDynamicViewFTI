@@ -244,7 +244,7 @@ InitializeClass(BrowserDefaultMixin)
 
 def check_default_page(obj, event):
     container = obj
-    default_page_id = container.getDefaultPage()
+    default_page_id = container.getProperty('default_page', '')
     if default_page_id and not (default_page_id in container.objectIds()):
         ISelectableBrowserDefault(container).setDefaultPage(None)
 
