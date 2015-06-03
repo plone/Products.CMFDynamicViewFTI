@@ -4,7 +4,8 @@ Changelog
 4.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix https://github.com/plone/Products.CMFPlone/issues/591
+  [gotcha]
 
 
 4.1.1 (2015-05-13)
