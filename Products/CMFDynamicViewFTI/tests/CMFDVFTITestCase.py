@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-
 #
 # CMFDVFTITestCase
 #
-from plone.app.testing import bbb
 from plone.app import testing
-
+from plone.app.testing import bbb
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.GenericSetup import EXTENSION, profile_registry
 
@@ -13,13 +13,15 @@ class PloneTestCaseFixture(bbb.PloneTestCaseFixture):
     defaultBases = (bbb.PTC_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
-        profile_registry.registerProfile('CMFDVFTI_sampletypes',
+        profile_registry.registerProfile(
+            'CMFDVFTI_sampletypes',
             'CMFDynamicViewFTI Sample Content Types',
             'Extension profile including CMFDVFTI sample content types',
             'profiles/sample_types',
             'CMFDynamicViewFTI',
             EXTENSION,
-            for_=ISiteRoot)
+            for_=ISiteRoot
+        )
         import Products.CMFDynamicViewFTI.tests
         self.loadZCML(name='browserdefault.zcml',
                       package=Products.CMFDynamicViewFTI.tests)

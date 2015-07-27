@@ -1,16 +1,13 @@
+# -*- coding: utf-8 -*-
+from Products.CMFCore.utils import getToolByName
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from Products.CMFDynamicViewFTI.interfaces import IBrowserDefault
+from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
-
 from zope.interface import directlyProvides
 from zope.interface import Interface
-from zope.publisher.browser import TestRequest
-
-from Products.CMFCore.utils import getToolByName
-
-from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
-from Products.CMFDynamicViewFTI.interfaces import IBrowserDefault
-from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-
 from zope.interface.verify import verifyClass
+from zope.publisher.browser import TestRequest
 
 
 class DummyFolder(BrowserDefaultMixin):

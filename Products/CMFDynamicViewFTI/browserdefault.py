@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Mixin class for selectable views
 
 This module contains a mixin-class to support selecting default layout
@@ -5,27 +6,24 @@ templates and/or default pages (in the style of default_page/index_html).
 The implementation extends TemplateMixin from Archetypes, and implements
 the ISelectableBrowserDefault interface from CMFPlone.
 """
-
-from zope.interface import implements
-import zope.component
-from zope.browsermenu.interfaces import IBrowserMenu
-
-from ExtensionClass import Base
 from AccessControl import ClassSecurityInfo
-from App.class_init import InitializeClass
 from Acquisition import aq_base
-from Products.CMFCore.utils import getToolByName
+from App.class_init import InitializeClass
+from ExtensionClass import Base
 from Products.CMFCore.permissions import View
-
-from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
+from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
-
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
+from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
+from zope.browsermenu.interfaces import IBrowserMenu
+from zope.interface import implementer
+import zope.component
 
 _marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
 
+@implementer(ISelectableBrowserDefault)
 class BrowserDefaultMixin(Base):
     """Mixin class for content types using the dynamic view FTI
 
@@ -35,7 +33,6 @@ class BrowserDefaultMixin(Base):
 
     Note: folderish content types should overwrite HEAD like ATContentTypes
     """
-    implements(ISelectableBrowserDefault)
 
     _at_fti_meta_type = fti_meta_type
     aliases = {
@@ -53,8 +50,7 @@ class BrowserDefaultMixin(Base):
 
     security = ClassSecurityInfo()
 
-    security.declareProtected(View, 'defaultView')
-
+    @security.protected(View)
     def defaultView(self, request=None):
         """
         Get the actual view to use. If a default page is set, its id will
@@ -66,8 +62,7 @@ class BrowserDefaultMixin(Base):
         else:
             return fti.defaultView(self)
 
-    security.declareProtected(View, '__call__')
-
+    @security.protected(View)
     def __call__(self):
         """
         Resolve and return the selected view template applied to the object.
@@ -76,8 +71,7 @@ class BrowserDefaultMixin(Base):
         template = self.unrestrictedTraverse(self.getLayout())
         return template()
 
-    security.declareProtected(View, 'getDefaultPage')
-
+    @security.protected(View)
     def getDefaultPage(self):
         """Return the id of the default page, or None if none is set.
 
@@ -93,8 +87,7 @@ class BrowserDefaultMixin(Base):
             else:
                 return fti.getDefaultPage(self, check_exists=True)
 
-    security.declareProtected(View, 'getLayout')
-
+    @security.protected(View)
     def getLayout(self, **kw):
         """Get the selected view method.
 
@@ -106,8 +99,7 @@ class BrowserDefaultMixin(Base):
         else:
             return fti.getViewMethod(self)
 
-    security.declarePublic('canSetDefaultPage')
-
+    @security.public
     def canSetDefaultPage(self):
         """Check if the user has permission to select a default page on this
         (folderish) item, and the item is folderish.
@@ -118,16 +110,16 @@ class BrowserDefaultMixin(Base):
         member = mtool.getAuthenticatedMember()
         return member.has_permission(ModifyViewTemplate, self)
 
-    security.declareProtected(ModifyViewTemplate, 'setDefaultPage')
-
+    @security.protected(ModifyViewTemplate)
     def setDefaultPage(self, objectId):
         """Set the default page to display in this (folderish) object.
 
-        The objectId must be a value found in self.objectIds() (i.e. a contained
-        object). This object will be displayed as the default_page/index_html object
-        of this (folderish) object. This will override the current layout
-        template returned by getLayout(). Pass None for objectId to turn off
-        the default page and return to using the selected layout template.
+        The objectId must be a value found in self.objectIds() (i.e. a
+        contained object). This object will be displayed as the
+        default_page/index_html object of this (folderish) object. This will
+        override the current layout template returned by getLayout().
+        Pass None for objectId to turn off the default page and return to
+        using the selected layout template.
         """
         new_page = old_page = None
         if objectId is not None:
@@ -155,18 +147,19 @@ class BrowserDefaultMixin(Base):
             if old_page is not None:
                 old_page.reindexObject(['is_default_page'])
 
-    security.declareProtected(ModifyViewTemplate, 'setLayout')
-
+    @security.protected(ModifyViewTemplate)
     def setLayout(self, layout):
         """Set the layout as the current view.
 
-        'layout' should be one of the list returned by getAvailableLayouts(), but it
-        is not enforced. If a default page has been set with setDefaultPage(), it is
-        turned off by calling setDefaultPage(None).
+        'layout' should be one of the list returned by getAvailableLayouts(),
+        but it is not enforced. If a default page has been set with
+        setDefaultPage(), it is turned off by calling setDefaultPage(None).
         """
         if not (layout and isinstance(layout, basestring)):
-            raise ValueError("layout must be a non empty string, got %s(%s)" %
-                               (layout, type(layout)))
+            raise ValueError(
+                "layout must be a non empty string, got %s(%s)" %
+                (layout, type(layout))
+            )
 
         defaultPage = self.getDefaultPage()
         if defaultPage is None and layout == self.getLayout():
@@ -179,24 +172,24 @@ class BrowserDefaultMixin(Base):
                 # Archetypes remains? clean up
                 old = self.layout
                 if old and not isinstance(old, basestring):
-                    raise RuntimeError("layout attribute exists on %s and is"
-                                         "no string: %s" % (self, type(old)))
+                    raise RuntimeError(
+                        "layout attribute exists on %s and is no string: %s" %
+                        (self, type(old))
+                    )
                 delattr(self, 'layout')
 
             self.manage_addProperty('layout', layout, 'string')
 
         self.setDefaultPage(None)
 
-    security.declareProtected(View, 'getDefaultLayout')
-
+    @security.protected(View)
     def getDefaultLayout(self):
         """Get the default layout method.
         """
         fti = self.getTypeInfo()
         if fti is None:
             return "base_view"  # XXX
-        else:
-            return fti.getDefaultViewMethod(self)
+        return fti.getDefaultViewMethod(self)
 
     security.declarePublic('canSetLayout')
 
@@ -207,8 +200,7 @@ class BrowserDefaultMixin(Base):
         member = mtool.getAuthenticatedMember()
         return member.has_permission(ModifyViewTemplate, self)
 
-    security.declareProtected(View, 'getAvailableLayouts')
-
+    @security.protected(View)
     def getAvailableLayouts(self):
         """Get the layouts registered for this object from its FTI.
         """
@@ -218,13 +210,17 @@ class BrowserDefaultMixin(Base):
         result = []
         method_ids = fti.getAvailableViewMethods(self)
         for mid in method_ids:
-            view = zope.component.queryMultiAdapter((self, self.REQUEST),
-                                                    zope.interface.Interface,
-                                                    name=mid)
+            view = zope.component.queryMultiAdapter(
+                (self, self.REQUEST),
+                zope.interface.Interface,
+                name=mid
+            )
 
             if view is not None:
                 menu = zope.component.getUtility(
-                    IBrowserMenu, 'plone_displayviews')
+                    IBrowserMenu,
+                    'plone_displayviews'
+                )
                 item = menu.getMenuItemByAction(self, self.REQUEST, mid)
                 title = item and item.title or mid
                 result.append((mid, title))
@@ -243,12 +239,21 @@ InitializeClass(BrowserDefaultMixin)
 
 
 def check_default_page(obj, event):
+    """event subscriber, unset default page if target no longer exists
+
+    used by default for zope.container.interfaces.IContainerModifiedEvent
+    """
     container = obj
     default_page_id = container.getProperty('default_page', '')
     if default_page_id and not (default_page_id in container.objectIds()):
         ISelectableBrowserDefault(container).setDefaultPage(None)
 
+
 def rename_default_page(obj, event):
+    """event subscriber, rename default page if targte was renamed
+
+    used by default for zope.lifecycleevent.interfaces.IObjectMovedEvent
+    """
     newParent = event.newParent
     if newParent != event.oldParent:
         return

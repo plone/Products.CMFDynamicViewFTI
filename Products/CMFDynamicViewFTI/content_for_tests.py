@@ -1,11 +1,7 @@
-from AccessControl.SecurityInfo import ClassSecurityInfo
-from Products.CMFCore.permissions import AddPortalContent
-from Products.CMFCore.permissions import AddPortalFolders
+# -*- coding: utf-8 -*-
 from Products.CMFCore.PortalFolder import PortalFolder
 from Products.CMFCore.PortalContent import PortalContent
-from App.class_init import InitializeClass
-
-from browserdefault import BrowserDefaultMixin
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 
 class DynFolder(PortalFolder, BrowserDefaultMixin):
