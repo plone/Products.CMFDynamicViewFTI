@@ -1,1 +1,1 @@
-# testing package
+# -*- coding: utf-8 -*-

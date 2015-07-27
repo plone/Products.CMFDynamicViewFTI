@@ -4,7 +4,8 @@ Changelog
 4.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Cleanup: PEP8 et al., security/zca via decorators, ...
+  [jensens]
 
 
 4.1.2 (2015-06-03)

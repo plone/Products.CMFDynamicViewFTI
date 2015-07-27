@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
-# $Id$
-
-from zope.interface import implements
-
 from AccessControl import ClassSecurityInfo
-from App.class_init import InitializeClass
 from Acquisition import aq_base
-from types import ClassType
-
-from Products.CMFCore.TypesTool import FactoryTypeInformation
+from App.class_init import InitializeClass
 from Products.CMFCore.permissions import View
+from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.utils import getToolByName
-
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
+from types import ClassType
+from zope.interface import implementer
 
 
 def safe_hasattr(obj, name, _marker=object()):
@@ -46,7 +41,7 @@ def om_has_key(context, key):
     klass = getattr(aq_base(context), '__class__', None)
     if hasattr(klass, 'has_key'):
         # BTreeFolder2 optimization
-        if context.has_key(key):
+        if key in context:
             return True
     else:
         # standard ObjectManager api
@@ -57,26 +52,35 @@ def om_has_key(context, key):
 fti_meta_type = 'Factory-based Type Information with dynamic views'
 
 
+@implementer(IDynamicViewTypeInformation)
 class DynamicViewTypeInformation(FactoryTypeInformation):
     """FTI with dynamic views
 
-    A value of (dynamic view) as alias is replaced by the output of defaultView()
+    A value of (dynamic view) as alias is replaced by the output of
+    defaultView()
     """
-
-    implements(IDynamicViewTypeInformation)
 
     meta_type = fti_meta_type
     security = ClassSecurityInfo()
 
     _properties = FactoryTypeInformation._properties + (
-        {'id': 'default_view', 'type': 'string', 'mode': 'w',
-          'label': 'Default view method'
+        {
+            'id': 'default_view',
+            'type': 'string',
+            'mode': 'w',
+            'label': 'Default view method',
         },
-        {'id': 'view_methods', 'type': 'lines', 'mode': 'w',
-          'label': 'Available view methods'
+        {
+            'id': 'view_methods',
+            'type': 'lines',
+            'mode': 'w',
+            'label': 'Available view methods'
         },
-        {'id': 'default_view_fallback', 'type': 'boolean', 'mode': 'w',
-          'label': 'Fall back to default view?'
+        {
+            'id': 'default_view_fallback',
+            'type': 'boolean',
+            'mode': 'w',
+            'label': 'Fall back to default view?'
         },
     )
 
@@ -97,17 +101,15 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if not view_methods:
             self.view_methods = view_methods = (default_view, )
         if default_view and default_view not in view_methods:
-            raise ValueError, "%s not in %s" % (default_view, view_methods)
+            raise ValueError("%s not in %s" % (default_view, view_methods))
 
-    security.declareProtected(View, 'getDefaultViewMethod')
-
+    @security.protected(View)
     def getDefaultViewMethod(self, context):
         """Get the default view method from the FTI
         """
         return str(self.default_view)
 
-    security.declareProtected(View, 'getAvailableViewMethods')
-
+    @security.protected(View)
     def getAvailableViewMethods(self, context):
         """Get a list of registered view methods
         """
@@ -116,9 +118,13 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             methods = (methods, )
         return tuple(methods)
 
-    security.declareProtected(View, 'getViewMethod')
-
-    def getViewMethod(self, context, enforce_available=False, check_exists=False):
+    @security.protected(View)
+    def getViewMethod(
+        self,
+        context,
+        enforce_available=False,
+        check_exists=False
+    ):
         """Get view method (aka layout) name from context
 
         Return -- view method from context or default view name
@@ -131,8 +137,10 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if not layout:
             return default
         if not isinstance(layout, basestring):
-            raise TypeError, "layout of %s must be a string, got %s" % (
-                              repr(context), type(layout))
+            raise TypeError(
+                "layout of %s must be a string, got %s" %
+                (repr(context), type(layout))
+            )
         if enforce_available:
             available = self.getAvailableViewMethods(context)
             if layout not in available:
@@ -143,20 +151,20 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
                 return default
         return layout
 
-    security.declareProtected(View, 'getDefaultPage')
-
+    @security.protected(View)
     def getDefaultPage(self, context, check_exists=False):
         """Get the default page from a folderish object
 
         Non folderish objects don't have a default view.
 
-        If check_exists is enabled the method makes sure the object with the default
-        page id exists.
+        If check_exists is enabled the method makes sure the object with the
+        default page id exists.
 
         Return -- None for no default page or a string
         """
         if not getattr(aq_base(context), 'isPrincipiaFolderish', False):
-            return None  # non folderish objects don't have a default page per se
+            # non folderish objects don't have a default page per se
+            return None
 
         default_page = getattr(aq_base(context), 'default_page', None)
 
@@ -167,16 +175,17 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if isinstance(default_page, (tuple, list)):
             default_page = default_page[0]
         if not isinstance(default_page, str):
-            raise TypeError, ("default_page must be a string, got %s(%s):" %
-                              (default_page, type(default_page)))
+            raise TypeError(
+                "default_page must be a string, got %s(%s):" %
+                (default_page, type(default_page))
+            )
 
         if check_exists and not om_has_key(context, default_page):
             return None
 
         return default_page
 
-    security.declareProtected(View, 'defaultView')
-
+    @security.protected(View)
     def defaultView(self, context):
         """Get the current view to use for an object. If a default page is  set,
         use that, else use the currently selected view method/layout.
@@ -199,13 +208,18 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     def queryMethodID(self, alias, default=None, context=None):
         """ Query method ID by alias.
 
-        Use "(dynamic view)" as the alias target to look up as per defaultView()
+        Use "(dynamic view)" as the alias target to look up as per
+        defaultView()
+
         Use "(selected layout)" as the alias target to look up as per
-            getViewMethod()
+        getViewMethod()
         """
-        methodTarget = FactoryTypeInformation.queryMethodID(self, alias,
-                                                         default=default,
-                                                         context=context)
+        methodTarget = FactoryTypeInformation.queryMethodID(
+            self,
+            alias,
+            default=default,
+            context=context
+        )
         if not isinstance(methodTarget, basestring):
             # nothing to do, method_id is probably None
             return methodTarget
