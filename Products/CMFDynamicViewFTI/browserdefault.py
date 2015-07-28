@@ -80,12 +80,12 @@ class BrowserDefaultMixin(Base):
         fti = self.getTypeInfo()
         if fti is None:
             return None
-        else:
-            plone_utils = getToolByName(self, 'plone_utils', None)
-            if plone_utils is not None:
-                return plone_utils.getDefaultPage(self)
-            else:
-                return fti.getDefaultPage(self, check_exists=True)
+
+        plone_utils = getToolByName(self, 'plone_utils', None)
+        if plone_utils is not None:
+            return plone_utils.getDefaultPage(self)
+
+        return fti.getDefaultPage(self, check_exists=True)
 
     @security.protected(View)
     def getLayout(self, **kw):
@@ -96,8 +96,7 @@ class BrowserDefaultMixin(Base):
         fti = self.getTypeInfo()
         if fti is None:
             return None
-        else:
-            return fti.getViewMethod(self)
+        return fti.getViewMethod(self)
 
     @security.public
     def canSetDefaultPage(self):
@@ -191,8 +190,7 @@ class BrowserDefaultMixin(Base):
             return "base_view"  # XXX
         return fti.getDefaultViewMethod(self)
 
-    security.declarePublic('canSetLayout')
-
+    @security.public
     def canSetLayout(self):
         """Check if the current authenticated user is permitted to select a layout.
         """

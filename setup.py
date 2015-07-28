@@ -31,22 +31,22 @@ setup(
     include_package_data=True,
     zip_safe=False,
     extras_require=dict(
-      test=[
-        'plone.app.contentmenu',
-        'zope.publisher',
-        'plone.app.testing >= 4.2.5',
-        'Products.Archetypes',
-      ]
+        test=[
+            'plone.app.contentmenu',
+            'zope.publisher',
+            'plone.app.testing >= 4.2.5',
+            'Products.Archetypes',
+        ]
     ),
     install_requires=[
-      'setuptools',
-      'zope.browsermenu',
-      'zope.component',
-      'zope.interface',
-      'Products.CMFCore',
-      'Products.GenericSetup',
-      'Acquisition',
-      'ExtensionClass',
-      'Zope2',
+        'setuptools',
+        'zope.browsermenu',
+        'zope.component',
+        'zope.interface',
+        'Products.CMFCore',
+        'Products.GenericSetup',
+        'Acquisition',
+        'ExtensionClass',
+        'Zope2',
     ],
 )
