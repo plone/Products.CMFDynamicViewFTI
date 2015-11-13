@@ -248,6 +248,8 @@ class TestModifyDefaultPage(CMFDVFTITestCase.CMFDVFTITestCase):
         self.assertFalse('default_document' in dynfolder.objectIds())
         self.assertTrue('renamed_default' in dynfolder.objectIds())
         self.assertEqual(dynfolder.getDefaultPage(), 'renamed_default')
+        self.assertEqual(dynfolder.getProperty('default_page', ''),
+                         'renamed_default')
 
     def test_delete_default_page(self):
         dynfolder = self._makeOne()
@@ -255,6 +257,7 @@ class TestModifyDefaultPage(CMFDVFTITestCase.CMFDVFTITestCase):
         dynfolder.manage_delObjects(['default_document'])
         self.assertFalse('default_document' in dynfolder.objectIds())
         self.assertEqual(dynfolder.getDefaultPage(), None)
+        self.assertEqual(dynfolder.getProperty('default_page', ''), '')
 
     def test_cut_default_page(self):
         dynfolder = self._makeOne()
@@ -265,3 +268,4 @@ class TestModifyDefaultPage(CMFDVFTITestCase.CMFDVFTITestCase):
         self.assertFalse('default_document' in dynfolder.objectIds())
         self.assertTrue('default_document' in self.folder.objectIds())
         self.assertEqual(dynfolder.getDefaultPage(), None)
+        self.assertEqual(dynfolder.getProperty('default_page', ''), '')
