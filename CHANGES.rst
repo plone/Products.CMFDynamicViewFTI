@@ -4,7 +4,8 @@ Changelog
 4.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Removed docstrings from some methods to avoid publishing them.  From
+  Products.PloneHotfix20160419.  [maurits]
 
 
 4.1.3 (2015-07-29)
@@ -273,4 +274,3 @@ Changelog
 ------------------
 
 - Initial release.
-

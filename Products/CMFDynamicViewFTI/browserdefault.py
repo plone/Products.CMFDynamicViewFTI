@@ -89,10 +89,8 @@ class BrowserDefaultMixin(Base):
 
     @security.protected(View)
     def getLayout(self, **kw):
-        """Get the selected view method.
-
-        Note that a selected default page will override the view method.
-        """
+        # Get the selected view method.
+        # Note that a selected default page will override the view method.
         fti = self.getTypeInfo()
         if fti is None:
             return None
