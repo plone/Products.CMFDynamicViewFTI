@@ -52,10 +52,8 @@ class BrowserDefaultMixin(Base):
 
     @security.protected(View)
     def defaultView(self, request=None):
-        """
-        Get the actual view to use. If a default page is set, its id will
-        be returned. Else, the current layout's page template id is returned.
-        """
+        # Get the actual view to use. If a default page is set, its id will
+        # be returned. Else, the current layout's page template id is returned.
         fti = self.getTypeInfo()
         if fti is None:
             return self.default_view
@@ -73,10 +71,8 @@ class BrowserDefaultMixin(Base):
 
     @security.protected(View)
     def getDefaultPage(self):
-        """Return the id of the default page, or None if none is set.
-
-        The default page must be contained within this (folderish) item.
-        """
+        # Return the id of the default page, or None if none is set.
+        # The default page must be contained within this (folderish) item.
         fti = self.getTypeInfo()
         if fti is None:
             return None
@@ -98,9 +94,8 @@ class BrowserDefaultMixin(Base):
 
     @security.public
     def canSetDefaultPage(self):
-        """Check if the user has permission to select a default page on this
-        (folderish) item, and the item is folderish.
-        """
+        # Check if the user has permission to select a default page on this
+        # (folderish) item, and the item is folderish.
         if not self.isPrincipiaFolderish:
             return False
         mtool = getToolByName(self, 'portal_membership')
@@ -109,15 +104,14 @@ class BrowserDefaultMixin(Base):
 
     @security.protected(ModifyViewTemplate)
     def setDefaultPage(self, objectId):
-        """Set the default page to display in this (folderish) object.
+        # Set the default page to display in this (folderish) object.
 
-        The objectId must be a value found in self.objectIds() (i.e. a
-        contained object). This object will be displayed as the
-        default_page/index_html object of this (folderish) object. This will
-        override the current layout template returned by getLayout().
-        Pass None for objectId to turn off the default page and return to
-        using the selected layout template.
-        """
+        # The objectId must be a value found in self.objectIds() (i.e. a
+        # contained object). This object will be displayed as the
+        # default_page/index_html object of this (folderish) object. This will
+        # override the current layout template returned by getLayout().
+        # Pass None for objectId to turn off the default page and return to
+        # using the selected layout template.
         new_page = old_page = None
         if objectId is not None:
             new_page = getattr(self, objectId, None)
@@ -146,12 +140,11 @@ class BrowserDefaultMixin(Base):
 
     @security.protected(ModifyViewTemplate)
     def setLayout(self, layout):
-        """Set the layout as the current view.
+        # Set the layout as the current view.
 
-        'layout' should be one of the list returned by getAvailableLayouts(),
-        but it is not enforced. If a default page has been set with
-        setDefaultPage(), it is turned off by calling setDefaultPage(None).
-        """
+        # 'layout' should be one of the list returned by getAvailableLayouts(),
+        # but it is not enforced. If a default page has been set with
+        # setDefaultPage(), it is turned off by calling setDefaultPage(None).
         if not (layout and isinstance(layout, basestring)):
             raise ValueError(
                 "layout must be a non empty string, got %s(%s)" %
@@ -181,8 +174,7 @@ class BrowserDefaultMixin(Base):
 
     @security.protected(View)
     def getDefaultLayout(self):
-        """Get the default layout method.
-        """
+        # Get the default layout method.
         fti = self.getTypeInfo()
         if fti is None:
             return "base_view"  # XXX
@@ -190,16 +182,14 @@ class BrowserDefaultMixin(Base):
 
     @security.public
     def canSetLayout(self):
-        """Check if the current authenticated user is permitted to select a layout.
-        """
+        # Check if the current authenticated user is permitted to select a layout.
         mtool = getToolByName(self, 'portal_membership')
         member = mtool.getAuthenticatedMember()
         return member.has_permission(ModifyViewTemplate, self)
 
     @security.protected(View)
     def getAvailableLayouts(self):
-        """Get the layouts registered for this object from its FTI.
-        """
+        # Get the layouts registered for this object from its FTI.
         fti = self.getTypeInfo()
         if fti is None:
             return ()
