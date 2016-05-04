@@ -105,14 +105,12 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
     @security.protected(View)
     def getDefaultViewMethod(self, context):
-        """Get the default view method from the FTI
-        """
+        # Get the default view method from the FTI.
         return str(self.default_view)
 
     @security.protected(View)
     def getAvailableViewMethods(self, context):
-        """Get a list of registered view methods
-        """
+        # Get a list of registered view methods.
         methods = self.view_methods
         if isinstance(methods, basestring):
             methods = (methods, )
@@ -125,10 +123,8 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         enforce_available=False,
         check_exists=False
     ):
-        """Get view method (aka layout) name from context
-
-        Return -- view method from context or default view name
-        """
+        # Get view method (aka layout) name from context.
+        # Return -- view method from context or default view name.
         default = self.getDefaultViewMethod(context)
         layout = getattr(aq_base(context), 'layout', None)
 
@@ -153,15 +149,14 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
     @security.protected(View)
     def getDefaultPage(self, context, check_exists=False):
-        """Get the default page from a folderish object
-
-        Non folderish objects don't have a default view.
-
-        If check_exists is enabled the method makes sure the object with the
-        default page id exists.
-
-        Return -- None for no default page or a string
-        """
+        # Get the default page from a folderish object.
+        #
+        # Non folderish objects don't have a default view.
+        #
+        # If check_exists is enabled the method makes sure the object with the
+        # default page id exists.
+        #
+        # Return -- None for no default page or a string
         if not getattr(aq_base(context), 'isPrincipiaFolderish', False):
             # non folderish objects don't have a default page per se
             return None
@@ -187,9 +182,8 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
     @security.protected(View)
     def defaultView(self, context):
-        """Get the current view to use for an object. If a default page is  set,
-        use that, else use the currently selected view method/layout.
-        """
+        # Get the current view to use for an object. If a default page is set,
+        # use that, else use the currently selected view method/layout.
 
         # Delegate to PloneTool's version if we have it else, use own rules
         plone_utils = getToolByName(self, 'plone_utils', None)
@@ -206,14 +200,14 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     security.declarePublic('queryMethodID')
 
     def queryMethodID(self, alias, default=None, context=None):
-        """ Query method ID by alias.
+        # Query method ID by alias.
 
-        Use "(dynamic view)" as the alias target to look up as per
-        defaultView()
+        # Use "(dynamic view)" as the alias target to look up as per
+        # defaultView()
 
-        Use "(selected layout)" as the alias target to look up as per
-        getViewMethod()
-        """
+        # Use "(selected layout)" as the alias target to look up as per
+        # getViewMethod()
+
         methodTarget = FactoryTypeInformation.queryMethodID(
             self,
             alias,
