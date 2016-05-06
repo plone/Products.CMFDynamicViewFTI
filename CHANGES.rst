@@ -4,6 +4,8 @@ Changelog
 4.1.4 (unreleased)
 ------------------
 
+Bug fixes:
+
 - Removed docstrings from some methods to avoid publishing them.  From
   Products.PloneHotfix20160419.  [maurits]
 
