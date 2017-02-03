@@ -16,8 +16,8 @@ from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
 from zope.browsermenu.interfaces import IBrowserMenu
-from zope.interface import implementer
-import zope.component
+from zope.component import getSiteManager, getUtility
+from zope.interface import Interface, implementer, providedBy
 
 _marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
@@ -195,15 +195,12 @@ class BrowserDefaultMixin(Base):
             return ()
         result = []
         method_ids = fti.getAvailableViewMethods(self)
+        spec = (providedBy(self), providedBy(self.REQUEST))
+        gsm = getSiteManager()
         for mid in method_ids:
-            view = zope.component.queryMultiAdapter(
-                (self, self.REQUEST),
-                zope.interface.Interface,
-                name=mid
-            )
-
-            if view is not None:
-                menu = zope.component.getUtility(
+            factory = gsm.adapters.lookup(spec, Interface, mid)
+            if factory is not None:
+                menu = getUtility(
                     IBrowserMenu,
                     'plone_displayviews'
                 )

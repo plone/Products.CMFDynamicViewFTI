@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Don't instantiate browser view to check for existence.
+  [malthe]
 
 
 4.1.4 (2016-05-06)
