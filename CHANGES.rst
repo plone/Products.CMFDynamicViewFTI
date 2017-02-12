@@ -4,14 +4,6 @@ Changelog
 4.1.5 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Don't instantiate browser view to check for existence.
