@@ -10,6 +10,9 @@ from types import ClassType
 from zope.interface import implementer
 
 
+import six
+
+
 def safe_hasattr(obj, name, _marker=object()):
     """Make sure we don't mask exceptions like hasattr().
 
@@ -112,7 +115,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     def getAvailableViewMethods(self, context):
         # Get a list of registered view methods.
         methods = self.view_methods
-        if isinstance(methods, basestring):
+        if isinstance(methods, six.string_types):
             methods = (methods, )
         return tuple(methods)
 
@@ -132,7 +135,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             layout = layout()
         if not layout:
             return default
-        if not isinstance(layout, basestring):
+        if not isinstance(layout, six.string_types):
             raise TypeError(
                 "layout of %s must be a string, got %s" %
                 (repr(context), type(layout))
@@ -214,7 +217,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             default=default,
             context=context
         )
-        if not isinstance(methodTarget, basestring):
+        if not isinstance(methodTarget, six.string_types):
             # nothing to do, method_id is probably None
             return methodTarget
 
