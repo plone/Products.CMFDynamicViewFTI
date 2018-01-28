@@ -19,6 +19,9 @@ from zope.browsermenu.interfaces import IBrowserMenu
 from zope.component import getSiteManager, getUtility
 from zope.interface import Interface, implementer, providedBy
 
+import six
+
+
 _marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
@@ -145,7 +148,7 @@ class BrowserDefaultMixin(Base):
         # 'layout' should be one of the list returned by getAvailableLayouts(),
         # but it is not enforced. If a default page has been set with
         # setDefaultPage(), it is turned off by calling setDefaultPage(None).
-        if not (layout and isinstance(layout, basestring)):
+        if not (layout and isinstance(layout, six.string_types)):
             raise ValueError(
                 "layout must be a non empty string, got %s(%s)" %
                 (layout, type(layout))
@@ -161,7 +164,7 @@ class BrowserDefaultMixin(Base):
             if getattr(aq_base(self), 'layout', _marker) is not _marker:
                 # Archetypes remains? clean up
                 old = self.layout
-                if old and not isinstance(old, basestring):
+                if old and not isinstance(old, six.string_types):
                     raise RuntimeError(
                         "layout attribute exists on %s and is no string: %s" %
                         (self, type(old))
