@@ -6,7 +6,6 @@ from Products.CMFCore.permissions import View
 from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
-from types import ClassType
 from zope.interface import implementer
 
 
@@ -30,7 +29,7 @@ def safe_callable(obj):
         if safe_hasattr(obj, '__call__'):
             return True
         else:
-            return isinstance(obj, ClassType)
+            return isinstance(obj, type)
     else:
         return callable(obj)
 
