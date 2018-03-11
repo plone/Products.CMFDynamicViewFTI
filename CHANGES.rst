@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.1.6 (unreleased)
+4.1.7 (unreleased)
 ------------------
 
 Breaking changes:
@@ -10,11 +10,19 @@ Breaking changes:
 
 New features:
 
-- Add Python 2 / 3 compatibility [davilima6]
+- *add item here*
 
 Bug fixes:
 
 - *add item here*
+
+
+4.1.6 (2018-01-30)
+------------------
+
+New features:
+
+- Add Python 2 / 3 compatibility [davilima6]
 
 
 4.1.5 (2017-02-12)
