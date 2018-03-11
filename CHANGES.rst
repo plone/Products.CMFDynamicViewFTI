@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix missing ClassType in Python 33
 
 
 4.1.6 (2018-01-30)
