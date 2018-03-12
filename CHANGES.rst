@@ -4,14 +4,6 @@ Changelog
 4.1.7 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix missing ClassType in Python 33
