@@ -14,15 +14,15 @@ New features:
 
 Bug fixes:
 
-- *add item here*
-
+- Fix adapter lookup on Python 3.
+  [ale-rt]
 
 4.1.7 (2018-03-12)
 ------------------
 
 Bug fixes:
 
-- Fix missing ClassType in Python 33
+- Fix missing ClassType in Python 3
 
 
 4.1.6 (2018-01-30)
