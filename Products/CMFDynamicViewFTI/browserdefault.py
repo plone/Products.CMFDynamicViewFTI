@@ -16,8 +16,11 @@ from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFDynamicViewFTI.permissions import ModifyViewTemplate
 from zope.browsermenu.interfaces import IBrowserMenu
-from zope.component import getSiteManager, getUtility
-from zope.interface import Interface, implementer, providedBy
+from zope.component import getSiteManager
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.interface import providedBy
 
 import six
 
@@ -201,6 +204,8 @@ class BrowserDefaultMixin(Base):
         spec = (providedBy(self), providedBy(self.REQUEST))
         gsm = getSiteManager()
         for mid in method_ids:
+            if not isinstance(mid, six.string_types):
+                mid = mid.decode()
             factory = gsm.adapters.lookup(spec, Interface, mid)
             if factory is not None:
                 menu = getUtility(
