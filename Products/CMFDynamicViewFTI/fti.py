@@ -65,6 +65,10 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     meta_type = fti_meta_type
     security = ClassSecurityInfo()
 
+    view_methods_type = 'ulines'
+    if six.PY2:
+        view_methods_type = 'lines'
+
     _properties = FactoryTypeInformation._properties + (
         {
             'id': 'default_view',
@@ -74,7 +78,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         },
         {
             'id': 'view_methods',
-            'type': 'lines',
+            'type': view_methods_type,
             'mode': 'w',
             'label': 'Available view methods'
         },
