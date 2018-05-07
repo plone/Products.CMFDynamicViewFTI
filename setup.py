@@ -39,7 +39,6 @@ setup(
             'plone.app.contentmenu',
             'zope.publisher',
             'plone.app.testing >= 4.2.5',
-            'Products.Archetypes',
         ]
     ),
     install_requires=[

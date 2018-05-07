@@ -13,7 +13,7 @@
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types"/>
- <property name="default_view">document_view</property>
+ <property name="default_view">index_html</property>
  <property name="view_methods">
   <element value="document_view"/>
   <element value="custom_view"/>

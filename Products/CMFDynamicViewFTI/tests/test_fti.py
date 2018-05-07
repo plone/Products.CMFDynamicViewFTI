@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from Products.Archetypes.atapi import StringField
 from Products.CMFCore.interfaces import ITypeInformation
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
@@ -215,17 +214,14 @@ class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
     def test_FolderEmptyLayoutBug(self):
         response = self.publish(
             self.dynfolder_path + '/view',
-            basic=self.basic
+            basic=self.basic,
         )
         self.assertEqual(response.getStatus(), 200)
 
     def test_DocumentEmptyLayoutBug(self):
-        # add a text field to dyndocument which is not present
-        # but needed for the standard view
-        self.dyndocument.Schema().addField(StringField('text'))
         response = self.publish(
             self.dyndocument_path + '/view',
-            basic=self.basic
+            basic=self.basic,
         )
         self.assertEqual(response.getStatus(), 200)
 
