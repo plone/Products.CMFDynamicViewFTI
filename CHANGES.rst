@@ -1,10 +1,13 @@
 Changelog
 =========
 
-4.1.8 (unreleased)
+5.0.0 (unreleased)
 ------------------
 
 Breaking changes:
+
+- Test using plone.app.contenttypes instead of Archetypes.
+  [davisagli]
 
 - *add item here*
 
@@ -17,8 +20,6 @@ Bug fixes:
 - Fix adapter lookup on Python 3.
   [ale-rt]
 
-- Test using plone.app.contenttypes instead of Archetypes.
-  [davisagli]
 
 4.1.7 (2018-03-12)
 ------------------
