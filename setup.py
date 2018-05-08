@@ -2,7 +2,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '4.1.8.dev0'
+version = '5.0.0.dev0'
 
 long_description = open("README.rst").read()
 long_description += "\n"
@@ -39,7 +39,6 @@ setup(
             'plone.app.contentmenu',
             'zope.publisher',
             'plone.app.testing >= 4.2.5',
-            'Products.Archetypes',
         ]
     ),
     install_requires=[
