@@ -33,9 +33,8 @@ class TestBrowserDefault(CMFDVFTITestCase.CMFDVFTITestCase):
 
 class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
 
-    def afterSetUp(self):
-        self.types = getToolByName(self.portal, 'portal_types')
-
+    def setUp(self):
+        super(TestAvailableLayouts, self).setUp()
         self.dfolder = DummyFolder()
         self.dfolder.fti = self.types['DynFolder']
 
