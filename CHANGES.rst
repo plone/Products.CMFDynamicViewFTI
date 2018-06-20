@@ -1,15 +1,13 @@
 Changelog
 =========
 
-5.0.0 (unreleased)
+5.0.0 (2018-06-20)
 ------------------
 
 Breaking changes:
 
 - Test using plone.app.contenttypes instead of Archetypes.
   [davisagli]
-
-- *add item here*
 
 Bug fixes:
 
