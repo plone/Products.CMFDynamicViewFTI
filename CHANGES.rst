@@ -6,7 +6,8 @@ Changelog
 
 Breaking changes:
 
-- *add item here*
+- Use ulines for view_methods in py3.
+  [pbauer]
 
 New features:
 
@@ -14,7 +15,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix test for py3 
+  [pbauer]
 
 
 5.0.0 (2018-06-20)
