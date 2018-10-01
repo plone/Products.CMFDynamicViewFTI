@@ -6,3 +6,6 @@ recursive-include Products *
 global-exclude *pyc
 
 exclude .installed.cfg
+include pyproject.toml
+recursive-exclude news *
+exclude news
