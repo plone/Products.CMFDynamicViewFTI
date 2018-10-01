@@ -27,7 +27,7 @@ setup(
     keywords='Zope CMF Plone dynamic view',
     author='Plone Foundation',
     author_email='plone-developers@lists.sourceforge.net',
-    url='https://pypi.python.org/pypi/Products.CMFDynamicViewFTI',
+    url='https://pypi.org/project/Products.CMFDynamicViewFTI',
     license='ZPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['Products'],
