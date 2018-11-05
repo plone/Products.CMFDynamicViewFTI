@@ -8,6 +8,14 @@ Changelog
 
 .. towncrier release notes start
 
+6.0.0 (2018-11-05)
+------------------
+
+Breaking changes:
+
+
+- Use ulines for view_methods in py3. Fix test for py3. [pbauer] (#15)
+
 
 6.0.0 (unreleased)
 ------------------
