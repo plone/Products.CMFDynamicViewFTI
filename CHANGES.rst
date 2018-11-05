@@ -9,7 +9,7 @@ Changelog
 .. towncrier release notes start
 
 
-5.0.0 (2018-06-20)
+6.0.0 (unreleased)
 ------------------
 
 Breaking changes:
