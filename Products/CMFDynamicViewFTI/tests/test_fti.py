@@ -190,6 +190,15 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
         info = self.types.getTypeInfo(dynfolder)
         self.assertEqual(info.getDefaultPage(dynfolder), None)
 
+    def test_DefaultViewWithBadLayoutUseFallback(self):
+        dynfolder = self._makeOne()
+        dynfolder.layout = 'bad_view'
+        info = self.types.getTypeInfo(dynfolder)
+        self.assertEqual(
+            info.defaultView(dynfolder),
+            'index_html'
+        )
+
 
 if six.PY2:
     # I have no idea what is or should be happending here.
