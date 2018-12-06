@@ -2,7 +2,6 @@
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from Products.CMFCore.interfaces import ITypeInformation
-from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
@@ -194,11 +193,18 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
         dynfolder = self._makeOne()
         dynfolder.layout = 'bad_view'
         info = self.types.getTypeInfo(dynfolder)
+        # fallback not returned if not activated
+        self.assertFalse(info.default_view_fallback)
         self.assertEqual(
             info.defaultView(dynfolder),
-            'index_html'
+            'bad_view'
         )
-
+        # enable fallback
+        info.default_view_fallback = True
+        self.assertEqual(
+            info.defaultView(dynfolder),
+            info.default_view
+        )
 
 if six.PY2:
     # I have no idea what is or should be happending here.
