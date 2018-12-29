@@ -22,19 +22,19 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
 
     def test_doesImplementITypeInformation(self):
         iface = ITypeInformation
-        self.failUnless(iface.providedBy(self.fti))
-        self.failUnless(verifyObject(iface, self.fti))
+        self.assertTrue(iface.providedBy(self.fti))
+        self.assertTrue(verifyObject(iface, self.fti))
 
     def test_doesImplementIDynamicViewTypeInformation(self):
         iface = IDynamicViewTypeInformation
-        self.failUnless(iface.providedBy(self.fti))
-        self.failUnless(verifyObject(iface, self.fti))
+        self.assertTrue(iface.providedBy(self.fti))
+        self.assertTrue(verifyObject(iface, self.fti))
 
     def test_meta_type(self):
-        self.failUnlessEqual(self.fti.meta_type, fti_meta_type)
+        self.assertEqual(self.fti.meta_type, fti_meta_type)
 
     def test_paranoid_subclass_test(self):
-        self.failUnless(isinstance(self.fti, DynamicViewTypeInformation))
+        self.assertTrue(isinstance(self.fti, DynamicViewTypeInformation))
 
     def test_CreateDynFolder(self):
         dynfolder = self._makeOne()
