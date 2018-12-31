@@ -96,7 +96,7 @@ class BrowserDefaultMixin(Base):
         fti = self.getTypeInfo()
         if fti is None:
             return None
-        return fti.getViewMethod(self)
+        return fti.getViewMethod(self, **kw)
 
     @security.public
     def canSetDefaultPage(self):

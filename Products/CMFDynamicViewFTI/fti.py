@@ -150,7 +150,10 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if check_exists:
             method = getattr(context, layout, None)
             if method is None:
-                return default
+                # maybe it is a view?
+                view = context.unrestrictedTraverse(layout, None)
+                if not view:
+                    return default
         return layout
 
     @security.protected(View)
