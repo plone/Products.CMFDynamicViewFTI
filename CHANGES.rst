@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+6.0.1 (2019-02-08)
+------------------
+
+Bug fixes:
+
+
+- Fixed fallback to default view. [gbastien] (#16)
+- Fix some deprecation warnings. [gforcada] (#18)
+
+
 6.0.0 (2018-11-05)
 ------------------
 
