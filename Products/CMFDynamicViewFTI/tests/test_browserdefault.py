@@ -24,11 +24,11 @@ class TestBrowserDefault(CMFDVFTITestCase.CMFDVFTITestCase):
 
     def test_doesImplementISelectableBrowserDefault(self):
         iface = ISelectableBrowserDefault
-        self.failUnless(iface.implementedBy(BrowserDefaultMixin))
-        self.failUnless(verifyClass(iface, BrowserDefaultMixin))
+        self.assertTrue(iface.implementedBy(BrowserDefaultMixin))
+        self.assertTrue(verifyClass(iface, BrowserDefaultMixin))
 
     def test_extendsInterface(self):
-        self.failUnless(ISelectableBrowserDefault.extends(IBrowserDefault))
+        self.assertTrue(ISelectableBrowserDefault.extends(IBrowserDefault))
 
 
 class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
@@ -44,13 +44,13 @@ class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
         dfolder.REQUEST = TestRequest()
         view_methods = dfolder.getAvailableLayouts()
         view_ids = [view_id for view_id, foo in view_methods]
-        self.failIf(dfolder.layout in view_ids)
+        self.assertNotIn(dfolder.layout, view_ids)
 
         # Mark the object with interface connected to the zope 3 view
         directlyProvides(dfolder, IDummy)
         view_methods = dfolder.getAvailableLayouts()
         view_ids = [view_id for view_id, foo in view_methods]
-        self.failIf(dfolder.layout not in view_ids)
+        self.assertIn(dfolder.layout, view_ids)
 
     def test_Zope3ViewTitle(self):
         dfolder = self.dfolder
