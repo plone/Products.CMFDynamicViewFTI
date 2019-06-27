@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+6.0.2 (2019-06-27)
+------------------
+
+Bug fixes:
+
+
+- Fixes plone/Products.CMFPlone#2874
+  ``Fatal crash: Fatal Python error: Cannot recover from stack overflow``
+  Which crashes the interpreter.
+  [jensens] (#20)
+
+
 6.0.1 (2019-02-08)
 ------------------
 

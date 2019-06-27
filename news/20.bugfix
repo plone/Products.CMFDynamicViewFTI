@@ -1,4 +1,0 @@
-Fixes plone/Products.CMFPlone#2874
-``Fatal crash: Fatal Python error: Cannot recover from stack overflow``
-Which crashes the interpreter.
-[jensens]
