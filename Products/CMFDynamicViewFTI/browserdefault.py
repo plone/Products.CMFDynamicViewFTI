@@ -49,7 +49,7 @@ class BrowserDefaultMixin(Base):
         'sharing': 'folder_localrole_form',
         'gethtml': '',
         'mkdir': '',
-        }
+    }
 
     default_view = "base_view"
     suppl_views = ()
@@ -72,7 +72,19 @@ class BrowserDefaultMixin(Base):
         Resolve and return the selected view template applied to the object.
         This should not consider the default page.
         """
-        template = self.unrestrictedTraverse(self.getLayout())
+        layout = self.getLayout()
+        if layout is None:
+            # here we would run in a infinite recursion, because
+            # self.unrestrictedTraverse(None) will always return
+            # self and then it calls itself again
+            # since this may lead to a stack overflow crashing the whole
+            # interpreter it is important to catch this beforehand.
+            raise ValueError(
+                "No layout found. "
+                "This may happen b/c nothing was set. "
+                "Hint: If no FTI was found this happens as well."
+            )
+        template = self.unrestrictedTraverse(layout)
         return template()
 
     @security.protected(View)
@@ -225,6 +237,7 @@ class BrowserDefaultMixin(Base):
                         title = mid
                     result.append((mid, title))
         return result
+
 
 InitializeClass(BrowserDefaultMixin)
 

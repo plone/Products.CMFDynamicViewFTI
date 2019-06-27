@@ -51,6 +51,7 @@ def om_has_key(context, key):
             return True
     return False
 
+
 fti_meta_type = 'Factory-based Type Information with dynamic views'
 
 
@@ -206,8 +207,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             fallback = self.default_view_fallback
             return self.getViewMethod(context, check_exists=fallback)
 
-    security.declarePublic('queryMethodID')
-
+    @security.public
     def queryMethodID(self, alias, default=None, context=None):
         # Query method ID by alias.
 
@@ -243,5 +243,6 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             methodTarget = self.getViewMethod(context, check_exists=fallback)
 
         return methodTarget
+
 
 InitializeClass(DynamicViewTypeInformation)
