@@ -15,6 +15,7 @@ setup(
     description="CMFDynamicViewFTI is a product for dynamic views in CMF.",
     long_description=long_description,
     classifiers=[
+        "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
         "Framework :: Plone :: 5.2",
         "Framework :: Zope2",
