@@ -225,8 +225,8 @@ class BrowserDefaultMixin(Base):
                     'plone_displayviews'
                 )
                 item = menu.getMenuItemByAction(self, self.REQUEST, mid)
-                title = item and item.title or mid
-                result.append((mid, title))
+                if item is not None:
+                    result.append((mid, item.title or mid))
             else:
                 method = getattr(self, mid, None)
                 if method is not None:
