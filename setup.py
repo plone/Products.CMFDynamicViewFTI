@@ -48,7 +48,6 @@ setup(
     ),
     install_requires=[
         'setuptools',
-        'six',
         'zope.browsermenu',
         'zope.component',
         'zope.interface',
