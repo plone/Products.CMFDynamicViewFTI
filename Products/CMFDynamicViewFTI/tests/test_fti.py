@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from Products.CMFCore.interfaces import ITypeInformation
@@ -215,7 +214,7 @@ if six.PY2:
         # Finally, here is why we did all this...
 
         def setUp(self):
-            super(TestEmptyLayoutBug, self).setUp()
+            super().setUp()
             # Make a DynFolder
             self.folder.invokeFactory('DynFolder', id='dynfolder')
             self.dynfolder = self.folder.dynfolder

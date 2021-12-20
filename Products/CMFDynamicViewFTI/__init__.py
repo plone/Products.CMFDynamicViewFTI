@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.permissions import AddPortalContent
 from Products.CMFCore.permissions import AddPortalFolders
