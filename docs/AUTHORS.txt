@@ -30,7 +30,7 @@ Dorneles Treméa
 ---------------
 
  * Additional Plone 2.1 integration
- 
+
 Hanno Schlichting
 -----------------
 

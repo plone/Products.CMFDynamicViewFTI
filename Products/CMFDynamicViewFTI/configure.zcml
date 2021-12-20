@@ -27,12 +27,12 @@
     title="Modify view template"
     />
 
-  <subscriber 
+  <subscriber
     for=".interfaces.ISelectableBrowserDefault
          zope.container.interfaces.IContainerModifiedEvent"
     handler=".browserdefault.check_default_page" />
 
-  <subscriber 
+  <subscriber
     for="*
          zope.lifecycleevent.interfaces.IObjectMovedEvent"
     handler=".browserdefault.rename_default_page" />
