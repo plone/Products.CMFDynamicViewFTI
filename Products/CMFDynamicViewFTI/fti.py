@@ -8,9 +8,6 @@ from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from zope.interface import implementer
 
 
-import six
-
-
 def safe_hasattr(obj, name, _marker=object()):
     """Make sure we don't mask exceptions like hasattr().
 
@@ -65,10 +62,6 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     meta_type = fti_meta_type
     security = ClassSecurityInfo()
 
-    view_methods_type = 'ulines'
-    if six.PY2:
-        view_methods_type = 'lines'
-
     _properties = FactoryTypeInformation._properties + (
         {
             'id': 'default_view',
@@ -78,7 +71,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         },
         {
             'id': 'view_methods',
-            'type': view_methods_type,
+            'type': 'lines',
             'mode': 'w',
             'label': 'Available view methods'
         },
