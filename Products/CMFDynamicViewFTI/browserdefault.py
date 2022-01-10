@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Mixin class for selectable views
 
 This module contains a mixin-class to support selecting default layout
@@ -21,8 +20,6 @@ from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import providedBy
-
-import six
 
 
 _marker = object()
@@ -163,7 +160,7 @@ class BrowserDefaultMixin(Base):
         # 'layout' should be one of the list returned by getAvailableLayouts(),
         # but it is not enforced. If a default page has been set with
         # setDefaultPage(), it is turned off by calling setDefaultPage(None).
-        if not (layout and isinstance(layout, six.string_types)):
+        if not (layout and isinstance(layout, str)):
             raise ValueError(
                 "layout must be a non empty string, got %s(%s)" %
                 (layout, type(layout))
@@ -179,7 +176,7 @@ class BrowserDefaultMixin(Base):
             if getattr(aq_base(self), 'layout', _marker) is not _marker:
                 # Archetypes remains? clean up
                 old = self.layout
-                if old and not isinstance(old, six.string_types):
+                if old and not isinstance(old, str):
                     raise RuntimeError(
                         "layout attribute exists on %s and is no string: %s" %
                         (self, type(old))
@@ -216,7 +213,7 @@ class BrowserDefaultMixin(Base):
         spec = (providedBy(self), providedBy(self.REQUEST))
         gsm = getSiteManager()
         for mid in method_ids:
-            if not isinstance(mid, six.string_types):
+            if not isinstance(mid, str):
                 mid = mid.decode()
             factory = gsm.adapters.lookup(spec, Interface, mid)
             if factory is not None:

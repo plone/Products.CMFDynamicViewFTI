@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFDynamicViewFTI.interfaces import IBrowserDefault
@@ -34,7 +33,7 @@ class TestBrowserDefault(CMFDVFTITestCase.CMFDVFTITestCase):
 class TestAvailableLayouts(CMFDVFTITestCase.CMFDVFTITestCase):
 
     def setUp(self):
-        super(TestAvailableLayouts, self).setUp()
+        super().setUp()
         self.dfolder = DummyFolder()
         self.dfolder.fti = self.types['DynFolder']
 

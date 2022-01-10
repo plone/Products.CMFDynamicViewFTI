@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from Products.CMFCore.interfaces import ITypeInformation
@@ -7,8 +6,8 @@ from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.tests import CMFDVFTITestCase
 from zope.interface.verify import verifyObject
 
-import six
 import transaction
+
 
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
@@ -205,45 +204,6 @@ class TestFTI(CMFDVFTITestCase.CMFDVFTITestCase):
             info.defaultView(dynfolder),
             info.default_view
         )
-
-if six.PY2:
-    # I have no idea what is or should be happending here.
-    # In py2 this test works but in py3 it yields:
-    # TypeError: 'ReplaceableWrapper' object is not callable
-
-    class TestEmptyLayoutBug(CMFDVFTITestCase.CMFDVFTITestCase):
-        # Finally, here is why we did all this...
-
-        def setUp(self):
-            super(TestEmptyLayoutBug, self).setUp()
-            # Make a DynFolder
-            self.folder.invokeFactory('DynFolder', id='dynfolder')
-            self.dynfolder = self.folder.dynfolder
-            self.dynfolder.layout = ''  # Empty layout triggers bug
-            self.dynfolder_path = self.dynfolder.absolute_url(1)
-
-            # Make a DynDocument
-            self.folder.invokeFactory('DynDocument', id='dyndocument')
-            self.dyndocument = self.folder.dyndocument
-            self.dyndocument.layout = ''  # Empty layout triggers bug
-            self.dyndocument_path = self.dyndocument.absolute_url(1)
-            import transaction
-            transaction.commit()
-            from plone.testing.z2 import Browser
-            self.browser = Browser(self.layer['app'])
-            self.browser.handleErrors = False
-            self.browser.addHeader(
-                'Authorization', 'Basic %s:%s' %
-                (TEST_USER_NAME, TEST_USER_PASSWORD,)
-            )
-
-        def test_FolderEmptyLayoutBug(self):
-            self.browser.open(self.dynfolder.absolute_url() + '/view')
-            self.assertEqual(self.browser._response.status_code, 200)
-
-        def test_DocumentEmptyLayoutBug(self):
-            self.browser.open(self.dyndocument.absolute_url() + '/view')
-            self.assertEqual(self.browser._response.status_code, 200)
 
 
 class TestModifyDefaultPage(CMFDVFTITestCase.CMFDVFTITestCase):

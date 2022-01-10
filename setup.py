@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 from setuptools import find_packages
 from setuptools import setup
 
-version = '6.0.4.dev0'
+version = '7.0.0a1.dev0'
 
 long_description = open("README.rst").read()
 long_description += "\n"
@@ -17,16 +16,11 @@ setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
-        "Framework :: Plone :: 5.2",
         "Framework :: Plone :: 6.0",
         "Framework :: Plone :: Core",
-        "Framework :: Zope2",
-        "Framework :: Zope :: 4",
         "Framework :: Zope :: 5",
         "License :: OSI Approved :: Zope Public License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -49,7 +43,6 @@ setup(
     ),
     install_requires=[
         'setuptools',
-        'six',
         'zope.browsermenu',
         'zope.component',
         'zope.interface',

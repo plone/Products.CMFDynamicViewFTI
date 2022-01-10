@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base
 from AccessControl.class_init import InitializeClass
@@ -7,9 +6,6 @@ from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
 from zope.interface import implementer
-
-
-import six
 
 
 def safe_hasattr(obj, name, _marker=object()):
@@ -66,10 +62,6 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     meta_type = fti_meta_type
     security = ClassSecurityInfo()
 
-    view_methods_type = 'ulines'
-    if six.PY2:
-        view_methods_type = 'lines'
-
     _properties = FactoryTypeInformation._properties + (
         {
             'id': 'default_view',
@@ -79,7 +71,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         },
         {
             'id': 'view_methods',
-            'type': view_methods_type,
+            'type': 'lines',
             'mode': 'w',
             'label': 'Available view methods'
         },
@@ -108,7 +100,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         if not view_methods:
             self.view_methods = view_methods = (default_view, )
         if default_view and default_view not in view_methods:
-            raise ValueError("%s not in %s" % (default_view, view_methods))
+            raise ValueError(f"{default_view} not in {view_methods}")
 
     @security.protected(View)
     def getDefaultViewMethod(self, context):
@@ -119,7 +111,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
     def getAvailableViewMethods(self, context):
         # Get a list of registered view methods.
         methods = self.view_methods
-        if isinstance(methods, six.string_types):
+        if isinstance(methods, str):
             methods = (methods, )
         return tuple(methods)
 
@@ -139,7 +131,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             layout = layout()
         if not layout:
             return default
-        if not isinstance(layout, six.string_types):
+        if not isinstance(layout, str):
             raise TypeError(
                 "layout of %s must be a string, got %s" %
                 (repr(context), type(layout))
@@ -223,7 +215,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             default=default,
             context=context
         )
-        if not isinstance(methodTarget, six.string_types):
+        if not isinstance(methodTarget, str):
             # nothing to do, method_id is probably None
             return methodTarget
 

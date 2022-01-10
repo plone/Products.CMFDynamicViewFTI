@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Add DynamicView FTI form (ZMI)
 """
@@ -13,4 +12,4 @@ class DVFactoryTypeInformationAddView(FactoryTypeInformationAddView):
 
     klass = DynamicViewTypeInformation
 
-    description = u'A dynamic view type information object defines a portal type.'
+    description = 'A dynamic view type information object defines a portal type.'
