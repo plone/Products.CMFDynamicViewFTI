@@ -1,4 +1,0 @@
-Plone 6: always use lines for the view_methods property.
-Part of `issue 3305 <https://github.com/plone/Products.CMFPlone/issues/3305>`_.
-Also, remove Python 2 code and the six dependency.
-[maurits]

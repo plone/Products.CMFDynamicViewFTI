@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+7.0.0a1 (2022-01-19)
+--------------------
+
+Breaking changes:
+
+
+- Plone 6: always use lines for the view_methods property.
+  Part of `issue 3305 <https://github.com/plone/Products.CMFPlone/issues/3305>`_.
+  Also, remove Python 2 code and the six dependency.
+  [maurits] (#3305)
+
+
 6.0.3 (2020-04-22)
 ------------------
 
