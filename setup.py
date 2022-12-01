@@ -42,6 +42,7 @@ setup(
             'plone.app.testing >= 4.2.5',
         ]
     ),
+    python_requires=">=3.8",
     install_requires=[
         'setuptools',
         'zope.browsermenu',
