@@ -30,6 +30,35 @@ class CMFDynamicViewFTIFixture(PloneSandboxLayer):
             name="browserdefault.zcml", package=Products.CMFDynamicViewFTI.tests
         )
 
+        from plone.testing.zope import _INSTALLED_PRODUCTS
+
+        if "Products.CMFDynamicViewFTI" not in _INSTALLED_PRODUCTS.keys():
+            # replicate plone.testing.zope.installProduct
+            # when running the tests via tox Products.CMFDynamicViewFTI
+            # folder location is different than the other Products.*
+            # packages.
+            # `installProduct` checks for that and bails out otherwise.
+            from AccessControl.class_init import InitializeClass
+            from OFS.Application import get_folder_permissions
+            from OFS.Application import install_product
+            from OFS.Folder import Folder
+            from pathlib import Path
+
+            import inspect
+
+            module_path = Path(inspect.getfile(Products.CMFDynamicViewFTI))
+            product_folder = str(module_path.parent.parent)
+
+            install_product(
+                app,
+                product_folder,
+                "CMFDynamicViewFTI",
+                [],
+                get_folder_permissions(),
+                raise_exc=1,
+            )
+            InitializeClass(Folder)
+
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, "CMFDynamicViewFTI:CMFDVFTI_sampletypes")
 
