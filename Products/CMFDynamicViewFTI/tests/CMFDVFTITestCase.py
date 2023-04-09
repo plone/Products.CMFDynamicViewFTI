@@ -1,9 +1,9 @@
 from plone.app import testing
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
+from plone.base.utils import unrestricted_construct_instance
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import _createObjectByType
 from Products.GenericSetup import EXTENSION
 from Products.GenericSetup import profile_registry
 
@@ -54,7 +54,7 @@ class CMFDVFTITestCase(unittest.TestCase):
         """Set up before each test."""
         self.app = self.layer["app"]
         self.portal = self.layer["portal"]
-        _createObjectByType("DynFolder", self.portal, id="folder")
+        unrestricted_construct_instance("DynFolder", self.portal, id="folder")
         self.folder = self.portal.folder
         self.types = getToolByName(self.portal, "portal_types")
         self.fti = self.types["DynFolder"]
