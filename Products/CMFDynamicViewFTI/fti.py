@@ -128,7 +128,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             return default
         if not isinstance(layout, str):
             raise TypeError(
-                "layout of %s must be a string, got %s" % (repr(context), type(layout))
+                f"layout of {repr(context)} must be a string, got {type(layout)}"
             )
         if enforce_available:
             available = self.getAvailableViewMethods(context)

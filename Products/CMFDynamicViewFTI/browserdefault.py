@@ -162,7 +162,7 @@ class BrowserDefaultMixin(Base):
         # setDefaultPage(), it is turned off by calling setDefaultPage(None).
         if not (layout and isinstance(layout, str)):
             raise ValueError(
-                "layout must be a non empty string, got %s(%s)" % (layout, type(layout))
+                f"layout must be a non empty string, got {layout}({type(layout)})"
             )
 
         defaultPage = self.getDefaultPage()
