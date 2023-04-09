@@ -1,4 +1,3 @@
-from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFDynamicViewFTI.interfaces import IBrowserDefault
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault

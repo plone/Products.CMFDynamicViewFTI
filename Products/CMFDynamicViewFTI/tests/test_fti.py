@@ -1,5 +1,3 @@
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import TEST_USER_PASSWORD
 from Products.CMFCore.interfaces import ITypeInformation
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
