@@ -247,7 +247,7 @@ def check_default_page(obj, event):
 
 
 def rename_default_page(obj, event):
-    """event subscriber, rename default page if targte was renamed
+    """event subscriber, rename default page if target was renamed
 
     used by default for zope.lifecycleevent.interfaces.IObjectMovedEvent
     """
