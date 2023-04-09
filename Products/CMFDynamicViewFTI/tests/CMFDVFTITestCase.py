@@ -33,9 +33,6 @@ class CMFDynamicViewFTIFixture(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, "CMFDynamicViewFTI:CMFDVFTI_sampletypes")
 
-    def tearDownZope(self, app):
-        pass
-
 
 CDV_FIXTURE = CMFDynamicViewFTIFixture()
 CDV_FUNCTIONAL_TESTING = testing.FunctionalTesting(
