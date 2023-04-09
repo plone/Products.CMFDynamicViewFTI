@@ -9,8 +9,7 @@ class IDynamicViewTypeInformation(ITypeInformation):
     """
 
     def getAvailableViewMethods(context):
-        """Get a list of registered view methods
-        """
+        """Get a list of registered view methods"""
 
     def getViewMethod(context, enforce_available=True):
         """Get view method name from context
@@ -19,8 +18,7 @@ class IDynamicViewTypeInformation(ITypeInformation):
         """
 
     def getDefaultViewMethod(context):
-        """Get the default view method from the FTI
-        """
+        """Get the default view method from the FTI"""
 
     def getDefaultPage(context, check_exists=False):
         """Get the default page from a folderish object
@@ -78,8 +76,7 @@ class IBrowserDefault(Interface):
         """
 
     def getDefaultLayout():
-        """Get the default layout template.
-        """
+        """Get the default layout template."""
 
 
 class ISelectableBrowserDefault(IBrowserDefault):

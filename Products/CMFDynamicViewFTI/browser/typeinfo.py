@@ -12,4 +12,4 @@ class DVFactoryTypeInformationAddView(FactoryTypeInformationAddView):
 
     klass = DynamicViewTypeInformation
 
-    description = 'A dynamic view type information object defines a portal type.'
+    description = "A dynamic view type information object defines a portal type."

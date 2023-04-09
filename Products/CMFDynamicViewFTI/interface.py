@@ -6,6 +6,5 @@ import warnings
 
 
 warnings.warn(
-    'import from Products.CMFDynamicViewFTI.interfaces instead',
-    DeprecationWarning
+    "import from Products.CMFDynamicViewFTI.interfaces instead", DeprecationWarning
 )
