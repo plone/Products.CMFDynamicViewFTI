@@ -1,5 +1,5 @@
-from Products.CMFCore.PortalFolder import PortalFolder
 from Products.CMFCore.PortalContent import PortalContent
+from Products.CMFCore.PortalFolder import PortalFolder
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 
