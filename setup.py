@@ -38,20 +38,19 @@ setup(
     zip_safe=False,
     extras_require=dict(
         test=[
-            "plone.app.contentmenu",
-            "zope.publisher",
+            "Products.GenericSetup",
+            "plone.base",
             "plone.app.testing >= 4.2.5",
+            "plone.testing",
+            "zope.publisher",
         ]
     ),
     python_requires=">=3.8",
     install_requires=[
         "setuptools",
+        "zope.browser",
         "zope.browsermenu",
-        "zope.component",
-        "zope.interface",
         "Products.CMFCore",
-        "Products.GenericSetup",
-        "Acquisition",
         "ExtensionClass",
         "Zope",
     ],
