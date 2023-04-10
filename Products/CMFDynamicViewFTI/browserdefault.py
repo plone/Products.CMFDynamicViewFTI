@@ -6,8 +6,8 @@ The implementation extends TemplateMixin from Archetypes, and implements
 the ISelectableBrowserDefault interface from CMFPlone.
 """
 from AccessControl import ClassSecurityInfo
-from Acquisition import aq_base
 from AccessControl.class_init import InitializeClass
+from Acquisition import aq_base
 from ExtensionClass import Base
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import getToolByName
@@ -39,13 +39,13 @@ class BrowserDefaultMixin(Base):
 
     _at_fti_meta_type = fti_meta_type
     aliases = {
-        '(Default)': '(dynamic view)',
-        'view': '(selected layout)',
-        'edit': 'base_edit',
-        'properties': 'base_metadata',
-        'sharing': 'folder_localrole_form',
-        'gethtml': '',
-        'mkdir': '',
+        "(Default)": "(dynamic view)",
+        "view": "(selected layout)",
+        "edit": "base_edit",
+        "properties": "base_metadata",
+        "sharing": "folder_localrole_form",
+        "gethtml": "",
+        "mkdir": "",
     }
 
     default_view = "base_view"
@@ -92,7 +92,7 @@ class BrowserDefaultMixin(Base):
         if fti is None:
             return None
 
-        plone_utils = getToolByName(self, 'plone_utils', None)
+        plone_utils = getToolByName(self, "plone_utils", None)
         if plone_utils is not None:
             return plone_utils.getDefaultPage(self)
 
@@ -113,7 +113,7 @@ class BrowserDefaultMixin(Base):
         # (folderish) item, and the item is folderish.
         if not self.isPrincipiaFolderish:
             return False
-        mtool = getToolByName(self, 'portal_membership')
+        mtool = getToolByName(self, "portal_membership")
         member = mtool.getAuthenticatedMember()
         return member.has_permission(ModifyViewTemplate, self)
 
@@ -130,8 +130,8 @@ class BrowserDefaultMixin(Base):
         new_page = old_page = None
         if objectId is not None:
             new_page = getattr(self, objectId, None)
-        if self.hasProperty('default_page'):
-            pages = self.getProperty('default_page', '')
+        if self.hasProperty("default_page"):
+            pages = self.getProperty("default_page", "")
             if isinstance(pages, (list, tuple)):
                 for page in pages:
                     old_page = getattr(self, page, None)
@@ -141,17 +141,17 @@ class BrowserDefaultMixin(Base):
                 old_page = getattr(self, pages, None)
 
             if objectId is None:
-                self.manage_delProperties(['default_page'])
+                self.manage_delProperties(["default_page"])
             else:
                 self.manage_changeProperties(default_page=objectId)
         else:
             if objectId is not None:
-                self.manage_addProperty('default_page', objectId, 'string')
+                self.manage_addProperty("default_page", objectId, "string")
         if new_page != old_page:
             if new_page is not None:
-                new_page.reindexObject(['is_default_page'])
+                new_page.reindexObject(["is_default_page"])
             if old_page is not None:
-                old_page.reindexObject(['is_default_page'])
+                old_page.reindexObject(["is_default_page"])
 
     @security.protected(ModifyViewTemplate)
     def setLayout(self, layout):
@@ -162,28 +162,27 @@ class BrowserDefaultMixin(Base):
         # setDefaultPage(), it is turned off by calling setDefaultPage(None).
         if not (layout and isinstance(layout, str)):
             raise ValueError(
-                "layout must be a non empty string, got %s(%s)" %
-                (layout, type(layout))
+                f"layout must be a non empty string, got {layout}({type(layout)})"
             )
 
         defaultPage = self.getDefaultPage()
         if defaultPage is None and layout == self.getLayout():
             return
 
-        if self.hasProperty('layout'):
+        if self.hasProperty("layout"):
             self.manage_changeProperties(layout=layout)
         else:
-            if getattr(aq_base(self), 'layout', _marker) is not _marker:
+            if getattr(aq_base(self), "layout", _marker) is not _marker:
                 # Archetypes remains? clean up
                 old = self.layout
                 if old and not isinstance(old, str):
                     raise RuntimeError(
-                        "layout attribute exists on %s and is no string: %s" %
-                        (self, type(old))
+                        "layout attribute exists on %s and is no string: %s"
+                        % (self, type(old))
                     )
-                delattr(self, 'layout')
+                delattr(self, "layout")
 
-            self.manage_addProperty('layout', layout, 'string')
+            self.manage_addProperty("layout", layout, "string")
 
         self.setDefaultPage(None)
 
@@ -198,7 +197,7 @@ class BrowserDefaultMixin(Base):
     @security.public
     def canSetLayout(self):
         # Check if the current authenticated user is permitted to select a layout.
-        mtool = getToolByName(self, 'portal_membership')
+        mtool = getToolByName(self, "portal_membership")
         member = mtool.getAuthenticatedMember()
         return member.has_permission(ModifyViewTemplate, self)
 
@@ -217,10 +216,7 @@ class BrowserDefaultMixin(Base):
                 mid = mid.decode()
             factory = gsm.adapters.lookup(spec, Interface, mid)
             if factory is not None:
-                menu = getUtility(
-                    IBrowserMenu,
-                    'plone_displayviews'
-                )
+                menu = getUtility(IBrowserMenu, "plone_displayviews")
                 item = menu.getMenuItemByAction(self, self.REQUEST, mid)
                 title = item and item.title or mid
                 result.append((mid, title))
@@ -245,13 +241,13 @@ def check_default_page(obj, event):
     used by default for zope.container.interfaces.IContainerModifiedEvent
     """
     container = obj
-    default_page_id = container.getProperty('default_page', '')
+    default_page_id = container.getProperty("default_page", "")
     if default_page_id and not (default_page_id in container.objectIds()):
         ISelectableBrowserDefault(container).setDefaultPage(None)
 
 
 def rename_default_page(obj, event):
-    """event subscriber, rename default page if targte was renamed
+    """event subscriber, rename default page if target was renamed
 
     used by default for zope.lifecycleevent.interfaces.IObjectMovedEvent
     """
@@ -259,6 +255,6 @@ def rename_default_page(obj, event):
     if newParent != event.oldParent:
         return
     elif ISelectableBrowserDefault.providedBy(newParent):
-        default_page_id = newParent.getProperty('default_page', '')
+        default_page_id = newParent.getProperty("default_page", "")
         if default_page_id == event.oldName:
             ISelectableBrowserDefault(newParent).setDefaultPage(event.newName)

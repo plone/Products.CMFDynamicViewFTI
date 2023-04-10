@@ -1,40 +1,43 @@
 <configure
-   xmlns="http://namespaces.zope.org/zope"
-   xmlns:browser="http://namespaces.zope.org/browser"
-   xmlns:five="http://namespaces.zope.org/five"
-   i18n_domain="cmf_default">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="cmf_default"
+    >
 
   <include package="Products.CMFCore" />
 
   <browser:page
-     for="zope.browser.interfaces.IAdding"
-     name="addDVFactoryTypeInformation.html"
-     template="browser/addWithPresettings.pt"
-     class=".browser.typeinfo.DVFactoryTypeInformationAddView"
-     permission="cmf.ManagePortal"
-     />
+      name="addDVFactoryTypeInformation.html"
+      for="zope.browser.interfaces.IAdding"
+      class=".browser.typeinfo.DVFactoryTypeInformationAddView"
+      template="browser/addWithPresettings.pt"
+      permission="cmf.ManagePortal"
+      />
 
   <five:registerClass
-     class=".fti.DynamicViewTypeInformation"
-     meta_type="Factory-based Type Information with dynamic views"
-     addview="addDVFactoryTypeInformation.html"
-     permission="cmf.ManagePortal"
-     global="False"
-     />
+      class=".fti.DynamicViewTypeInformation"
+      permission="cmf.ManagePortal"
+      addview="addDVFactoryTypeInformation.html"
+      global="False"
+      meta_type="Factory-based Type Information with dynamic views"
+      />
 
   <permission
-    id="cmf.ModifyViewTemplate"
-    title="Modify view template"
-    />
+      id="cmf.ModifyViewTemplate"
+      title="Modify view template"
+      />
 
   <subscriber
-    for=".interfaces.ISelectableBrowserDefault
-         zope.container.interfaces.IContainerModifiedEvent"
-    handler=".browserdefault.check_default_page" />
+      for=".interfaces.ISelectableBrowserDefault
+           zope.container.interfaces.IContainerModifiedEvent"
+      handler=".browserdefault.check_default_page"
+      />
 
   <subscriber
-    for="*
-         zope.lifecycleevent.interfaces.IObjectMovedEvent"
-    handler=".browserdefault.rename_default_page" />
+      for="*
+           zope.lifecycleevent.interfaces.IObjectMovedEvent"
+      handler=".browserdefault.rename_default_page"
+      />
 
 </configure>

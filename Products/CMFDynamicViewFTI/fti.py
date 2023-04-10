@@ -1,6 +1,6 @@
 from AccessControl import ClassSecurityInfo
-from Acquisition import aq_base
 from AccessControl.class_init import InitializeClass
+from Acquisition import aq_base
 from Products.CMFCore.permissions import View
 from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.utils import getToolByName
@@ -21,8 +21,8 @@ def safe_hasattr(obj, name, _marker=object()):
 
 def safe_callable(obj):
     """Make sure our callable checks are ConflictError safe."""
-    if safe_hasattr(obj, '__class__'):
-        if safe_hasattr(obj, '__call__'):
+    if safe_hasattr(obj, "__class__"):
+        if safe_hasattr(obj, "__call__"):
             return True
         else:
             return isinstance(obj, type)
@@ -36,8 +36,8 @@ def om_has_key(context, key):
     Zope's OFS.ObjectManager has no method for checking if an object with an id
     exists inside a folder.
     """
-    klass = getattr(aq_base(context), '__class__', None)
-    if hasattr(klass, 'has_key'):
+    klass = getattr(aq_base(context), "__class__", None)
+    if hasattr(klass, "has_key"):
         # BTreeFolder2 optimization
         if key in context:
             return True
@@ -48,7 +48,7 @@ def om_has_key(context, key):
     return False
 
 
-fti_meta_type = 'Factory-based Type Information with dynamic views'
+fti_meta_type = "Factory-based Type Information with dynamic views"
 
 
 @implementer(IDynamicViewTypeInformation)
@@ -64,26 +64,26 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
 
     _properties = FactoryTypeInformation._properties + (
         {
-            'id': 'default_view',
-            'type': 'string',
-            'mode': 'w',
-            'label': 'Default view method',
+            "id": "default_view",
+            "type": "string",
+            "mode": "w",
+            "label": "Default view method",
         },
         {
-            'id': 'view_methods',
-            'type': 'lines',
-            'mode': 'w',
-            'label': 'Available view methods'
+            "id": "view_methods",
+            "type": "lines",
+            "mode": "w",
+            "label": "Available view methods",
         },
         {
-            'id': 'default_view_fallback',
-            'type': 'boolean',
-            'mode': 'w',
-            'label': 'Fall back to default view?'
+            "id": "default_view_fallback",
+            "type": "boolean",
+            "mode": "w",
+            "label": "Fall back to default view?",
         },
     )
 
-    default_view = ''
+    default_view = ""
     view_methods = ()
     default_view_fallback = False
 
@@ -98,7 +98,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             # TODO: use view action
             self.default_view = default_view = self.immediate_view
         if not view_methods:
-            self.view_methods = view_methods = (default_view, )
+            self.view_methods = view_methods = (default_view,)
         if default_view and default_view not in view_methods:
             raise ValueError(f"{default_view} not in {view_methods}")
 
@@ -112,20 +112,15 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         # Get a list of registered view methods.
         methods = self.view_methods
         if isinstance(methods, str):
-            methods = (methods, )
+            methods = (methods,)
         return tuple(methods)
 
     @security.protected(View)
-    def getViewMethod(
-        self,
-        context,
-        enforce_available=False,
-        check_exists=False
-    ):
+    def getViewMethod(self, context, enforce_available=False, check_exists=False):
         # Get view method (aka layout) name from context.
         # Return -- view method from context or default view name.
         default = self.getDefaultViewMethod(context)
-        layout = getattr(aq_base(context), 'layout', None)
+        layout = getattr(aq_base(context), "layout", None)
 
         if safe_callable(layout):
             layout = layout()
@@ -133,8 +128,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             return default
         if not isinstance(layout, str):
             raise TypeError(
-                "layout of %s must be a string, got %s" %
-                (repr(context), type(layout))
+                f"layout of {repr(context)} must be a string, got {type(layout)}"
             )
         if enforce_available:
             available = self.getAvailableViewMethods(context)
@@ -159,11 +153,11 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         # default page id exists.
         #
         # Return -- None for no default page or a string
-        if not getattr(aq_base(context), 'isPrincipiaFolderish', False):
+        if not getattr(aq_base(context), "isPrincipiaFolderish", False):
             # non folderish objects don't have a default page per se
             return None
 
-        default_page = getattr(aq_base(context), 'default_page', None)
+        default_page = getattr(aq_base(context), "default_page", None)
 
         if safe_callable(default_page):
             default_page = default_page()
@@ -173,8 +167,8 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
             default_page = default_page[0]
         if not isinstance(default_page, str):
             raise TypeError(
-                "default_page must be a string, got %s(%s):" %
-                (default_page, type(default_page))
+                "default_page must be a string, got %s(%s):"
+                % (default_page, type(default_page))
             )
 
         if check_exists and not om_has_key(context, default_page):
@@ -188,7 +182,7 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         # use that, else use the currently selected view method/layout.
 
         # Delegate to PloneTool's version if we have it else, use own rules
-        plone_utils = getToolByName(self, 'plone_utils', None)
+        plone_utils = getToolByName(self, "plone_utils", None)
         if plone_utils is not None:
             obj, path = plone_utils.browserDefault(context)
             return path[-1]
@@ -210,16 +204,13 @@ class DynamicViewTypeInformation(FactoryTypeInformation):
         # getViewMethod()
 
         methodTarget = FactoryTypeInformation.queryMethodID(
-            self,
-            alias,
-            default=default,
-            context=context
+            self, alias, default=default, context=context
         )
         if not isinstance(methodTarget, str):
             # nothing to do, method_id is probably None
             return methodTarget
 
-        if context is None or default == '':
+        if context is None or default == "":
             # the edit zpts like typesAliases don't apply a context and set the
             # default to ''. We do not want to resolve (dynamic view) for these
             # methods.
