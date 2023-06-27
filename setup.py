@@ -51,10 +51,7 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "setuptools",
-        "zope.browser",
-        "zope.browsermenu",
         "Products.CMFCore",
-        "ExtensionClass",
         "Zope",
     ],
 )
