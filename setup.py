@@ -1,19 +1,22 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
 
 version = "7.0.2.dev0"
 
-long_description = open("README.rst").read()
-long_description += "\n"
-long_description += open("CHANGES.rst").read()
-
+long_description = (
+    f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}"
+)
 
 setup(
     name="Products.CMFDynamicViewFTI",
     version=version,
     description="CMFDynamicViewFTI is a product for dynamic views in CMF.",
     long_description=long_description,
+    long_description_content_type="text/x-rst",
+    # Get more strings from
+    # https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
@@ -48,10 +51,7 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "setuptools",
-        "zope.browser",
-        "zope.browsermenu",
         "Products.CMFCore",
-        "ExtensionClass",
         "Zope",
     ],
 )
