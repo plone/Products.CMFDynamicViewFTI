@@ -1,4 +1,5 @@
 """
 Browser subpackage
 """
+
 # $Id$

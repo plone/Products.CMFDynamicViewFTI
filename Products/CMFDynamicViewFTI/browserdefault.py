@@ -5,6 +5,7 @@ templates and/or default pages (in the style of default_page/index_html).
 The implementation extends TemplateMixin from Archetypes, and implements
 the ISelectableBrowserDefault interface from CMFPlone.
 """
+
 from AccessControl import ClassSecurityInfo
 from AccessControl.class_init import InitializeClass
 from Acquisition import aq_base

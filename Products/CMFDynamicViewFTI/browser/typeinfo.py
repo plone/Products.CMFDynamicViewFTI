@@ -1,6 +1,7 @@
 """
 Add DynamicView FTI form (ZMI)
 """
+
 # $Id$
 
 from Products.CMFCore.browser.typeinfo import FactoryTypeInformationAddView
