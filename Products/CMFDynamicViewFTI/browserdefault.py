@@ -10,6 +10,8 @@ from AccessControl import ClassSecurityInfo
 from AccessControl.class_init import InitializeClass
 from Acquisition import aq_base
 from ExtensionClass import Base
+from plone import api
+from plone.api.exc import InvalidParameterError
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.fti import DynamicViewTypeInformation
@@ -219,8 +221,16 @@ class BrowserDefaultMixin(Base):
             if factory is not None:
                 menu = getUtility(IBrowserMenu, "plone_displayviews")
                 item = menu.getMenuItemByAction(self, self.REQUEST, mid)
-                title = item and item.title or mid
-                result.append((mid, title))
+                # title = item and item.title or mid
+                # result.append((mid, title))
+                if item is not None:
+                    result.append((mid, item.title or mid))
+                else:
+                    try:
+                        view = api.content.get_view(mid, self, self.REQUEST)
+                        result.append(mid)
+                    except InvalidParameterError:
+                        pass
             else:
                 method = getattr(self, mid, None)
                 if method is not None:
