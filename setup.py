@@ -35,8 +35,9 @@ setup(
     author_email="plone-developers@lists.sourceforge.net",
     url="https://pypi.org/project/Products.CMFDynamicViewFTI",
     license="ZPL",
-    packages=find_packages(),
+    packages=find_packages("src"),
     namespace_packages=["Products"],
+    package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
     extras_require=dict(
