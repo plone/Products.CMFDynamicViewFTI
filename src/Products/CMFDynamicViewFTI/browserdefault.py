@@ -22,7 +22,6 @@ from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import providedBy
 
-
 _marker = object()
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
