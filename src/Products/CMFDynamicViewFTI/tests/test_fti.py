@@ -6,7 +6,6 @@ from zope.interface.verify import verifyObject
 
 import transaction
 
-
 fti_meta_type = DynamicViewTypeInformation.meta_type
 
 
